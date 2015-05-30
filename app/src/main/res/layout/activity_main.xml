@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:gravity="center"
+    android:visibility="visible">
+
+    <!-- WRAP CONTENT -->
+
+
+    <!-- LOADING -->
+
+    <LinearLayout
+        android:id="@+id/llContainerAll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="left|top"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="177dp"
+            android:layout_height="145dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/simple"
+            android:layout_marginTop="50dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bem Vindo"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- PROFILE -->
+        <include layout="@layout/profile" />
+
+        <ProgressBar
+            android:id="@+id/pbContainer"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="60dp" />
+
+    </LinearLayout>
+
+</FrameLayout>
