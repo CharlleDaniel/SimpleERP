@@ -2,33 +2,22 @@ package com.simpleerp;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.drive.Drive;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
+
 
 public class MainActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
     private static final int SIGN_IN_CODE = 56465;
@@ -44,15 +33,13 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
 
 
     private LinearLayout llConnected;
-    private ImageView ivProfile;
-    private ProgressBar pbProfile;
     private TextView tvId;
     private TextView tvLanguage;
     private TextView tvName;
     private TextView tvUrlProfile;
     private TextView tvEmail;
     private Button btSignOut;
-    private Button btRevokeAccess;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,7 +109,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
 
         // CONNECTED
         llConnected = (LinearLayout) findViewById(R.id.llConnected);
-        ivProfile = (ImageView) findViewById(R.id.ivProfile);
         tvId = (TextView) findViewById(R.id.tvId);
         tvLanguage = (TextView) findViewById(R.id.tvLanguage);
         tvName = (TextView) findViewById(R.id.tvName);
@@ -168,7 +154,7 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     public void getDataProfile(){
        String p= "pass";
 
-        if(p != null){
+        if(!p.equals( "null")){
             String id = "123";
             String name ="Charlle";
             String language = "PT_BR";
