@@ -187,7 +187,7 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
 
         }
         else{
-            Toast.makeText(MainActivity.this, "Dados n√£o liberados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Dados n„o liberados", Toast.LENGTH_SHORT).show();
         }
     }
 
