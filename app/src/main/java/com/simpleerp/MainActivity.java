@@ -107,13 +107,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         }
     }
 
-
-
-
-
-
-
-
     // UTIL
     public void accessViews(){
         llContainerAll = (LinearLayout) findViewById(R.id.llContainerAll);
