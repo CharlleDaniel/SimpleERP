@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.simpleerp.MenuPrincipal">
+    <item android:id="@+id/drive" android:title="Meu Drive"
+        android:orderInCategory="100" android:showAsAction="never"
+        android:icon="@drawable/empresa"
+        tools:ignore="AppCompatResource" />
+</menu>

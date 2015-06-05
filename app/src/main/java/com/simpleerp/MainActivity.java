@@ -3,12 +3,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.text.util.Linkify;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
@@ -30,15 +31,10 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     // VIEWS
     private LinearLayout llContainerAll;
     private ProgressBar pbContainer;
-
-
-    private LinearLayout llConnected;
-    private TextView tvId;
-    private TextView tvLanguage;
-    private TextView tvName;
-    private TextView tvUrlProfile;
-    private TextView tvEmail;
-    private Button btSignOut;
+    private RelativeLayout llConnected;
+    private TextView tvLogin;
+    private Button btNext;
+    protected static EditText edNomeEmpresa;
 
 
     @Override
@@ -66,7 +62,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
             googleApiClient.connect();
         }
     }
-
 
     @Override
     public void onStop(){
@@ -108,24 +103,21 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
 
 
         // CONNECTED
-        llConnected = (LinearLayout) findViewById(R.id.llConnected);
-        tvId = (TextView) findViewById(R.id.tvId);
-        tvLanguage = (TextView) findViewById(R.id.tvLanguage);
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvUrlProfile = (TextView) findViewById(R.id.tvUrlProfile);
-        tvEmail = (TextView) findViewById(R.id.tvEmail);
-        btSignOut = (Button) findViewById(R.id.btSignOut);
-
+        llConnected = (RelativeLayout) findViewById(R.id.llConnected);
+        tvLogin = (TextView) findViewById(R.id.login);
+        btNext = (Button) findViewById(R.id.avançar);
+        edNomeEmpresa=(EditText)findViewById(R.id.nomeEmpresa);
 
         // LISTENER
 
-        btSignOut.setOnClickListener(MainActivity.this);
+        btNext.setOnClickListener(MainActivity.this);
 
     }
 
     public void showUi(boolean status, boolean statusProgressBar){
         if(!statusProgressBar){
             llContainerAll.setVisibility(View.VISIBLE);
+            tvLogin.setVisibility(View.GONE);
             pbContainer.setVisibility(View.GONE);
 
 
@@ -155,20 +147,7 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
        String p= "pass";
 
         if(!p.equals( "null")){
-            String id = "123";
-            String name ="Charlle";
-            String language = "PT_BR";
-            String profileUrl = "www.google.com";
 
-            String email = "charlle.daniel@gmail.com";
-
-            tvId.setText(id);
-            tvLanguage.setText(language);
-            tvName.setText(name);
-            tvEmail.setText(email);
-
-            tvUrlProfile.setText(profileUrl);
-            Linkify.addLinks(tvUrlProfile, Linkify.WEB_URLS);
 
 
         }
@@ -193,10 +172,17 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.btSignOut){
+        if(v.getId() == btNext.getId()){
             if(googleApiClient.isConnected()){
-               Intent it = new Intent(this,ListFilesActivity.class);
-               startActivity(it);
+                String temp = edNomeEmpresa.getText().toString();
+                temp=temp.trim();
+                if(temp.equals("")){
+                    showMessage("Não é Permitido Campo em Branco");
+                }
+                else{
+                    Intent it = new Intent(this,MenuPrincipal.class);
+                    startActivity(it);
+                }
             }
         }
 
@@ -235,7 +221,7 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         }
     }
     public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     /**

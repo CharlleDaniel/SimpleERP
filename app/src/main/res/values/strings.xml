@@ -5,5 +5,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_list_files">ListFilesActivity</string>
+    <string name="title_activity_menu_principal">MenuPrincipal</string>
+    <string name="title_activity_drive">Drive</string>
+    <string name="title_activity_criar_arquivo">CriarArquivo</string>
 
 </resources>
