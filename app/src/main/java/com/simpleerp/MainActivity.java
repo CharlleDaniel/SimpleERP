@@ -20,12 +20,10 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.drive.Drive;
 
-
 public class MainActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
     private static final int SIGN_IN_CODE = 56465;
     private GoogleApiClient googleApiClient;
     private ConnectionResult connectionResult;
-
     private boolean isConsentScreenOpened;
     private boolean isSignInButtonClicked;
 
@@ -36,7 +34,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     private TextView tvLogin;
     private Button btNext;
     protected static EditText edNomeEmpresa;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,8 +91,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         llContainerAll = (LinearLayout) findViewById(R.id.llContainerAll);
         pbContainer = (ProgressBar) findViewById(R.id.pbContainer);
 
-
-
         // CONNECTED
         llConnected = (RelativeLayout) findViewById(R.id.llConnected);
         tvLogin = (TextView) findViewById(R.id.login);
@@ -123,7 +118,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         }
     }
 
-
     public void resolveSignIn(){
         if(connectionResult != null && connectionResult.hasResolution()){
             try {
@@ -150,7 +144,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         }
     }
 
-
     public void login(){
         if(!googleApiClient.isConnecting()){
             isSignInButtonClicked = true;
@@ -158,9 +151,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
             resolveSignIn();
         }
     }
-
-
-
 
     // LISTENERS
     @Override
@@ -171,7 +161,7 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
                 String temp = edNomeEmpresa.getText().toString();
                 temp=temp.trim();
                 if(temp.equals("")){
-                    showMessage("NÃ£o Ã© Permitido Campo em Branco");
+                    showMessage("Não é Permitido Campo em Branco");
                 }
                 else{
                     Intent it = new Intent(this,MenuPrincipal.class);
@@ -181,7 +171,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         }
 
     }
-
 
     @Override
     public void onConnected(Bundle connectionHint) {
