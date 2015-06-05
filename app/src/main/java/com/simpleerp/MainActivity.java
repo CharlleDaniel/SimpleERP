@@ -1,4 +1,5 @@
 package com.simpleerp;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
@@ -88,13 +89,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         }
     }
 
-
-
-
-
-
-
-
     // UTIL
     public void accessViews(){
         llContainerAll = (LinearLayout) findViewById(R.id.llContainerAll);
@@ -152,7 +146,7 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
 
         }
         else{
-            Toast.makeText(MainActivity.this, "Dados n√£o liberados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Dados n„o liberados", Toast.LENGTH_SHORT).show();
         }
     }
 
