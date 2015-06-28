@@ -8,5 +8,11 @@
     <string name="title_activity_menu_principal">MenuPrincipal</string>
     <string name="title_activity_drive">Drive</string>
     <string name="title_activity_criar_arquivo">CriarArquivo</string>
+    <string name="lbl_insumo">Insumo</string>
+    <string name="lbl_novo_insumo">Novo Insumo</string>
+    <string name="lbl_nome">Nome</string>
+    <string name="lbl_quantidade">Quantidade</string>
+    <string name="lbl_custo_unidade">Custo Unidade</string>
+    <string name="lbl_cadastrar">Cadastrar</string>
 
 </resources>

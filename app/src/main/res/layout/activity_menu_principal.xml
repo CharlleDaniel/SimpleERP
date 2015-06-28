@@ -22,7 +22,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <include layout="@layout/isumo" />
+                <include layout="@layout/insumo" />
 
             </RelativeLayout>
 
@@ -153,7 +153,7 @@
                 android:layout_centerHorizontal="true">
 
                 <include
-                    layout="@layout/isumo"
+                    layout="@layout/insumo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
