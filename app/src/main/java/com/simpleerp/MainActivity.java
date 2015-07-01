@@ -60,6 +60,9 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
                 .build();
         login();
 
+        Intent it = new Intent(this, InsumoActivity.class);
+        startActivity(it);
+
 
         //Criação do Banco de Dados
         try{
@@ -235,10 +238,11 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Getter for the {@code GoogleApiClient}.
+    /*
+     Getter for the {@code GoogleApiClient}.
      */
     public GoogleApiClient getGoogleApiClient() {
         return googleApiClient;
     }
+
 }

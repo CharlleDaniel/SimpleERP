@@ -41,4 +41,8 @@ public class Insumo {
     public void setCustoUnidade(float custoUnidade) {
         this.custoUnidade = custoUnidade;
     }
+
+    public String toString(){
+        return this.nome;
+    }
 }

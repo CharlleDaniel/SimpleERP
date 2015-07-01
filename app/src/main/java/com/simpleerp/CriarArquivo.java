@@ -32,7 +32,7 @@ import java.io.Writer;
 
 public class CriarArquivo extends MainActivity {
     private static final String TAG = "CreateFileActivity";
-
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +99,7 @@ public class CriarArquivo extends MainActivity {
             }.start();
         }
     };
-
+*/
 
 
 }
