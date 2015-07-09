@@ -22,7 +22,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <include layout="@layout/insumo" />
+                <include layout="@layout/menu_insumo" />
 
             </RelativeLayout>
 
@@ -83,7 +83,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <include layout="@layout/producao"/>
+                <include layout="@layout/menu_producao"/>
 
             </RelativeLayout>
 
@@ -118,7 +118,7 @@
                 android:layout_below="@+id/produto"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" >
-                <include layout="@layout/produto" />
+                <include layout="@layout/menu_produto" />
              </RelativeLayout>
 
             <RelativeLayout
@@ -153,7 +153,7 @@
                 android:layout_centerHorizontal="true">
 
                 <include
-                    layout="@layout/insumo"
+                    layout="@layout/menu_insumo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>

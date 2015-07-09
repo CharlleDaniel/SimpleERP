@@ -13,14 +13,7 @@
         android:visibility="visible"
         android:textSize="50dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="274dp"
-        android:id="@+id/lstInsumos"
-        android:layout_gravity="center_horizontal" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -30,5 +23,6 @@
         android:id="@+id/btnNovoInsumo"
         android:layout_below="@+id/textView6"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="188dp" />
 </LinearLayout>
