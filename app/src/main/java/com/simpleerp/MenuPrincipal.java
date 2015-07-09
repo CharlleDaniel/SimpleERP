@@ -1,8 +1,6 @@
 package com.simpleerp;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,11 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Scroller;
-
-import com.google.android.gms.location.LocationListener;
-
-import java.util.Locale;
 
 
 public class MenuPrincipal extends ActionBarActivity implements View.OnClickListener {
@@ -67,8 +60,7 @@ public class MenuPrincipal extends ActionBarActivity implements View.OnClickList
 
         switch (id){
             case R.id.drive:
-                Intent it = new Intent(this,CriarArquivo.class);
-                startActivity(it);
+
                 break;
 
         }
