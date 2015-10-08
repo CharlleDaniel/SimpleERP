@@ -1,11 +1,8 @@
 package com.simpleerp;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +19,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.drive.Drive;
-import com.simpleerp.com.dominio.RepositorioInsumo;
-import com.simpleerp.database.Database;
+import com.simpleerp.database.BD;
+import com.simpleerp.entidades.Usuario;
+
+
+import java.io.File;
+import java.util.List;
 
 public class MainActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
     private static final int SIGN_IN_CODE = 56465;
@@ -41,9 +42,9 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     protected static EditText edNomeEmpresa;
 
     //Banco de Dados
-    private Database database;
-    private SQLiteDatabase conn;
-    private RepositorioInsumo repositorioInsumo;
+
+    private BD bd;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,29 +60,30 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
                 .addScope(Drive.SCOPE_FILE)
                 .build();
         login();
-
-        Intent it = new Intent(this, InsumoActivity.class);
-        startActivity(it);
-
-
-        //Criação do Banco de Dados
-        try{
-            this.database = new Database(this);
-            this.conn = database.getWritableDatabase();
-
-            /*this.repositorioInsumo = new RepositorioInsumo(conn);
-            this.adpContatos = repositorio.buscaContatos(this);
-            this.lstContatos.setAdapter(this.adpContatos);*/
-
-        }catch(SQLException ex){
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setMessage("Erro ao criar o banco: " + ex.getMessage());
-            dlg.setNeutralButton("OK", null);
-            dlg.show();
-
+        criaDiretorios();
+        bd= new BD(this);
+        List<Usuario> list=bd.buscarUsuario();
+        if(list.size()>0){
+            edNomeEmpresa.setText(list.get(0).getNome());
+            Intent it = new Intent(this,MenuPrincipal.class);
+            startActivity(it);
+            super.finish();
         }
+
+
     }
 
+    public void criaDiretorios(){
+        try {
+
+            if (!new File("/sdcard/SimpleERP").exists()) { // Verifica se o diretório existe.
+                (new File("/sdcard/SimpleERP")).mkdir();// Cria o diretório
+                (new File("/sdcard//SimpleERP/Planilhas")).mkdir();// Cria o diretório
+            }
+        } catch (Exception ex) {
+            showMessage("Erro");
+        }
+    }
 
     @Override
     public void onStart(){
@@ -195,6 +197,12 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
                     showMessage("N�o � Permitido Campo em Branco");
                 }
                 else{
+                    Usuario u = new Usuario();
+
+                    u.setNome(temp);
+
+
+                    bd.inserirUsuario(u);
                     Intent it = new Intent(this,MenuPrincipal.class);
                     startActivity(it);
                 }

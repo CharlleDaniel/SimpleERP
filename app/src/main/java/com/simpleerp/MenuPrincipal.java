@@ -1,6 +1,7 @@
 package com.simpleerp;
 
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,9 +19,13 @@ public class MenuPrincipal extends ActionBarActivity implements View.OnClickList
     private RelativeLayout llproduto;
     private RelativeLayout llinsumo;
     private ScrollView scrollView;
+
     private boolean showLLproducao;
     private boolean showLLproduto;
     private boolean showLLinsumo;
+
+   // menu Insumo
+    private RelativeLayout menuAllInsumos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,10 @@ public class MenuPrincipal extends ActionBarActivity implements View.OnClickList
         llproduto= (RelativeLayout)findViewById(R.id.llProduto);
         llinsumo= (RelativeLayout)findViewById(R.id.llInsumo);
         scrollView=(ScrollView)findViewById(R.id.scrollView);
+        menuAllInsumos=(RelativeLayout)findViewById(R.id.menu_AllInsumos);
+
+        //Add Listeners
+        menuAllInsumos.setOnClickListener(this);
         producao.setOnClickListener(this);
         produto.setOnClickListener(this);
         insumo.setOnClickListener(this);
@@ -100,6 +109,12 @@ public class MenuPrincipal extends ActionBarActivity implements View.OnClickList
         }
         else{
             hideAllMenu();
+        }
+
+        // Menu Insumo
+        if(v.getId()==menuAllInsumos.getId()){
+            Intent it= new Intent(this,InsumoActivity.class);
+            startActivity(it);
         }
 
     }
