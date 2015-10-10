@@ -1,131 +1,80 @@
 package com.simpleerp;
 
-
-import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+import android.widget.TextView;
 
 
-public class MenuPrincipal extends ActionBarActivity implements View.OnClickListener {
-    private RelativeLayout producao;
-    private RelativeLayout produto;
-    private RelativeLayout insumo;
-    private RelativeLayout llproducao;
-    private RelativeLayout llproduto;
-    private RelativeLayout llinsumo;
-    private ScrollView scrollView;
+import com.simpleerp.adapters.TabAdapters;
+import com.simpleerp.extras.SlidingTabLayout;
 
-    private boolean showLLproducao;
-    private boolean showLLproduto;
-    private boolean showLLinsumo;
 
-   // menu Insumo
-    private RelativeLayout menuAllInsumos;
+
+
+
+public class MenuPrincipal extends ActionBarActivity implements PopupMenu.OnMenuItemClickListener {
+
+    private RelativeLayout bar ;
+    private ImageButton menu;
+    private TextView title;
+    private SlidingTabLayout mSlidingTabLayout;
+    private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_principal);
+        setContentView(R.layout.menu_principal);
 
-        String title= MainActivity.edNomeEmpresa.getText().toString();
-        title=title.trim();
-        title=title.substring(0,1).toUpperCase()+title.substring(1);
-        setTitle(title);
+        acessviews();
 
-        acessViews();
+        title.setText(MainActivity.edNomeEmpresa.getText().toString());
+
+        mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
+        mViewPager.setAdapter( new TabAdapters( getSupportFragmentManager(), this ));
+
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
+        mSlidingTabLayout.setDistributeEvenly(true);
+        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorAccent));
+        mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
+        mSlidingTabLayout.setViewPager( mViewPager );
+
     }
 
-    public void acessViews(){
-        producao= (RelativeLayout)findViewById(R.id.producao);
-        produto= (RelativeLayout)findViewById(R.id.produto);
-        insumo= (RelativeLayout)findViewById(R.id.insumo);
-        llproducao= (RelativeLayout)findViewById(R.id.llProducao);
-        llproduto= (RelativeLayout)findViewById(R.id.llProduto);
-        llinsumo= (RelativeLayout)findViewById(R.id.llInsumo);
-        scrollView=(ScrollView)findViewById(R.id.scrollView);
-        menuAllInsumos=(RelativeLayout)findViewById(R.id.menu_AllInsumos);
-
-        //Add Listeners
-        menuAllInsumos.setOnClickListener(this);
-        producao.setOnClickListener(this);
-        produto.setOnClickListener(this);
-        insumo.setOnClickListener(this);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
-        return true;
+    public void acessviews(){
+        bar=(RelativeLayout)findViewById(R.id.bar);
+        menu=(ImageButton)findViewById(R.id.menu);
+        title=(TextView)findViewById(R.id.title);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void showMenu(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
 
-        int id = item.getItemId();
-
-        switch (id){
-            case R.id.drive:
-
-                break;
-
-        }
-
-
-        return super.onOptionsItemSelected(item);
+        // This activity implements OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_main);
+        popup.show();
     }
 
     @Override
-    public void onClick(View v) {
-        if(v.getId()==producao.getId()&& showLLproducao!=true){
-            scrollView.fullScroll(View.FOCUS_UP);
-            llproducao.setVisibility(View.VISIBLE);
-            llproduto.setVisibility(View.GONE);
-            llinsumo.setVisibility(View.GONE);
-            showLLproducao=true;
-            showLLproduto=false;
-            showLLinsumo=false;
-        }
-        else if(v.getId()==produto.getId()&& showLLproduto!=true){
-            llproducao.setVisibility(View.GONE);
-            scrollView.fullScroll(View.FOCUSABLES_TOUCH_MODE);
-            llproduto.setVisibility(View.VISIBLE);
-            llinsumo.setVisibility(View.GONE);
-            showLLproducao=false;
-            showLLproduto=true;
-            showLLinsumo=false;
-        }
-        else if(v.getId()==insumo.getId()&& showLLinsumo!=true){
-            scrollView.fullScroll(View.FOCUS_DOWN);
-            llproducao.setVisibility(View.GONE);
-            llproduto.setVisibility(View.GONE);
-            llinsumo.setVisibility(View.VISIBLE);
-            showLLproducao=false;
-            showLLproduto=false;
-            showLLinsumo=true;
-        }
-        else{
-            hideAllMenu();
-        }
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
 
-        // Menu Insumo
-        if(v.getId()==menuAllInsumos.getId()){
-            Intent it= new Intent(this,InsumoActivity.class);
-            startActivity(it);
-        }
+                return true;
 
+            default:
+                return false;
+        }
     }
 
-    private void hideAllMenu() {
 
-        llproducao.setVisibility(View.GONE);
-        llproduto.setVisibility(View.GONE);
-        llinsumo.setVisibility(View.GONE);
-        showLLproducao=false;
-        showLLproduto=false;
-        showLLinsumo=false;
-    }
+
 }

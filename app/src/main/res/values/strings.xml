@@ -16,5 +16,6 @@
     <string name="lbl_cadastrar">Cadastrar</string>
     <string name="lbl_cadastro_insumo">Cadastro de Insumo</string>
     <string name="title_activity_insumos">InsumosActivity</string>
+    <string name="descr_overflow_button">descr_overflow_button</string>
 
 </resources>

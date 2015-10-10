@@ -30,11 +30,6 @@
         </activity>
         <activity
             android:name=".MenuPrincipal"
-            android:label=""
-            android:theme="@style/AppTheme2" >
-        </activity>
-        <activity
-            android:name=".InsumoActivity"
             android:label="" >
         </activity>
 
