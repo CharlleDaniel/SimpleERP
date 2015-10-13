@@ -2,6 +2,7 @@ package com.simpleerp;
 
 
 
+import android.app.Dialog;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,8 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
+import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.TabAdapters;
 import com.simpleerp.extras.SlidingTabLayout;
 
@@ -24,6 +27,8 @@ public class MenuPrincipal extends ActionBarActivity{
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
     private int tabposition;
+    private RelativeLayout rl;
+    protected  SimpleControl sistema= MainActivity.sistema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +36,22 @@ public class MenuPrincipal extends ActionBarActivity{
         setContentView(R.layout.menu_principal);
 
         acessviews();
-        bar.setTitle("  "+MainActivity.edNomeEmpresa.getText().toString());
+
+
+        bar.setTitle("  "+sistema.getUsuarioLogado().getNome());
         bar.setTitleTextColor(getResources().getColor(R.color.colorFABPressed));
         bar.setLogo(R.drawable.simplelogo);
         setSupportActionBar(bar);
+        if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
+            Dialog d = new Dialog(this);
+            d.setContentView(R.layout.dialog_bemvindos);
+            d.setTitle("Boas Vindas");
+            d.setCancelable(true);
+            d.show();
+            rl.setVisibility(View.VISIBLE);
+
+        }
+
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
         mViewPager.setAdapter( new TabAdapters( getSupportFragmentManager(), this ));
 
@@ -64,18 +81,23 @@ public class MenuPrincipal extends ActionBarActivity{
     public void acessviews(){
         bar=(Toolbar)findViewById(R.id.bar);
         fab= (FloatingActionButton)findViewById(R.id.fab);
+        rl=(RelativeLayout)findViewById(R.id.rl_indica);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rl.setVisibility(View.GONE);
 
                 showMessage(mViewPager.getAdapter().getPageTitle(tabposition).toString());
             }
         });
 
     }
-    public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
+
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -93,7 +115,9 @@ public class MenuPrincipal extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 
 
 }

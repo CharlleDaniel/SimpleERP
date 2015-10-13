@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.drive.Drive;
+import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Usuario;
 
@@ -39,18 +40,18 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     private RelativeLayout llConnected;
     private TextView tvLogin;
     private Button btNext;
-    protected static EditText edNomeEmpresa;
+    private EditText edNomeEmpresa;
 
-    //Banco de Dados
+    //Control
+    protected static SimpleControl sistema= new SimpleControl();
 
-    private BD bd;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        sistema.setBd(this);
         accessViews();
 
         googleApiClient = new GoogleApiClient.Builder(MainActivity.this)
@@ -61,14 +62,20 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
                 .build();
         login();
         criaDiretorios();
-        bd= new BD(this);
-        List<Usuario> list=bd.buscarUsuario();
-        if(list.size()>0){
-            edNomeEmpresa.setText(list.get(0).getNome());
+
+
+        if(sistema.getUsuarioLogado()!=null){
             Intent it = new Intent(this,MenuPrincipal.class);
             startActivity(it);
             super.finish();
         }
+
+
+
+
+
+
+
 
 
     }
@@ -194,17 +201,15 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
                 String temp = edNomeEmpresa.getText().toString();
                 temp=temp.trim();
                 if(temp.equals("")){
-                    showMessage("N�o � Permitido Campo em Branco");
+                    showMessage("Não é Permitido Campo em Branco");
                 }
                 else{
                     Usuario u = new Usuario();
-
                     u.setNome(temp);
-
-
-                    bd.inserirUsuario(u);
+                    sistema.login(u);
                     Intent it = new Intent(this,MenuPrincipal.class);
                     startActivity(it);
+                    super.finish();
                 }
             }
         }

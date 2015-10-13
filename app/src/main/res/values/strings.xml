@@ -17,5 +17,6 @@
     <string name="lbl_cadastro_insumo">Cadastro de Insumo</string>
     <string name="title_activity_insumos">InsumosActivity</string>
     <string name="descr_overflow_button">descr_overflow_button</string>
-
+    <string name="texto_boasvindas">    Ola! Você já pode começar a otimizar sua empresa.  Adicione Isumos,
+        Produtos e Produções clicando no botão + abaixo!!</string>
 </resources>

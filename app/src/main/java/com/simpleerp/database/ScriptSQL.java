@@ -80,8 +80,8 @@ public class ScriptSQL {
 
         sqlBuilder.append("create table usuario(");
         sqlBuilder.append("_id integer primary key autoincrement,");
-        sqlBuilder.append(" nome text not null );");
-
+        sqlBuilder.append("nome text not null,");
+        sqlBuilder.append("islog text not null );");
 
 
         return sqlBuilder.toString();

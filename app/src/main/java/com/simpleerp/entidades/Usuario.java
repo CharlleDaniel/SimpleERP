@@ -7,8 +7,11 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    private String isLog;
     private long id;
-
+    public Usuario(){
+        isLog= "false";
+    }
 
     public String getNome() {
         return nome;
@@ -34,5 +37,10 @@ public class Usuario {
     public void setId(long id) {
         this.id = id;
     }
-
+    public String isLog() {
+        return isLog;
+    }
+    public void setIsLog(String isLog) {
+        this.isLog = isLog;
+    }
 }

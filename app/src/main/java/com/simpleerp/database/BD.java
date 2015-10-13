@@ -22,6 +22,7 @@ public class BD {
     public void inserirUsuario(Usuario usuario){
         ContentValues valores = new ContentValues();
         valores.put("nome", usuario.getNome());
+        valores.put("islog", usuario.isLog());
 
         bd.insert("usuario", null, valores);
     }
@@ -30,6 +31,7 @@ public class BD {
     public void atualizarUsuario(Usuario usuario){
         ContentValues valores = new ContentValues();
         valores.put("nome", usuario.getNome());
+        valores.put("islog", usuario.isLog());
 
         bd.update("usuario", valores, "_id = ?", new String[]{""+usuario.getId()});
     }
@@ -42,7 +44,7 @@ public class BD {
 
     public List<Usuario> buscarUsuario(){
         List<Usuario> list = new ArrayList<Usuario>();
-        String[] colunas = new String[]{"_id", "nome" };
+        String[] colunas = new String[]{"_id", "nome", "islog" };
 
         Cursor cursor = bd.query("usuario", colunas, null, null, null, null, "nome ASC");
 
@@ -54,6 +56,7 @@ public class BD {
                 Usuario u = new Usuario();
                 u.setId(cursor.getLong(0));
                 u.setNome(cursor.getString(1));
+                u.setIsLog(cursor.getString(2));
                 list.add(u);
 
             }while(cursor.moveToNext());
