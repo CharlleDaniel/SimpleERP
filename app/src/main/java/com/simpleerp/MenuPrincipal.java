@@ -3,6 +3,7 @@ package com.simpleerp;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class MenuPrincipal extends ActionBarActivity{
         acessviews();
 
 
-        bar.setTitle("  "+sistema.getUsuarioLogado().getNome());
+        bar.setTitle("  " + sistema.getUsuarioLogado().getNome());
         bar.setTitleTextColor(getResources().getColor(R.color.colorFABPressed));
         bar.setLogo(R.drawable.simplelogo);
         setSupportActionBar(bar);
@@ -87,16 +88,21 @@ public class MenuPrincipal extends ActionBarActivity{
             @Override
             public void onClick(View v) {
                 rl.setVisibility(View.GONE);
+                if(mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Produção")){
+                    Intent it = new Intent(MenuPrincipal.this,CadProducao.class);
+                    startActivity(it);
 
+                }
+                if(mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Produtos")){
+                    Intent it = new Intent(MenuPrincipal.this,CadProduto.class);
+                    startActivity(it);
+
+                }
                 showMessage(mViewPager.getAdapter().getPageTitle(tabposition).toString());
             }
         });
 
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

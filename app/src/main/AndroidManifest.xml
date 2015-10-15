@@ -33,6 +33,14 @@
             android:name=".MenuPrincipal"
             android:label="" >
         </activity>
+        <activity
+            android:name=".CadProduto"
+            android:parentActivityName=".MenuPrincipal" >
+        </activity>
+        <activity
+            android:name=".CadProducao"
+            android:parentActivityName=".MenuPrincipal" >
+        </activity>
 
     </application>
 
