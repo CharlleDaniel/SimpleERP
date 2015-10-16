@@ -81,7 +81,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quilo"
+                android:text="Quilos"
                 android:id="@+id/radioButtonQuilo"
                 android:checked="false"
                 android:elevation="5dp"
@@ -97,7 +97,7 @@
                 android:checked="false"
                 android:elevation="5dp"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Grama"
+                android:text="Gramas"
                 android:layout_below="@+id/radioButtonQuilo"
                 android:layout_alignLeft="@+id/radioButtonQuilo"
                 android:layout_alignStart="@+id/radioButtonQuilo" />
@@ -130,24 +130,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextPreco"
-                android:hint="Preço de Uma Unidade"
+                android:hint="Preço da Unidade"
                 android:textColor="#000000"
                 android:backgroundTint="@color/colorPrimary"
                 android:singleLine="true"
                 android:textSize="15dp"
                 android:inputType="number|numberDecimal"
-                android:layout_below="@+id/radioButtonGrama"
+                android:layout_below="@+id/editTextQtd"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp" />
+                android:clickable="false" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextQtdGrama"
+                android:id="@+id/editTextQtd"
                 android:hint="Quantidade de Gramas"
                 android:textColor="#000000"
                 android:backgroundTint="@color/colorPrimary"
@@ -155,13 +155,14 @@
                 android:textSize="15dp"
                 android:inputType="number"
                 android:visibility="gone"
-                android:layout_below="@+id/editTextPreco"
+                android:layout_below="@+id/radioButtonGrama"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:maxLength="3" />
+                android:maxLength="3"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
 
         </RelativeLayout>

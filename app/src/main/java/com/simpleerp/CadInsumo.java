@@ -18,8 +18,9 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
     private RadioButton rbUnidade;
     private RadioButton rbQuilo;
     private RadioButton rbGrama;
-    private EditText etQtdGrama;
+    private EditText etQtd;
     private EditText etPreco;
+    private String quant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
         rbQuilo= (RadioButton)findViewById(R.id.radioButtonQuilo);
         rbUnidade= (RadioButton)findViewById(R.id.radioButtonUnidade);
 
-        etQtdGrama=(EditText)findViewById(R.id.editTextQtdGrama);
+        etQtd=(EditText)findViewById(R.id.editTextQtd);
         etPreco=(EditText)findViewById(R.id.editTextPreco);
 
         rbGrama.setOnClickListener(this);
@@ -77,21 +78,126 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
             rbGrama.setChecked(true);
             rbQuilo.setChecked(false);
             rbUnidade.setChecked(false);
-            etQtdGrama.setVisibility(View.VISIBLE);
-            etPreco.setHint("Preço em Gramas");
+            etQtd.setHint("Quantidade em Gramas");
+            etQtd.setVisibility(View.VISIBLE);
+            etPreco.setVisibility(View.GONE);
+            etQtd.setText("");
+            etPreco.setText("");
+
+
         }else if(v.getId()==rbQuilo.getId()){
             rbGrama.setChecked(false);
             rbQuilo.setChecked(true);
             rbUnidade.setChecked(false);
-            etQtdGrama.setVisibility(View.GONE);
-            etPreco.setHint("Preço de Um Quilo");
-        }else  if(v.getId()==rbUnidade.getId()){
+            etQtd.setVisibility(View.GONE);
+            etQtd.setHint("Quantidade em Quilos");
+            etQtd.setVisibility(View.VISIBLE);
+            etPreco.setVisibility(View.GONE);
+            etQtd.setText("");
+            etPreco.setText("");
+
+
+        }else  if(v.getId()==rbUnidade.getId()) {
             rbGrama.setChecked(false);
             rbQuilo.setChecked(false);
             rbUnidade.setChecked(true);
-            etQtdGrama.setVisibility(View.GONE);
-            etPreco.setHint("Preço de Uma Unidade");
+            etQtd.setVisibility(View.GONE);
+            etPreco.setHint("Preço da Unidade");
+            etPreco.setVisibility(View.VISIBLE);
+            etQtd.setText("");
+            etPreco.setText("");
+
         }
+        verificarCampo();
+
     }
+
+    public void verificarCampo() {
+
+        new Thread() {
+            public void run() {
+                while (etQtd.getText().toString().trim().equalsIgnoreCase("") && rbUnidade.isChecked()==false) {
+                    try {
+                        Thread.sleep(500);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                               if(rbUnidade.isChecked()==false){
+                                   etPreco.setVisibility(View.GONE);
+                               }
+                                etPreco.setText("");
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        verificarCampo2();
+                    }
+                });
+
+            }
+        }.start();
+    }
+
+
+    public  void verificarCampo2(){
+
+        quant=etQtd.getText().toString().trim();
+        if(rbGrama.isChecked()){
+            if(etQtd.getText().toString().trim().length()>=1){
+                if(etQtd.getText().toString().trim().equals("1")){
+                    etPreco.setHint("Preço de "+etQtd.getText().toString()+" Grama");
+
+                }else{
+                    etPreco.setHint("Preço de "+etQtd.getText().toString()+" Gramas");
+                }
+                etPreco.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+        if(rbQuilo.isChecked()){
+            if(etQtd.getText().toString().trim().length()>=1){
+                if(etQtd.getText().toString().trim().equals("1")){
+                    etPreco.setHint("Preço de "+etQtd.getText().toString()+" Quilo");
+                }else{
+                    etPreco.setHint("Preço de " + etQtd.getText().toString() + " Quilos");
+                }
+                etPreco.setVisibility(View.VISIBLE);
+            }
+
+
+        }
+        if(rbUnidade.isChecked()){
+            etPreco.setVisibility(View.VISIBLE);
+        }
+
+
+
+        new Thread() {
+            public void run() {
+                while (quant.equalsIgnoreCase(etQtd.getText().toString().trim())&& rbUnidade.isChecked()==false) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        verificarCampo();
+                    }
+                });
+
+            }
+        }.start();
+    }
+
+
 }
 
