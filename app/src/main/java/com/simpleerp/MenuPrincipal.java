@@ -98,6 +98,11 @@ public class MenuPrincipal extends ActionBarActivity{
                     startActivity(it);
 
                 }
+                if(mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Insumos")){
+                    Intent it = new Intent(MenuPrincipal.this,CadInsumo.class);
+                    startActivity(it);
+
+                }
                 showMessage(mViewPager.getAdapter().getPageTitle(tabposition).toString());
             }
         });

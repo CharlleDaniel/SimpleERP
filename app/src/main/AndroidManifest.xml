@@ -41,7 +41,10 @@
             android:name=".CadProducao"
             android:parentActivityName=".MenuPrincipal" >
         </activity>
-
+        <activity
+            android:name=".CadInsumo"
+            android:parentActivityName=".MenuPrincipal" >
+        </activity>
     </application>
 
 </manifest>

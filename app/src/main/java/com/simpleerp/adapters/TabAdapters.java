@@ -16,7 +16,7 @@ import com.simpleerp.fragments.Produto;
  */
 public class TabAdapters extends FragmentPagerAdapter {
     private Context mContext;
-    private String[]titles= {"PRODUÇÃO","PRODUTOS","INSUMO"};
+    private String[]titles= {"PRODUÇÃO","PRODUTOS","INSUMOS"};
 
     public TabAdapters(FragmentManager fm, Context c) {
         super(fm);
