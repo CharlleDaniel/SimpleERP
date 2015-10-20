@@ -54,7 +54,7 @@ public class BD {
             do{
 
                 Usuario u = new Usuario();
-                u.setId(cursor.getLong(0));
+                u.setId(cursor.getInt(0));
                 u.setNome(cursor.getString(1));
                 u.setIsLog(cursor.getString(2));
                 list.add(u);
@@ -67,9 +67,10 @@ public class BD {
 
     public void inserirInsumo(Insumo insumo){
         ContentValues valores = new ContentValues();
-        valores.put("nome", insumo.getNome());
+        valores.put("Nome", insumo.getNome());
         valores.put("CustoUnidade", insumo.getCustoUnidade());
         valores.put("Quantidade", insumo.getQuantidade());
+        valores.put("Tipo", insumo.getTipo());
 
         bd.insert("insumo", null, valores);
     }
@@ -77,9 +78,10 @@ public class BD {
 
     public void atualizarInsumo(Insumo insumo){
         ContentValues valores = new ContentValues();
-        valores.put("nome", insumo.getNome());
+        valores.put("Nome", insumo.getNome());
         valores.put("CustoUnidade", insumo.getCustoUnidade());
         valores.put("Quantidade", insumo.getQuantidade());
+        valores.put("Tipo", insumo.getTipo());
 
         bd.update("insumo", valores, "_id = ?", new String[]{""+insumo.getId()});
     }
@@ -92,9 +94,9 @@ public class BD {
 
     public List<Insumo> buscarInsumo(){
         List<Insumo> list = new ArrayList<Insumo>();
-        String[] colunas = new String[]{"_id", "nome", "CustoUnidade", "Quantidade" };
+        String[] colunas = new String[]{"_id", "Nome", "CustoUnidade", "Quantidade","Tipo"};
 
-        Cursor cursor = bd.query("insumo", colunas, null, null, null, null, "nome ASC");
+        Cursor cursor = bd.query("insumo", colunas, null, null, null, null, "Nome ASC");
 
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
@@ -102,10 +104,11 @@ public class BD {
             do{
 
                 Insumo i = new Insumo();
-                i.setId(cursor.getLong(0));
+                i.setId(cursor.getInt(0));
                 i.setNome(cursor.getString(1));
-                i.setCustoUnidade(cursor.getLong(2));
-                i.setQuantidade(cursor.getLong(3));
+                i.setCustoUnidade(cursor.getFloat(2));
+                i.setQuantidade(cursor.getFloat(3));
+                i.setTipo(cursor.getString(4));
                 list.add(i);
 
             }while(cursor.moveToNext());

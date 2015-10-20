@@ -1,8 +1,6 @@
 package com.simpleerp.Control;
 
 import android.content.Context;
-
-
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Producao;
@@ -21,9 +19,12 @@ public class SimpleControl {
     private Usuario usuarioLogado;
     private BD bd ;
 
-    public SimpleControl() {
+    public SimpleControl(Context context) {
 
-        this.insumoList = new ArrayList<Insumo>();
+        bd= new BD(context);
+        this.insumoList=bd.buscarInsumo();
+
+
         this.produtoList = new ArrayList<Produto>();
         this.producaoList = new ArrayList<Producao>();
 
@@ -67,31 +68,74 @@ public class SimpleControl {
         }
         return this.usuarioLogado;
     }
-    public void setBd(Context context){
-        bd= new BD(context);
-    }
 
     public List<Insumo> getInsumoList() {
         return insumoList;
     }
 
-    public void addInsumo(Insumo insumo) {
-        this.insumoList.add(insumo);
+    public void addInsumo(Insumo insumo) throws Exception {
+        boolean test= false;
+        for (Insumo i : insumoList){
+            if(i.getNome().equalsIgnoreCase(insumo.getNome())){
+                test=true;
+            }
+        }
+        if(test==false){
+
+            bd.inserirInsumo(insumo);
+            List<Insumo>temp = bd.buscarInsumo();
+            for (Insumo i : temp) {
+                if (i.getNome().equalsIgnoreCase(insumo.getNome())) {
+                    this.insumoList.add(i);
+                }
+            }
+        }else{
+            throw new Exception ("Já existe este insumo.");
+        }
+
     }
 
     public List<Produto> getProdutoList() {
         return produtoList;
     }
 
-    public void addProduto(Produto produto) {
-        this.produtoList.add(produto);
+    public void addProduto(Produto produto) throws Exception{
+        boolean test = false;
+        for(Produto p: produtoList) {
+            if (p.getNome().equalsIgnoreCase(produto.getNome())) {
+                test = true;
+            }
+        }
+        if(test == false){
+            this.produtoList.add(produto);
+        }
+        else{
+            throw new Exception("Já existe este produto.");
+        }
+
     }
 
     public List<Producao> getProducaoList() {
         return producaoList;
     }
 
-    public void addProducao(Producao producao) {
-        this.producaoList.add(producao);
+    public void addProducao(Producao producao) throws Exception{
+        boolean test = false;
+        for(Producao pro: producaoList) {
+            if (pro.getNome().equalsIgnoreCase(producao.getNome())) {
+                test = true;
+            }
+        }
+        if(test == false){
+            this.producaoList.add(producao);
+        }
+        else{
+            throw new Exception("Já existe esta produção.");
+        }
+    }
+    public void setAllInsumos(boolean bool){
+        for(Insumo i: insumoList){
+            i.setIsAddList(bool);
+        }
     }
 }

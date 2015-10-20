@@ -9,11 +9,12 @@ public class ScriptSQL {
     public String getCreateInsumo(){
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("CREATE TABLE IF NOT EXISTS INSUMO(");
-        sqlBuilder.append("_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,");
-        sqlBuilder.append("Nome VARCHAR(60) not null,");
+        sqlBuilder.append("create table insumo(");
+        sqlBuilder.append("_id integer primary key autoincrement,");
+        sqlBuilder.append("Nome text not null,");
         sqlBuilder.append("Quantidade float not null,");
-        sqlBuilder.append("CustoUnidade float not null");
+        sqlBuilder.append("CustoUnidade float not null,");
+        sqlBuilder.append("Tipo text not null");
         sqlBuilder.append(");");
 
         return sqlBuilder.toString();

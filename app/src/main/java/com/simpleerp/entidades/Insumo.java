@@ -9,6 +9,24 @@ public class Insumo {
     private String nome;
     private float quantidade;
     private float custoUnidade;
+    private String tipo;
+    private boolean isAddList;
+
+
+    public Insumo() {
+        this.nome = null;
+        this.quantidade =0;
+        this.custoUnidade = 0;
+        this.tipo=null;
+        this.isAddList = false;
+    }
+    public Insumo(String nome, float quantidade, float custoUnidade, String tipo ) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.custoUnidade = custoUnidade;
+        this.tipo=tipo;
+        this.isAddList = false;
+    }
 
     public long getId() {
         return id;
@@ -41,8 +59,19 @@ public class Insumo {
     public void setCustoUnidade(float custoUnidade) {
         this.custoUnidade = custoUnidade;
     }
+    public String getTipo() {
+        return tipo;
+    }
 
-    public String toString(){
-        return this.nome;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public boolean isAddList() {
+        return isAddList;
+    }
+
+    public void setIsAddList(boolean isAddList) {
+        this.isAddList = isAddList;
     }
 }

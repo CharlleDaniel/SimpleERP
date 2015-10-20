@@ -6,6 +6,7 @@ package com.simpleerp.entidades;
 public class Producao {
 
     private long id;
+    private String nome;
 
     public long getId() {
         return id;
@@ -13,5 +14,13 @@ public class Producao {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getNome(){
+        return this.nome;
+    }
+
+    public void setNome(String name){
+        this.nome = name;
     }
 }

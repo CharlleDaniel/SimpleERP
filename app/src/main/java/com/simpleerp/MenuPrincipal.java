@@ -29,7 +29,7 @@ public class MenuPrincipal extends ActionBarActivity{
     private ViewPager mViewPager;
     private int tabposition;
     private RelativeLayout rl;
-    protected  SimpleControl sistema= MainActivity.sistema;
+    protected  static  SimpleControl sistema= MainActivity.sistema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class MenuPrincipal extends ActionBarActivity{
                     startActivity(it);
 
                 }
-                showMessage(mViewPager.getAdapter().getPageTitle(tabposition).toString());
+
             }
         });
 

@@ -10,6 +10,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.simpleerp.Control.SimpleControl;
+import com.simpleerp.entidades.Insumo;
+
+import java.util.List;
+
 /**
  * Created by CharlleNot on 14/10/2015.
  */
@@ -20,7 +25,9 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
     private RadioButton rbGrama;
     private EditText etQtd;
     private EditText etPreco;
+    private EditText etNome;
     private String quant;
+    protected SimpleControl sistema= MenuPrincipal.sistema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,7 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
 
         etQtd=(EditText)findViewById(R.id.editTextQtd);
         etPreco=(EditText)findViewById(R.id.editTextPreco);
+        etNome=(EditText)findViewById(R.id.editTextNome);
 
         rbGrama.setOnClickListener(this);
         rbQuilo.setOnClickListener(this);
@@ -62,8 +70,37 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
         int id = item.getItemId();
 
         if(id == R.id.salvar){
-            showMessage("Salvo");
-            super.finish();
+            if(etNome.getText().toString().trim().equalsIgnoreCase("")|| etPreco.getText().toString().trim().equalsIgnoreCase("")){
+                showMessage("Não é permitido campo em branco.");
+            }
+            else if(etQtd.getText().toString().trim().equalsIgnoreCase("")&& !rbUnidade.isChecked()){
+                showMessage("Não é permitido campo em branco.");
+            }
+            else if(etNome.getText().toString().length()<4) {
+                showMessage("O nome deve possuir no minimo quatro caracters.");
+            }else if (!rbUnidade.isChecked()&& Float.parseFloat(etQtd.getText().toString().trim())==0){
+                showMessage("A quantidade tem que ser maior que Zero.");
+            }else{
+                try{
+                    Insumo i= null;
+                    if(rbUnidade.isChecked()){
+                        i = new Insumo(etNome.getText().toString().trim(),1,Float.parseFloat(etPreco.getText().toString()),"Unidade");
+                    }else if(rbQuilo.isChecked()){
+                        i = new Insumo(etNome.getText().toString().trim(),Float.parseFloat(etQtd.getText().toString()),Float.parseFloat(etPreco.getText().toString()),"Quilos");
+                    }else{
+                        i = new Insumo(etNome.getText().toString().trim(),Float.parseFloat(etQtd.getText().toString()),Float.parseFloat(etPreco.getText().toString()),"Gramas");
+                    }
+
+                    sistema.addInsumo(i);
+                    showMessage("Salvo");
+                    super.finish();
+                }catch (Exception e){
+                    showMessage(e.getMessage());
+                }
+
+            }
+
+
         }
         return super.onOptionsItemSelected(item);
     }

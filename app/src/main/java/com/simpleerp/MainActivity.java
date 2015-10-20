@@ -20,12 +20,8 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.drive.Drive;
 import com.simpleerp.Control.SimpleControl;
-import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Usuario;
-
-
 import java.io.File;
-import java.util.List;
 
 public class MainActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
     private static final int SIGN_IN_CODE = 56465;
@@ -42,8 +38,9 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     private Button btNext;
     private EditText edNomeEmpresa;
 
+
     //Control
-    protected static SimpleControl sistema= new SimpleControl();
+    protected static SimpleControl sistema;
 
 
 
@@ -51,7 +48,8 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sistema.setBd(this);
+        sistema = new SimpleControl(getBaseContext());
+
         accessViews();
 
         googleApiClient = new GoogleApiClient.Builder(MainActivity.this)
@@ -69,13 +67,6 @@ public class MainActivity extends Activity implements OnClickListener, Connectio
             startActivity(it);
             super.finish();
         }
-
-
-
-
-
-
-
 
 
     }
