@@ -1,7 +1,7 @@
 package com.simpleerp;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,12 +13,12 @@ import android.widget.Toast;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.entidades.Insumo;
 
-import java.util.List;
+
 
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class CadInsumo extends ActionBarActivity implements View.OnClickListener {
+public class CadInsumo extends AppCompatActivity implements View.OnClickListener {
     private Toolbar bar;
     private RadioButton rbUnidade;
     private RadioButton rbQuilo;
@@ -36,9 +36,8 @@ public class CadInsumo extends ActionBarActivity implements View.OnClickListener
         acessViews();
 
 
-        bar.setTitleTextAppearance(this,R.layout.text);
         bar.setTitle("Adiconar Novo Insumo");
-        bar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        bar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(bar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

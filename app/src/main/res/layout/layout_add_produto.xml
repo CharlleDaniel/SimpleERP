@@ -6,21 +6,26 @@
     android:layout_height="match_parent"
     android:background="#f1eeee">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/bar"
-        android:elevation="10dp"
-        android:layout_height="?attr/actionBarSize"
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_alignParentLeft="true"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="5dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view4">
 
-        android:layout_marginBottom="10dp" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/bar"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_alignParentLeft="true"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/bar">
+        android:layout_below="@+id/view4">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -68,7 +73,6 @@
                 android:id="@+id/editTextNome"
                 android:hint="Nome do Produto"
                 android:textColor="#000000"
-                android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="Informe O nome da produção"
                 android:layout_below="@+id/textView9"
                 android:layout_alignParentLeft="true"
@@ -84,7 +88,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:backgroundTint="@color/colorPrimary"
                 android:id="@+id/editText2"
                 android:layout_below="@+id/editTextNome"
                 android:layout_alignParentRight="false"

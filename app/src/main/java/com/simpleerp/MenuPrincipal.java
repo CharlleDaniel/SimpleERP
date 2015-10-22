@@ -5,8 +5,8 @@ package com.simpleerp;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +22,7 @@ import com.simpleerp.extras.SlidingTabLayout;
 
 
 
-public class MenuPrincipal extends ActionBarActivity{
+public class MenuPrincipal extends AppCompatActivity{
     private FloatingActionButton fab;
     private Toolbar bar ;
     private SlidingTabLayout mSlidingTabLayout;
@@ -59,7 +59,7 @@ public class MenuPrincipal extends ActionBarActivity{
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorAccent));
+        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
         mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
         mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

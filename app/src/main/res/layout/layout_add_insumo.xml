@@ -5,22 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f1eeee">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/bar"
-        android:elevation="10dp"
-        android:layout_height="?attr/actionBarSize"
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_alignParentLeft="true"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="5dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view4">
 
-        android:layout_marginBottom="10dp" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/bar"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_alignParentLeft="true"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/bar">
+        android:layout_below="@+id/view4">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -67,7 +71,6 @@
                 android:id="@+id/editTextNome"
                 android:hint="Nome do Insumo"
                 android:textColor="#000000"
-                android:backgroundTint="@color/colorPrimary"
                 android:layout_below="@+id/textView9"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -85,7 +88,6 @@
                 android:id="@+id/radioButtonQuilo"
                 android:checked="false"
                 android:elevation="5dp"
-                android:buttonTint="@color/colorPrimary"
                 android:layout_alignTop="@+id/radioButtonUnidade"
                 android:layout_toRightOf="@+id/radioButtonUnidade"
                 android:layout_toEndOf="@+id/radioButtonUnidade"
@@ -98,7 +100,6 @@
                 android:id="@+id/radioButtonGrama"
                 android:checked="false"
                 android:elevation="5dp"
-                android:buttonTint="@color/colorPrimary"
                 android:text="Gramas"
                 android:layout_below="@+id/textView5"
                 android:layout_toRightOf="@+id/radioButtonQuilo"
@@ -112,7 +113,6 @@
                 android:id="@+id/radioButtonUnidade"
                 android:checked="true"
                 android:elevation="5dp"
-                android:buttonTint="@color/colorPrimary"
                 android:text="Unidade"
                 android:layout_below="@+id/textView5"
                 android:layout_alignLeft="@+id/textView5"
@@ -136,7 +136,6 @@
                 android:id="@+id/editTextPreco"
                 android:hint="Preço da Unidade"
                 android:textColor="#000000"
-                android:backgroundTint="@color/colorPrimary"
                 android:singleLine="true"
                 android:textSize="15dp"
                 android:inputType="number|numberDecimal"
@@ -155,7 +154,6 @@
                 android:id="@+id/editTextQtd"
                 android:hint="Quantidade de Gramas"
                 android:textColor="#000000"
-                android:backgroundTint="@color/colorPrimary"
                 android:singleLine="true"
                 android:textSize="15dp"
                 android:inputType="number"

@@ -22,7 +22,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme2">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,20 +30,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuPrincipal"
-            android:label="" >
+            android:name=".MenuPrincipal">
         </activity>
         <activity
             android:name=".CadProduto"
-            android:parentActivityName=".MenuPrincipal" >
+            android:parentActivityName=".MenuPrincipal"
+            >
         </activity>
         <activity
             android:name=".CadProducao"
-            android:parentActivityName=".MenuPrincipal" >
+            android:parentActivityName=".MenuPrincipal"
+            >
         </activity>
         <activity
             android:name=".CadInsumo"
-            android:parentActivityName=".MenuPrincipal" >
+            android:parentActivityName=".MenuPrincipal"
+            >
         </activity>
     </application>
 

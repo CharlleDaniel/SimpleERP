@@ -3,6 +3,7 @@ package com.simpleerp;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -20,7 +21,7 @@ import com.simpleerp.entidades.Insumo;
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class CadProducao extends ActionBarActivity  {
+public class CadProducao extends AppCompatActivity {
     private Toolbar bar;
 
     @Override
@@ -30,9 +31,8 @@ public class CadProducao extends ActionBarActivity  {
         acessViews();
 
 
-        bar.setTitleTextAppearance(this, R.layout.text);
         bar.setTitle("Adiconar Nova Produção");
-        bar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        bar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(bar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
