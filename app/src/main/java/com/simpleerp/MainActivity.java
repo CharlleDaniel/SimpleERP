@@ -1,9 +1,10 @@
 package com.simpleerp;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,7 +24,7 @@ import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.entidades.Usuario;
 import java.io.File;
 
-public class MainActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
     private static final int SIGN_IN_CODE = 56465;
     private GoogleApiClient googleApiClient;
     private ConnectionResult connectionResult;

@@ -1,6 +1,7 @@
 package com.simpleerp;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -35,9 +36,9 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.layout_add_insumo);
         acessViews();
 
-
-        bar.setTitle("Adiconar Novo Insumo");
-        bar.setTitleTextColor(getResources().getColor(R.color.white));
+        bar.setTitle("Novo Insumo");
+        bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
+        bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(bar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

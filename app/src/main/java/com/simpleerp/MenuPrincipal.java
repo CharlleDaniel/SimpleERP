@@ -1,9 +1,8 @@
 package com.simpleerp;
 
-
-
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +18,7 @@ import com.simpleerp.adapters.TabAdapters;
 import com.simpleerp.extras.SlidingTabLayout;
 
 
-
-
-
-public class MenuPrincipal extends AppCompatActivity{
+public class MenuPrincipal extends AppCompatActivity {
     private FloatingActionButton fab;
     private Toolbar bar ;
     private SlidingTabLayout mSlidingTabLayout;
@@ -39,10 +35,14 @@ public class MenuPrincipal extends AppCompatActivity{
         acessviews();
 
 
-        bar.setTitle("  " + sistema.getUsuarioLogado().getNome());
-        bar.setTitleTextColor(getResources().getColor(R.color.colorFABPressed));
-        bar.setLogo(R.drawable.simplelogo);
-        setSupportActionBar(bar);
+        bar.setTitle("SimpleERP");
+        bar.setTitleTextAppearance(this, R.style.AppThemeBarTitle);
+        bar.setSubtitle(sistema.getUsuarioLogado().getNome());
+        bar.setSubtitleTextAppearance(this, R.style.AppThemeBarSubTitle);
+        bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
+
+
+                setSupportActionBar(bar);
         if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
             Dialog d = new Dialog(this);
             d.setContentView(R.layout.dialog_bemvindos);
@@ -58,8 +58,8 @@ public class MenuPrincipal extends AppCompatActivity{
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
         mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
+        mSlidingTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        mSlidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.white));
         mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
         mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -129,6 +129,5 @@ public class MenuPrincipal extends AppCompatActivity{
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
 
 }
