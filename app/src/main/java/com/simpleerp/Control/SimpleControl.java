@@ -120,6 +120,10 @@ public class SimpleControl {
             for (Produto p : temp) {
                 if (p.getNome().equalsIgnoreCase(produto.getNome())) {
                     this.produtoList.add(p);
+                    for(Insumo t: tempInsumo){
+                        bd.inserirInsumoProduto(p,t);
+                    }
+
                 }
             }
         }else{
@@ -182,6 +186,20 @@ public class SimpleControl {
             tempInsumo= new LinkedList<Insumo>();
         }
         return tempInsumo;
+    }
+    public List<Insumo> getInsumoProduto(Produto p) throws Exception {
+        try{
+            List<Insumo> listTemp=bd.buscarInsumoProduto(p);
+            if(listTemp==null){
+                listTemp= new LinkedList<Insumo>();
+            }
+            return listTemp;
+        }catch (Exception e){
+            throw new Exception("fudeu");
+        }
+
+
+
     }
     public void removeInsumoProduto(Insumo insumo){
         tempInsumo.remove(insumo);

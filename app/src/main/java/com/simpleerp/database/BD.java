@@ -173,22 +173,28 @@ public class BD {
 
     public List<Insumo> buscarInsumoProduto(Produto produto) {
         List<Insumo> list = new ArrayList<Insumo>();
-        String[] colunas = new String[]{"_id", "Nome", "CustoUnidade", "Quantidade", "Tipo"};
-        Cursor cursor = bd.query("insumo i , PRODUTO_INSUMO pi",colunas, "pi.idProduto = "+produto.getId()+" and pi.idInsumo= i._id", null, null, null, "Nome ASC");
+        String[] colunas = new String[]{"idInsumo"};
+        Cursor cursor = bd.query("PRODUTO_INSUMO",colunas, "idProduto ="+produto.getId(), null, null, null,null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
 
             do {
+                String[] colunas2 = new String[]{"_id", "Nome", "CustoUnidade", "Quantidade", "Tipo"};
 
-                Insumo i = new Insumo();
-                i.setId(cursor.getInt(0));
-                i.setNome(cursor.getString(1));
-                i.setCustoUnidade(cursor.getFloat(2));
-                i.setQuantidade(cursor.getFloat(3));
-                i.setTipo(cursor.getString(4));
-                list.add(i);
+                Cursor cursor2 = bd.query("insumo", colunas2,"_id = "+cursor.getLong(0), null, null, null, "Nome ASC");
+                if (cursor2.getCount() > 0) {
 
+                    cursor2.moveToFirst();
+                    Insumo i = new Insumo();
+                    i.setId(cursor2.getInt(0));
+                    i.setNome(cursor2.getString(1));
+                    i.setCustoUnidade(cursor2.getFloat(2));
+                    i.setQuantidade(cursor2.getFloat(3));
+                    i.setTipo(cursor2.getString(4));
+                    list.add(i);
+
+                }
             } while (cursor.moveToNext());
         }
 
