@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BDCore extends SQLiteOpenHelper {
     private ScriptSQL scriptSQL;
     private static final String NOME_BD = "BDSimpleERP";
-    private static final int VERSAO_BD = 1;
+    private static final int VERSAO_BD = 2;
 
 
     public BDCore(Context ctx){

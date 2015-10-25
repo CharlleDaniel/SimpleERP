@@ -27,8 +27,8 @@ public class SimpleControl {
     public SimpleControl(Context context) {
 
         bd= new BD(context);
-        this.insumoList=bd.buscarInsumo();
-        this.produtoList = new ArrayList<Produto>();
+        this.insumoList=bd.buscarInsumos();
+        this.produtoList = bd.buscarProdutos();
         this.producaoList = new ArrayList<Producao>();
 
     }
@@ -78,16 +78,17 @@ public class SimpleControl {
 
     public void addInsumo(Insumo insumo) throws Exception {
         boolean test= false;
+        String tempNome=upCaseAllFristChar(insumo.getNome());
         for (Insumo i : insumoList){
-            if(i.getNome().equalsIgnoreCase(insumo.getNome())){
+            if(i.getNome().equalsIgnoreCase(tempNome)){
                 test=true;
             }
         }
         if(test==false){
-            String tempNome=upCaseAllFristChar(insumo.getNome());
+
             insumo.setNome(tempNome);
             bd.inserirInsumo(insumo);
-            List<Insumo>temp = bd.buscarInsumo();
+            List<Insumo>temp = bd.buscarInsumos();
             for (Insumo i : temp) {
                 if (i.getNome().equalsIgnoreCase(insumo.getNome())) {
                     this.insumoList.add(i);
@@ -105,15 +106,23 @@ public class SimpleControl {
 
     public void addProduto(Produto produto) throws Exception{
         boolean test = false;
+        String tempNome = upCaseAllFristChar(produto.getNome());
         for(Produto p: produtoList) {
-            if (p.getNome().equalsIgnoreCase(produto.getNome())) {
+            if (p.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
             }
         }
-        if(test == false){
-            this.produtoList.add(produto);
-        }
-        else{
+        if(test==false) {
+
+            produto.setNome(tempNome);
+            bd.inserirProduto(produto);
+            List<Produto> temp = bd.buscarProdutos();
+            for (Produto p : temp) {
+                if (p.getNome().equalsIgnoreCase(produto.getNome())) {
+                    this.produtoList.add(p);
+                }
+            }
+        }else{
             throw new Exception("Já existe este produto.");
         }
 
