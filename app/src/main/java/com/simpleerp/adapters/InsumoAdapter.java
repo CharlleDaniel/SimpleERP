@@ -1,12 +1,10 @@
 package com.simpleerp.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,24 +46,50 @@ public class InsumoAdapter extends BaseAdapter {
         Insumo insumo= lInsumo.get(position);
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
-        View layout =inflater.inflate(R.layout.adapter_insumo_producao, null);
+        View layout =inflater.inflate(R.layout.adapter_insumo_produto, null);
 
-        TextView tvNome = (TextView) layout.findViewById(R.id.t3);
+        TextView tvNome = (TextView) layout.findViewById(R.id.textViewNomeProduto);
         tvNome.setText(insumo.getNome());
 
 
-        TextView tvId = (TextView) layout.findViewById(R.id.t4);
-        tvId.setText("Preço: "+insumo.getCustoUnidade()+" Quantidade: "+insumo.getQuantidade()+" "+insumo.getTipo());
-        ImageView checkAdd = (ImageView)layout.findViewById(R.id.marcaAdd);
+        TextView tvId = (TextView) layout.findViewById(R.id.textViewPreco);
+        tvId.setText(""+ insumo.getCustoUnidade());
 
-        if(insumo.isAddList()==false){
-            checkAdd.setBackgroundResource(android.R.drawable.checkbox_off_background);
+        TextView tvQtd = (TextView) layout.findViewById(R.id.textViewQtd);
+        if(!insumo.getTipo().equalsIgnoreCase("Unidade")){
+            if(insumo.getQuantidade()>1){
+                tvQtd.setText(""+insumo.getQuantidade()+" "+insumo.getTipo());
+            }else{
+                tvQtd.setText(""+insumo.getQuantidade()+" "+insumo.getTipo().substring(0,insumo.getTipo().length()-1));
+            }
         }else{
+            tvQtd.setText("" + insumo.getQuantidade() + " " + insumo.getTipo());
 
-            checkAdd.setBackgroundResource(android.R.drawable.checkbox_on_background);
+        }
 
+        ImageView tipoMedida = (ImageView)layout.findViewById(R.id.imageViewQtdTipo);
+
+        if(insumo.getTipo().equalsIgnoreCase("unidade")){
+            tipoMedida.setBackgroundResource(R.drawable.icon_unidade);
+        } else {
+            tipoMedida.setBackgroundResource(R.drawable.balanca);
+
+        }
+
+        ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
+        if(context.getClass().getSimpleName().equalsIgnoreCase("AddInsumoProduto")){
+            addMarca.setVisibility(View.VISIBLE);
+            if(insumo.isAddList()==true){
+                addMarca.setBackgroundResource(R.drawable.ok);
+            }else{
+                addMarca.setBackgroundResource(android.R.drawable.ic_input_add);
+            }
+        }else{
+            addMarca.setVisibility(View.GONE);
         }
 
         return layout;
     }
+
+
 }

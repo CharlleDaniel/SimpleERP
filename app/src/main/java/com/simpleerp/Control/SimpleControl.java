@@ -1,13 +1,17 @@
 package com.simpleerp.Control;
 
 import android.content.Context;
+
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Producao;
 import com.simpleerp.entidades.Produto;
 import com.simpleerp.entidades.Usuario;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by CharlleNot on 12/10/2015.
@@ -16,6 +20,7 @@ public class SimpleControl {
     private List<Insumo> insumoList;
     private List<Produto>produtoList;
     private List<Producao>producaoList;
+    private List<Insumo> tempInsumo;
     private Usuario usuarioLogado;
     private BD bd ;
 
@@ -23,8 +28,6 @@ public class SimpleControl {
 
         bd= new BD(context);
         this.insumoList=bd.buscarInsumo();
-
-
         this.produtoList = new ArrayList<Produto>();
         this.producaoList = new ArrayList<Producao>();
 
@@ -81,7 +84,8 @@ public class SimpleControl {
             }
         }
         if(test==false){
-
+            String tempNome=upCaseAllFristChar(insumo.getNome());
+            insumo.setNome(tempNome);
             bd.inserirInsumo(insumo);
             List<Insumo>temp = bd.buscarInsumo();
             for (Insumo i : temp) {
@@ -137,5 +141,47 @@ public class SimpleControl {
         for(Insumo i: insumoList){
             i.setIsAddList(bool);
         }
+    }
+    public String upCaseAllFristChar(String txt){
+        String temp="";
+        Pattern p = Pattern.compile("[a-zA-Zà-úÀ-Ú]+");
+        Matcher m = p.matcher(txt);
+        boolean test = m.find();
+        while (test==true){
+            String parte = m.group();
+            temp=temp+(parte.substring(0,1).toUpperCase())+(parte.substring(1, parte.length()))+" ";
+            test = m.find();
+        }
+
+
+        return temp;
+    }
+    public void addInsumoProduto(List<Insumo> list) {
+       if(tempInsumo!=null) {
+           tempInsumo.addAll(list);
+       }else{
+           tempInsumo=list;
+       }
+
+    }
+    public void removeInsumoProduto(){
+        tempInsumo= null;
+
+    }
+    public List<Insumo> getInsumoProduto(){
+        if(tempInsumo==null){
+            tempInsumo= new LinkedList<Insumo>();
+        }
+        return tempInsumo;
+    }
+    public void removeInsumoProduto(Insumo insumo){
+        tempInsumo.remove(insumo);
+
+    }
+    public void removeInsumoProduto(List <Insumo> insumo){
+        for(Insumo i : insumo){
+            tempInsumo.remove(i);
+        }
+
     }
 }

@@ -5,15 +5,24 @@ package com.simpleerp.entidades;
  */
 public class Produto {
 
-    private float id;
+    private long id;
     private String nome;
     private float preco;
 
-    public float getId() {
+    public Produto(String nome, float preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+    public Produto() {
+        this.nome = "";
+        this.preco = 0;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(float id) {
+    public void setId(long id) {
         this.id = id;
     }
 

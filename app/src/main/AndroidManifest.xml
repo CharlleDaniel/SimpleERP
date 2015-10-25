@@ -30,7 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuPrincipal">
+            android:name=".MenuPrincipal"
+            android:parentActivityName=".MainActivity"
+            >
+
         </activity>
         <activity
             android:name=".CadProduto"
@@ -45,6 +48,11 @@
         <activity
             android:name=".CadInsumo"
             android:parentActivityName=".MenuPrincipal"
+            >
+        </activity>
+        <activity
+            android:name=".classesSecundarias.AddInsumoProduto"
+            android:parentActivityName=".CadInsumo"
             >
         </activity>
     </application>

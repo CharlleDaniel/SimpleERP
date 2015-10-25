@@ -24,8 +24,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/view4">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view4"
+        android:id="@+id/relativeLayout">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,38 +35,53 @@
             android:elevation="5dp"
             android:background="@drawable/toolbar_rounded_corners"
             android:id="@+id/rl_2"
-
-            android:layout_alignParentLeft="false"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_alignParentBottom="false">
+            android:visibility="visible"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Descrição do Produto"
-                android:id="@+id/textView9"
-                android:textSize="14dp"
-                android:textColor="@color/colorPrimary"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:id="@+id/view2"
-                android:background="@color/colorDivider"
-                android:layout_below="@+id/textView9"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="10dp" />
+                android:layout_height="40dp"
+                android:id="@+id/rl_title"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageView6"
+                    android:src="@drawable/cestoqntde"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Descrição do Produto"
+                    android:id="@+id/textView9"
+                    android:textSize="14dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imageView6"
+                    android:layout_toEndOf="@+id/imageView6"
+                    android:layout_marginLeft="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:id="@+id/view2"
+                    android:background="@color/colorDivider"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -74,87 +90,147 @@
                 android:hint="Nome do Produto"
                 android:textColor="#000000"
                 android:contentDescription="Informe O nome da produção"
-                android:layout_below="@+id/textView9"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
                 android:singleLine="true"
+                android:textSize="15dp"
+                android:layout_below="@+id/rl_title"
+                android:layout_marginLeft="10dp"
+                android:layout_alignRight="@+id/editTextPreco"
+                android:layout_alignEnd="@+id/editTextPreco"
                 android:layout_marginTop="10dp"
-                android:textSize="15dp" />
+                android:layout_marginBottom="5dp" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:id="@+id/editText2"
+                android:id="@+id/editTextPreco"
+                android:singleLine="true"
                 android:layout_below="@+id/editTextNome"
-                android:layout_alignParentRight="false"
-                android:layout_alignParentEnd="true"
+                android:clickable="false"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:inputType="number|numberDecimal"
                 android:hint="Preço do Produto"
-                android:singleLine="true"
-                android:textSize="15dp" />
+
+                android:textSize="15dp"
+                android:layout_marginRight="10dp" />
 
 
         </RelativeLayout>
 
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/toolbar_rounded_corners"
+        android:elevation="5dp"
+        android:layout_marginBottom="10dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="5dp"
-            android:background="@drawable/toolbar_rounded_corners"
-            android:id="@+id/rl_1"
-
-            android:layout_below="@+id/rl_2"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:id="@+id/relativeLayout2">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:id="@+id/view3"
+                android:background="@color/colorDivider"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Adicionar Insumos"
-                android:id="@+id/textView2"
+                android:text="Insumos do Produto"
+                android:id="@+id/textView4"
                 android:textSize="14dp"
                 android:textColor="@color/colorPrimary"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView7"
+                android:layout_toEndOf="@+id/imageView7"
+                android:layout_marginLeft="10dp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageView7"
+                android:src="@drawable/cestoqntde"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView9"
+                android:src="@drawable/icon_trash"
+                android:clickable="true"
+                android:onClick="clearAllInsumos"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:id="@+id/view1"
-                android:background="@color/colorDivider"
-                android:layout_below="@+id/textView2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="10dp" />
-
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lvInsumo"
-                android:layout_alignTop="@+id/view1"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="19dp"
+                android:layout_marginEnd="19dp" />
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/relativeLayout2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            android:id="@+id/relativeLayout3"
+            android:contextClickable="false"
+            android:focusable="false"
+            android:foregroundGravity="center_vertical"
+            android:onClick="addInsumoProduto"
+            android:nestedScrollingEnabled="false">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView8"
+                android:src="@android:drawable/ic_input_add"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adicionar Insumo"
+                android:id="@+id/textView10"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView8"
+                android:layout_toEndOf="@+id/imageView8"
+                android:textColor="@color/textSecondary" />
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lvInsumo"
+            android:layout_below="@+id/relativeLayout3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="false" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -25,7 +25,7 @@ public class MenuPrincipal extends AppCompatActivity {
     private ViewPager mViewPager;
     private int tabposition;
     private RelativeLayout rl;
-    protected  static  SimpleControl sistema= MainActivity.sistema;
+    public  static  SimpleControl sistema= MainActivity.sistema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class MenuPrincipal extends AppCompatActivity {
             d.show();
             rl.setVisibility(View.VISIBLE);
 
+
         }
 
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
@@ -61,14 +62,14 @@ public class MenuPrincipal extends AppCompatActivity {
         mSlidingTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         mSlidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.white));
         mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
+
         mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
-
             @Override
             public void onPageSelected(int position) {
-                tabposition = position;
+                tabposition=position;
             }
 
             @Override
