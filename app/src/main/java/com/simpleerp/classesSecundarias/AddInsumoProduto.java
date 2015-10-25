@@ -63,9 +63,22 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
     }
     public void atualizaList(){
         List<Insumo>insumos=sistema.getInsumoProduto();
+        boolean teste =false;
         if(insumos.size()>0){
             for(Insumo i : insumos){
-                i.setIsAddList(true);
+                for(Insumo remove : listRemove){
+                    if(remove.getId()==i.getId()){
+                        teste=true;
+                    }
+
+                }
+                if(teste==false){
+                    i.setIsAddList(true);
+
+                }else{
+                    teste=false;
+                }
+
             }
         }
     }
@@ -150,9 +163,9 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
             insumo.setIsAddList(true);
             listTemp.add(insumo);
-
+            bluidListInsumos();
         }
-        bluidListInsumos();
+
     }
 
 

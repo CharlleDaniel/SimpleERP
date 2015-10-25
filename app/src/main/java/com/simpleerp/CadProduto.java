@@ -140,6 +140,7 @@ public class CadProduto extends AppCompatActivity{
         // Implements our logic
         switch (itemId){
             case 1:
+                insumo.setIsAddList(false);
                 sistema.removeInsumoProduto(insumo);
                 onResume();
                 break;
