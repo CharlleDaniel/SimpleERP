@@ -133,7 +133,7 @@ public class BD {
         bd.update("PRODUTO", valores, "_id = ?", new String[]{"" + produto.getId()});
     }
 
-    public void deletarInsumo(Produto produto) {
+    public void deletarProduto(Produto produto) {
         bd.delete("PRODUTO", "_id = " + produto.getId(), null);
     }
 
