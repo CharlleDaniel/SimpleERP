@@ -1,7 +1,7 @@
 package com.simpleerp.classesSecundarias;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,19 +12,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.simpleerp.CadProduto;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.InsumoAdapter;
 import com.simpleerp.entidades.Insumo;
-
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by CharlleNot on 24/10/2015.
