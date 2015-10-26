@@ -85,6 +85,7 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         listInsumo.setAdapter(adapter);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_cad, menu);
