@@ -1,7 +1,6 @@
 package com.simpleerp.classesSecundarias;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,18 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.simpleerp.CadProduto;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.InsumoAdapter;
 import com.simpleerp.entidades.Insumo;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by CharlleNot on 24/10/2015.
@@ -43,8 +38,8 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.add_insumo_produto);
         acessViews();
         sistema = MenuPrincipal.sistema;
-        listTemp=new LinkedList<Insumo>();
-        listRemove=new LinkedList<Insumo>();
+        listTemp=new LinkedList<>();
+        listRemove=new LinkedList<>();
 
         bar.setTitle("Adicionar Insumos");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
@@ -53,7 +48,7 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bluidListInsumos();
+        buildListInsumos();
 
     }
 
@@ -70,7 +65,6 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
                     if(remove.getId()==i.getId()){
                         teste=true;
                     }
-
                 }
                 if(teste==false){
                     i.setIsAddList(true);
@@ -78,12 +72,11 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
                 }else{
                     teste=false;
                 }
-
             }
         }
     }
 
-    public void bluidListInsumos() {
+    public void buildListInsumos() {
         listInsumo = (ListView) findViewById(R.id.lvInsumos);
         listInsumo.setOnItemClickListener(this);
         registerForContextMenu(listInsumo);
@@ -139,9 +132,8 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         // Implements our logic
         switch (itemId){
             case 1:
-
                 listTemp.remove(insumo);
-                bluidListInsumos();
+                buildListInsumos();
                 insumo.setIsAddList(false);
                 listRemove.add(insumo);
                 break;
@@ -163,7 +155,7 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
             insumo.setIsAddList(true);
             listTemp.add(insumo);
-            bluidListInsumos();
+            buildListInsumos();
         }
 
     }
