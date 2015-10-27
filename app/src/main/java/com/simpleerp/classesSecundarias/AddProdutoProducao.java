@@ -144,7 +144,6 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
                 break;
             default:
                 return super.onContextItemSelected(item);
-
         }
         return true;
     }
