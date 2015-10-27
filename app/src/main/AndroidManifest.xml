@@ -55,6 +55,12 @@
             android:parentActivityName=".CadInsumo"
             >
         </activity>
+        <activity
+            android:name=".classesSecundarias.AddProdutoProducao"
+            android:parentActivityName=".CadProducao"
+            >
+        </activity>
+
     </application>
 
 </manifest>

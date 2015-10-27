@@ -1,6 +1,7 @@
 package com.simpleerp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.ProdutoAdapter;
+import com.simpleerp.classesSecundarias.AddProdutoProducao;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Produto;
 
@@ -36,7 +38,7 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
         setContentView(R.layout.layout_add_producao);
         acessViews();
         sistema = MenuPrincipal.sistema;
-        bluidListInsumos();
+        buildListInsumos();
 
         bar.setTitle("Nova Produção");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
@@ -50,13 +52,14 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
         bar= (Toolbar)findViewById(R.id.bar);
 
     }
-    public void bluidListInsumos() {
-        lvProdutos = (ListView) findViewById(R.id.listProdutos);
+
+    public void buildListInsumos() {
+    /*    lvProdutos = (ListView) findViewById(R.id.listProdutos);
         registerForContextMenu(lvProdutos);
         lvProdutos.setOnItemClickListener(this);
         adapter = new ProdutoAdapter(this, MenuPrincipal.sistema.getProdutoList());
         lvProdutos.setAdapter(adapter);
-
+    */
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,9 +126,13 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
                 break;
             default:
                 return super.onContextItemSelected(item);
-
         }
         return true;
+    }
+
+    public void addProdutoEmProducao(View view){
+        Intent intent = new Intent(this, AddProdutoProducao.class);
+        startActivity(intent);
     }
 
 }

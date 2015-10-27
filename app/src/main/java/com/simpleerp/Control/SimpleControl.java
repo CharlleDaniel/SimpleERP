@@ -23,13 +23,14 @@ public class SimpleControl {
     private List<Insumo> tempInsumo;
     private Usuario usuarioLogado;
     private BD bd ;
+    private List <Produto> tempProdutos;
 
     public SimpleControl(Context context) {
 
         bd= new BD(context);
         this.insumoList=bd.buscarInsumos();
         this.produtoList = bd.buscarProdutos();
-        this.producaoList = new ArrayList<Producao>();
+        this.producaoList = new ArrayList<>();
 
     }
 
@@ -195,7 +196,7 @@ public class SimpleControl {
             }
             return listTemp;
         }catch (Exception e){
-            throw new Exception("fudeu");
+            throw new Exception("Erro");
         }
 
 
@@ -209,6 +210,24 @@ public class SimpleControl {
         for(Insumo i : insumo){
             tempInsumo.remove(i);
         }
+    }
 
+    public List<Produto> getProdutoProducao(){
+        return this.tempProdutos;
+    }
+
+    public void addProdutoProducao(List<Produto> list){
+        if(tempProdutos != null){
+            this.tempProdutos.addAll(list);
+        }
+        else {
+            this.tempProdutos = list;
+        }
+    }
+
+    public void removeProdutoProducao(List<Produto> list){
+        for(Produto p: list){
+            tempProdutos.remove(p);
+        }
     }
 }

@@ -8,6 +8,7 @@ public class Produto {
     private long id;
     private String nome;
     private float preco;
+    private boolean isAddList;
 
     public Produto(String nome, float preco) {
         this.nome = nome;
@@ -16,6 +17,14 @@ public class Produto {
     public Produto() {
         this.nome = "";
         this.preco = 0;
+    }
+
+    public boolean isAddList() {
+        return isAddList;
+    }
+
+    public void setIsAddList(boolean isAddList) {
+        this.isAddList = isAddList;
     }
 
     public long getId() {
