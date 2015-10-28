@@ -36,7 +36,7 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
         setContentView(R.layout.layout_add_producao);
         acessViews();
         sistema = MenuPrincipal.sistema;
-        bluidListInsumos();
+        buildListInsumos();
 
         bar.setTitle("Nova Produção");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
@@ -50,7 +50,7 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
         bar= (Toolbar)findViewById(R.id.bar);
 
     }
-    public void bluidListInsumos() {
+    public void buildListInsumos() {
         lvProdutos = (ListView) findViewById(R.id.listProdutos);
         registerForContextMenu(lvProdutos);
         lvProdutos.setOnItemClickListener(this);

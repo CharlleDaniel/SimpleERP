@@ -49,7 +49,7 @@ public class CadProduto extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bluidListInsumos();
+        buildListInsumos();
 
     }
     private void acessViews(){
@@ -63,7 +63,7 @@ public class CadProduto extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.menu_cad, menu);
         return true;
     }
-    public void bluidListInsumos() {
+    public void buildListInsumos() {
         lvInsumo = (ListView) findViewById(R.id.lvInsumo);
         registerForContextMenu(lvInsumo);
         adapter = new InsumoAdapter(this, MenuPrincipal.sistema.getInsumoProduto());
@@ -116,7 +116,7 @@ public class CadProduto extends AppCompatActivity{
     }
     @Override
     protected  void onResume(){
-        bluidListInsumos();
+        buildListInsumos();
         super.onResume();
     }
 
@@ -171,7 +171,7 @@ public class CadProduto extends AppCompatActivity{
             public void onClick(View v) {
                 sistema.removeInsumoProduto();
                 sistema.setAllInsumos(false);
-                bluidListInsumos();
+                buildListInsumos();
                 d.dismiss();
             }
         });
