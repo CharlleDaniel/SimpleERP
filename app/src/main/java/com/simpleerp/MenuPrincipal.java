@@ -25,13 +25,13 @@ public class MenuPrincipal extends AppCompatActivity {
     private ViewPager mViewPager;
     private int tabposition;
     private RelativeLayout rl;
-    public  static  SimpleControl sistema= MainActivity.sistema;
+    public  static  SimpleControl sistema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_principal);
-
+        sistema= new SimpleControl(this);
         acessviews();
 
 
@@ -81,7 +81,7 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
     public void acessviews(){
-        bar=(Toolbar)findViewById(R.id.bar);
+        bar=(Toolbar) findViewById(R.id.bar);
         fab= (FloatingActionButton)findViewById(R.id.fab);
         rl=(RelativeLayout)findViewById(R.id.rl_indica);
 

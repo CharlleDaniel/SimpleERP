@@ -3,6 +3,7 @@ package com.simpleerp.extras;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -180,6 +181,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
                         false);
                 tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
+
             }
 
             if (tabView == null) {
@@ -195,7 +197,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.width = 0;
                 lp.weight = 1;
             }
+            if(Build.VERSION.SDK_INT<21){
+                tabTitleView.setTextSize(10);
 
+            }
+            else{
+                tabTitleView.setTextSize(14);
+            }
             tabTitleView.setText(adapter.getPageTitle(i));
             tabView.setOnClickListener(tabClickListener);
             String desc = mContentDescriptions.get(i, null);
