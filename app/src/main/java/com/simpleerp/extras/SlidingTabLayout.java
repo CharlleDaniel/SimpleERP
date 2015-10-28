@@ -198,11 +198,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.weight = 1;
             }
             if(Build.VERSION.SDK_INT<21){
-                tabTitleView.setTextSize(10);
+                tabTitleView.setTextSize(12);
 
             }
             else{
                 tabTitleView.setTextSize(14);
+                tabTitleView.setTop(10);
+                tabTitleView.setBottom(10);
             }
             tabTitleView.setText(adapter.getPageTitle(i));
             tabView.setOnClickListener(tabClickListener);

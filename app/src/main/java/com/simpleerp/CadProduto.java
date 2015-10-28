@@ -87,7 +87,7 @@ public class CadProduto extends AppCompatActivity{
                 showMessage("O preço tem que ser maior que Zero.");
             }else{
 
-                Produto p= new Produto(etNome.getText().toString().trim(),Float.parseFloat(etPreco.getText().toString()));
+                Produto p = new Produto(etNome.getText().toString().trim(),Float.parseFloat(etPreco.getText().toString()));
 
                 try{
                     sistema.addProduto(p);

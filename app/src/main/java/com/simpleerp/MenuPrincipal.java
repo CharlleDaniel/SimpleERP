@@ -34,7 +34,6 @@ public class MenuPrincipal extends AppCompatActivity {
         sistema= new SimpleControl(this);
         acessviews();
 
-
         bar.setTitle("SimpleERP");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitle);
         bar.setSubtitle(sistema.getUsuarioLogado().getNome());

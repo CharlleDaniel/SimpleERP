@@ -8,6 +8,8 @@ public class Producao {
     private long id;
     private String nome;
 
+    public Producao(String nome, int id){ this.nome = nome; this.id = id; }
+
     public long getId() {
         return id;
     }
