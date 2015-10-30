@@ -121,7 +121,8 @@ public class MenuPrincipal extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_settings){
-            showMessage("Settings");
+           Intent it = new Intent(this, MinhasPlanilhas.class);
+            startActivity(it);
         }
         return super.onOptionsItemSelected(item);
     }
