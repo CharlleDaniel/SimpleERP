@@ -82,18 +82,18 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
             }
             if(nomeProducao.getText().toString().trim().length()<4){
                 showMessage("O nome deve possuir no minimo quatro caracteres.");
-            }
-            try{
-                Producao p = new Producao();
-                p.setNome(nomeProducao.getText().toString());
-
-                sistema.addProducao(p);
-                showMessage("Salvo");
-                finish();
-                sistema.setAllProdutos(false);
-                sistema.removeProdutoProducao();
-            }catch (Exception e){
-                showMessage(e.getMessage());
+            }else{
+                try{
+                    Producao p = new Producao();
+                    p.setNome(nomeProducao.getText().toString());
+                    sistema.addProducao(p);
+                    showMessage("Salvo");
+                    finish();
+                    sistema.setAllProdutos(false);
+                    sistema.removeProdutoProducao();
+                }catch (Exception e){
+                    showMessage(e.getMessage());
+                }
             }
 
         }

@@ -34,7 +34,7 @@ public class SimpleControl {
         bd= new BD(context);
         this.insumoList=bd.buscarInsumos();
         this.produtoList = bd.buscarProdutos();
-        this.producaoList = new ArrayList<>();
+        this.producaoList = bd.buscarProducoes();
 
     }
 
@@ -151,7 +151,16 @@ public class SimpleControl {
         }
         if(test == false){
             producao.setNome(tempNome);
-            this.producaoList.add(producao);
+            bd.inserirProducao(producao);
+            List<Producao> temp = bd.buscarProducoes();
+            for (Producao p : temp) {
+                if (p.getNome().equalsIgnoreCase(producao.getNome())) {
+                    this.producaoList.add(p);
+                    for(Produto t: tempProdutos){
+                        bd.inserirProdutoProducao(p,t);
+                    }
+                }
+            }
         }
         else{
             throw new Exception("Já existe esta produção.");

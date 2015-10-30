@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.simpleerp.entidades.Insumo;
+import com.simpleerp.entidades.Producao;
 import com.simpleerp.entidades.Produto;
 import com.simpleerp.entidades.Usuario;
 
@@ -193,6 +194,90 @@ public class BD {
                     i.setQuantidade(cursor2.getFloat(3));
                     i.setTipo(cursor2.getString(4));
                     list.add(i);
+
+                }
+            } while (cursor.moveToNext());
+        }
+
+        return (list);
+    }
+
+    public void inserirProducao(Producao producao) {
+        ContentValues valores = new ContentValues();
+        valores.put("nome", producao.getNome());
+
+        bd.insert("PRODUCAO", null, valores);
+    }
+
+    public void atualizarProducao(Producao producao) {
+        ContentValues valores = new ContentValues();
+        valores.put("nome", producao.getNome());
+        bd.update("PRODUCAO", valores, "_id = ?", new String[]{"" + producao.getId()});
+    }
+
+
+    public void deletarProducao(Producao producao) {
+        bd.delete("PRODUCAO", "_id = " + producao.getId(), null);
+    }
+
+
+    public List<Producao> buscarProducoes() {
+        List<Producao> list = new ArrayList<Producao>();
+        String[] colunas = new String[]{"_id", "Nome"};
+
+        Cursor cursor = bd.query("PRODUCAO", colunas, null, null, null, null, "Nome ASC");
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+
+                Producao p = new Producao();
+                p.setId(cursor.getInt(0));
+                p.setNome(cursor.getString(1));
+
+                list.add(p);
+
+            } while (cursor.moveToNext());
+        }
+
+        return (list);
+    }
+
+    public void inserirProdutoProducao(Producao producao, Produto produto){
+        ContentValues valores = new ContentValues();
+        valores.put("idProducao", producao.getId());
+        valores.put("idProduto", produto.getId());
+
+
+        bd.insert("PRODUCAO_PRODUTO", null, valores);
+    }
+
+    public void deletarProdutoProducao(Producao producao, Produto produto) {
+        bd.delete("PRODUCAO_PRODUTO", "idProducao = " + producao.getId() + " and " + "idProduto = " + produto.getId(), null);
+    }
+
+    public List<Produto> buscarProdutosProducao(Producao producao) {
+        List<Produto> list = new ArrayList<Produto>();
+        String[] colunas = new String[]{"idProduto"};
+        Cursor cursor = bd.query("PRODUCAO_PRODUTO",colunas, "idProducao ="+producao.getId(), null, null, null,null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+                String[] colunas2 = new String[]{"_id", "NOME", "PRECO"};
+
+                Cursor cursor2 = bd.query("PRODUTO", colunas2,"_id = "+cursor.getLong(0), null, null, null, "Nome ASC");
+                if (cursor2.getCount() > 0) {
+
+                    cursor2.moveToFirst();
+                    Produto p = new Produto();
+                    p.setId(cursor2.getInt(0));
+                    p.setNome(cursor2.getString(1));
+                    p.setPreco(cursor2.getFloat(2));
+
+                    list.add(p);
 
                 }
             } while (cursor.moveToNext());
