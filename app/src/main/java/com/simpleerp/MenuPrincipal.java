@@ -30,7 +30,7 @@ public class MenuPrincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_principal);
+        setContentView(R.layout.layout_menu_principal);
         sistema= new SimpleControl(this);
         acessviews();
 
@@ -60,7 +60,7 @@ public class MenuPrincipal extends AppCompatActivity {
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         mSlidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.white));
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
+        mSlidingTabLayout.setCustomTabView(R.layout.custom_tab_view, R.id.tv_tab);
 
         mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

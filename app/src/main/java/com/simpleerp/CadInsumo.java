@@ -33,7 +33,7 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_add_insumo);
+        setContentView(R.layout.layout_cad_insumo);
         acessViews();
 
         bar.setTitle("Novo Insumo");

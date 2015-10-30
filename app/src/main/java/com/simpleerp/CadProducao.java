@@ -40,7 +40,7 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_add_producao);
+        setContentView(R.layout.layout_cad_producao);
         acessViews();
         sistema = MenuPrincipal.sistema;
         buildListInsumos();

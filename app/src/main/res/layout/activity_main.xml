@@ -38,7 +38,7 @@
             android:visibility="visible" />
 
         <!-- PROFILE -->
-        <include layout="@layout/profile" />
+        <include layout="@layout/include_main_profile" />
 
         <ProgressBar
             android:id="@+id/pbContainer"

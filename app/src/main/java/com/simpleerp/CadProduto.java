@@ -37,7 +37,7 @@ public class CadProduto extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_add_produto);
+        setContentView(R.layout.layout_cad_produto);
         acessViews();
 
         sistema = MenuPrincipal.sistema;
