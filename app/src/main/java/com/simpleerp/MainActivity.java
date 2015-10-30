@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         try {
             if (!new File("/sdcard/SimpleERP").exists()) { // Verifica se o diretório existe.
                 (new File("/sdcard/SimpleERP")).mkdir();// Cria o diretório
-                (new File("/sdcard//SimpleERP/Planilhas")).mkdir();// Cria o diretório
+                (new File("/sdcard/SimpleERP/Planilhas")).mkdir();// Cria o diretório
             }
         } catch (Exception ex) {
             showMessage("Erro");
