@@ -35,7 +35,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_insumo_produto);
+        setContentView(R.layout.add_produto_producao);
         acessViews();
         sistema = MenuPrincipal.sistema;
         listTemp=new LinkedList<>();
@@ -77,7 +77,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     }
 
     public void buildListInsumos() {
-        listProduto = (ListView) findViewById(R.id.lvInsumos);
+        listProduto = (ListView) findViewById(R.id.lvProdutos);
         listProduto.setOnItemClickListener(this);
         registerForContextMenu(listProduto);
         atualizaList();

@@ -77,7 +77,7 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
                 showMessage("Não é permitido campo em branco.");
             }
             else if(etNome.getText().toString().length()<4) {
-                showMessage("O nome deve possuir no minimo quatro caracters.");
+                showMessage("O nome deve possuir no minimo quatro caracteres.");
             }else if (!rbUnidade.isChecked()&& Float.parseFloat(etQtd.getText().toString().trim())==0){
                 showMessage("A quantidade tem que ser maior que Zero.");
             }else{

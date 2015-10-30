@@ -1,12 +1,16 @@
 package com.simpleerp.Control;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Producao;
 import com.simpleerp.entidades.Produto;
 import com.simpleerp.entidades.Usuario;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -139,12 +143,14 @@ public class SimpleControl {
 
     public void addProducao(Producao producao) throws Exception{
         boolean test = false;
+        String tempNome = upCaseAllFristChar(producao.getNome());
         for(Producao pro: producaoList) {
-            if (pro.getNome().equalsIgnoreCase(producao.getNome())) {
+            if (pro.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
             }
         }
         if(test == false){
+            producao.setNome(tempNome);
             this.producaoList.add(producao);
         }
         else{
@@ -170,6 +176,9 @@ public class SimpleControl {
 
         return temp;
     }
+
+    // Insumo_Produto
+
     public void addInsumoProduto(List<Insumo> list) {
        if(tempInsumo!=null) {
            tempInsumo.addAll(list);
@@ -212,10 +221,7 @@ public class SimpleControl {
         }
     }
 
-    public List<Produto> getProdutoProducao(){
-        return this.tempProdutos;
-    }
-
+    //Produto_Produção
     public void addProdutoProducao(List<Produto> list){
         if(tempProdutos != null){
             this.tempProdutos.addAll(list);
@@ -224,10 +230,30 @@ public class SimpleControl {
             this.tempProdutos = list;
         }
     }
+    public void removeProdutoProducao(){
+        tempProdutos= null;
 
+    }
     public void removeProdutoProducao(List<Produto> list){
         for(Produto p: list){
             tempProdutos.remove(p);
+        }
+    }
+    public void removeProdutoProducao(Produto produto){
+        tempProdutos.remove(produto);
+
+    }
+    public List<Produto> getProdutoProducao(){
+
+        if(tempProdutos==null){
+            tempProdutos= new LinkedList<Produto>();
+        }
+        return tempProdutos;
+    }
+
+    public void setAllProdutos(boolean b) {
+        for(Produto p : produtoList){
+            p.setIsAddList(b);
         }
     }
 }

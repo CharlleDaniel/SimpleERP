@@ -151,6 +151,18 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="10dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/imageView13"
+                    android:src="@drawable/icon_trash"
+                    android:clickable="true"
+                    android:onClick="clearAllProdutos"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="24dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -164,7 +176,8 @@
                 android:foregroundGravity="center_vertical"
                 android:nestedScrollingEnabled="false"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:onClick="addProdutoProducao">
 
                 <ImageView
                     android:layout_width="wrap_content"

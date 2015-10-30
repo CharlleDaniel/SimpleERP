@@ -9,6 +9,7 @@ public class Producao {
     private String nome;
 
     public Producao(String nome, int id){ this.nome = nome; this.id = id; }
+    public Producao(){ this.nome = "Sem nome"; this.id = 0; }
 
     public long getId() {
         return id;
