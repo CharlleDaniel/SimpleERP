@@ -20,7 +20,9 @@ public class MinhasPlanilhas extends AppCompatActivity {
         setContentView(R.layout.layout_minhas_planilhas);
         File[] f=carregaArquivosDiretorioRaiz();
         if(f.length>0) {
-            abrirPlanilha(f[0]);
+            if(f[0]!=null){
+                abrirPlanilha(f[0]);
+            }
         }
     }
 
@@ -62,7 +64,7 @@ public class MinhasPlanilhas extends AppCompatActivity {
         File []f= new File[0];
         File [] retorno= new File[0];
         try {
-            if((new File("/sdcard//SimpleERP/Planilhas")).exists()){// Cria o diretório
+            if((new File("/sdcard/SimpleERP/Planilhas")).exists()){// Cria o diretório
                 f=(new File("/sdcard/SimpleERP/Planilhas/")).listFiles();
 
                 if(f.length>0){

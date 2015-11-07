@@ -2,6 +2,7 @@ package com.simpleerp;
 
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,13 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.entidades.Usuario;
-import java.io.File;
 
 
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
 
     // VIEWS
     private LinearLayout llContainerAll;
@@ -28,11 +32,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private TextView tvLogin;
     private Button btNext;
     private EditText edNomeEmpresa;
-    private boolean time;
+    protected String mAccountName;
 
     //Control
     protected static SimpleControl sistema;
 
+    //Drive Login
+
+    private static final int SIGN_IN_CODE = 56465;
+    private GoogleApiClient googleApiClient;
+    private ConnectionResult connectionResult;
+    protected static final String EXTRA_ACCOUNT_NAME = "account_name";
 
 
     @Override
@@ -50,43 +60,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             super.finish();
         }
 
-        login();
+
+        googleApiClient = new GoogleApiClient.Builder(MainActivity.this)
+                .addConnectionCallbacks(MainActivity.this)
+                .addOnConnectionFailedListener(MainActivity.this)
+                .addApi(Plus.API)
+                .addApi(com.google.android.gms.drive.Drive.API)
+                .addScope(com.google.android.gms.drive.Drive.SCOPE_FILE)
+                .build();
+
+
+        showUi(false,true);
+
 
     }
 
-    private void login() {
-        showUi(false, true);
-        time=false;
-        new Thread(){
-            public void run() {
-                while (time==false) {
-                    try {
-                        Thread.sleep(2000);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                               time=true;
-                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        showMessage("Conectado com Drive.");
-                        showUi(true,false);
-                    }
-                });
-
-            }
-        }.start();
-    }
 
     public void criaDiretorios(){
         try {
-            if (!new File("/sdcard/SimpleERP").exists()) { // Verifica se o diretório existe.
-                (new File("/sdcard/SimpleERP")).mkdir();// Cria o diretório
-                (new File("/sdcard/SimpleERP/Planilhas")).mkdir();// Cria o diretório
+            if (!new java.io.File("/sdcard/SimpleERP").exists()) { // Verifica se o diretório existe.
+                (new java.io.File("/sdcard/SimpleERP")).mkdir();// Cria o diretório
+                (new java.io.File("/sdcard/SimpleERP/Planilhas")).mkdir();// Cria o diretório
             }
         } catch (Exception ex) {
             showMessage("Erro");
@@ -157,4 +151,87 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        if(googleApiClient != null){
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        if(googleApiClient != null && googleApiClient.isConnected()){
+            googleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == SIGN_IN_CODE){
+
+
+            if(resultCode != RESULT_OK){
+                resolveSignIn();
+            }
+
+            if(!googleApiClient.isConnecting()){
+                googleApiClient.connect();
+            }
+        }
+    }
+
+    public void resolveSignIn(){
+        if(connectionResult != null && connectionResult.hasResolution()){
+            try {
+                 connectionResult.startResolutionForResult(MainActivity.this, SIGN_IN_CODE);
+            }
+            catch(IntentSender.SendIntentException e) {
+                googleApiClient.connect();
+            }
+        }
+    }
+
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        if(googleApiClient.isConnected()){
+            showUi(true, false);
+            mAccountName = Plus.AccountApi.getAccountName(googleApiClient);
+            showMessage("Conectado "+ mAccountName + " No Drive");
+
+
+
+        }else{
+            resolveSignIn();
+        }
+
+
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        googleApiClient.connect();
+        showUi(false, false);
+    }
+
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if(!result.hasResolution()){
+            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), MainActivity.this, 0).show();
+            return;
+        }
+        connectionResult = result;
+        resolveSignIn();
+    }
+    public GoogleApiClient getGoogleApiClient() {
+        return googleApiClient;
+    }
 }
