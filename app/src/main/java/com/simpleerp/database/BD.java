@@ -304,7 +304,6 @@ public class BD {
                 arq.write(user.getId() + ";");
                 arq.write(user.getNome() + ";");
                 arq.write(user.getEmail() + ";");
-                arq.write(user.getSenha() + ";");
                 arq.write("\n");
             }
             return true;
