@@ -1,4 +1,6 @@
 package com.simpleerp.database;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,5 +286,79 @@ public class BD {
         }
 
         return (list);
+    }
+
+    /* Os métodos arquivar"X" irão gravar os dados em arquivos txt para backup
+       Os arquivos serão guardados pelos dados separados por ";" e uma entidade por linha */
+
+    //Deveria lançar a exceção "UsuariosNaoCadastradosException"
+    public boolean arquivarUsuarios() throws IOException {
+        FileWriter arq = new FileWriter("usuarios.txt");
+        List<Usuario> usuarios = this.buscarUsuario();
+
+        if(usuarios != null){
+            for(Usuario user: usuarios){
+                arq.write(user.getId() + ";");
+                arq.write(user.getNome() + ";");
+                arq.write(user.getEmail() + ";");
+                arq.write(user.getSenha() + ";");
+                arq.write("\n");
+            }
+            return true;
+        }
+        //Lançaria a exceção aqui
+        return false;
+    }
+
+    public boolean arquivarInsumos() throws IOException {
+        FileWriter arq = new FileWriter("insumos.txt");
+        List<Insumo> insumos = this.buscarInsumos();
+
+        if(insumos != null){
+            for(Insumo ins: insumos){
+                arq.write(ins.getId() + ";");
+                arq.write(ins.getNome() + ";");
+                arq.write(ins.getTipo() + ";");
+                arq.write(ins.getCustoUnidade() + ";");
+                arq.write(ins.getQuantidade() + ";");
+                arq.write("\n");
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean arquivarProdutos() throws IOException {
+        FileWriter arq = new FileWriter("produtos.txt");
+        List<Produto> produtos = this.buscarProdutos();
+
+        if(produtos != null){
+            for(Produto pro: produtos){
+                arq.write(pro.getId() + ";");
+                arq.write(pro.getNome() + ";");
+                arq.write(pro.getPreco() + ";");
+                arq.write("\n");
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean arquivarProducoes() throws IOException {
+        FileWriter arq = new FileWriter("producoes.txt");
+        List<Producao> producoes = this.buscarProducoes();
+
+        if(producoes != null){
+            for(Producao pro: producoes){
+                arq.write(pro.getId() + ";");
+                arq.write(pro.getNome() + ";");
+                arq.write("\n");
+            }
+            return true;
+        }
+
+        return false;
     }
 }
