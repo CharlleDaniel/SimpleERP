@@ -6,7 +6,6 @@ package com.simpleerp.entidades;
 public class Usuario {
     private String nome;
     private String email;
-    private String senha;
     private String isLog;
     private long id;
     public Usuario(){
@@ -24,12 +23,6 @@ public class Usuario {
     }
     public void setEmail(String email) {
         this.email = email;
-    }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
     public long getId() {
         return id;

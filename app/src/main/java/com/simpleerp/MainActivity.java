@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             else{
                 Usuario u = new Usuario();
                 u.setNome(temp);
+                u.setEmail(mAccountName);
                 sistema.login(u);
                 Intent it = new Intent(this,MenuPrincipal.class);
                 startActivity(it);
