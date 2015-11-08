@@ -11,9 +11,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Producao;
+import com.simpleerp.entidades.Producao_Produto;
 import com.simpleerp.entidades.Produto;
+import com.simpleerp.entidades.Produto_Insumo;
 import com.simpleerp.entidades.Usuario;
 
+//TODO Alterar os nomes dos métodos para manter o padrão do nome das classes e do BD. Ex: buscarInsumoProduto mudar para buscarProdutoInsumo
+//TODO Alterar os nomes dos métodos de relações para o mesmo padrão, com relaçnao à plural e singular. Manter consistência de padrões de nomenclaturas
 public class BD {
     private SQLiteDatabase bd;
 
@@ -207,6 +211,34 @@ public class BD {
         return (list);
     }
 
+    /* Retorna a lista de Produto_Insumo armazenados no Banco de Dados
+
+       Não foi guardado o ID da tabela para o backup porque ele não tem
+       utilidade nesse sistema. Foi criado apenas porque a lógica de
+       Banco de Dados exige que toda classe tenha chave primária(ID),
+       mas ele não nos será útil, logo seria um desperdício de espaço
+       e processamento o guardar no backup.
+     */
+
+    private List<Produto_Insumo> buscarInsumoProduto() {
+        List<Produto_Insumo> list = new ArrayList<Produto_Insumo>();
+        Cursor cursor = bd.query("PRODUTO_INSUMO",null, null, null, null, null,null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+                Produto_Insumo produto_insumo = new Produto_Insumo();
+                produto_insumo.setIdProduto(cursor.getInt(1));
+                produto_insumo.setIdInsumo(cursor.getInt(2));
+                String[] colunas2 = new String[]{"_id", "Nome", "CustoUnidade", "Quantidade", "Tipo"};
+                list.add(produto_insumo);
+            } while (cursor.moveToNext());
+        }
+
+        return (list);
+    }
+
     public void inserirProducao(Producao producao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", producao.getNome());
@@ -291,6 +323,36 @@ public class BD {
         return (list);
     }
 
+    /* Retorna a lista de Producao_Produto armazenados no Banco de Dados
+
+        Não foi guardado o ID da tabela para o backup porque ele não tem
+    utilidade nesse sistema. Foi criado apenas porque a lógica de
+    Banco de Dados exige que toda classe tenha chave primária(ID),
+    mas ele não nos será útil, logo seria um desperdício de espaço
+    e processamento o guardar no backup.
+    */
+    private List<Producao_Produto> buscarProdutosProducao() {
+        List<Producao_Produto> list = new ArrayList<Producao_Produto>();
+        Cursor cursor = bd.query("PRODUCAO_PRODUTO",null, null, null, null, null,null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+                Producao_Produto producao_produto = new Producao_Produto();
+                producao_produto.setIdProducao(cursor.getInt(1));
+                producao_produto.setIdProduto(cursor.getInt(2));
+                list.add(producao_produto);
+            } while (cursor.moveToNext());
+        }
+
+        return (list);
+    }
+
+
+
+
+
     /* Os métodos arquivar"X" irão gravar os dados em arquivos txt para backup
        Os arquivos serão guardados pelos dados separados por ";" e uma entidade por linha */
 
@@ -356,6 +418,38 @@ public class BD {
             for(Producao pro: producoes){
                 arq.write(pro.getId() + ";");
                 arq.write(pro.getNome() + ";");
+                arq.write("\n");
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean arquivarInsumoProduto() throws IOException{
+        FileWriter arq = new FileWriter("produtoInsumos.txt");
+        List<Produto_Insumo> produto_insumos = this.buscarInsumoProduto();
+
+        if(produto_insumos != null){
+            for(Produto_Insumo pi: produto_insumos){
+                arq.write(pi.getIdProduto() + ";");
+                arq.write(pi.getIdInsumo() + ";");
+                arq.write("\n");
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean arquivarProdutoProducao() throws IOException{
+        FileWriter arq = new FileWriter("producaoProdutos.txt");
+        List<Producao_Produto> producao_produtos = this.buscarProdutosProducao();
+
+        if(producao_produtos != null){
+            for(Producao_Produto pp: producao_produtos){
+                arq.write(pp.getIdProducao() + ";");
+                arq.write(pp.getIdProduto() + ";");
                 arq.write("\n");
             }
             return true;

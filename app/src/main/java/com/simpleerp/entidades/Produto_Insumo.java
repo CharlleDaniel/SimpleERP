@@ -5,24 +5,24 @@ package com.simpleerp.entidades;
  */
 public class Produto_Insumo {
 
-    private float idProduto;
+    private long idProduto;
     private long idInsumo;
 
     public Produto_Insumo() {
         idProduto=0;
         idInsumo=0;
     }
-    public Produto_Insumo(float idProduto, long idInsumo) {
+    public Produto_Insumo(long idProduto, long idInsumo) {
         this.idProduto = idProduto;
         this.idInsumo = idInsumo;
 
     }
 
-    public float getIdProduto() {
+    public long getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(float idProduto) {
+    public void setIdProduto(long idProduto) {
         this.idProduto = idProduto;
     }
 
