@@ -5,13 +5,33 @@ package com.simpleerp.entidades;
  */
 public class Producao_Produto {
 
-    private long id;
+    private long idProducao;
+    private long idProduto;
 
-    public long getId() {
-        return id;
+    public Producao_Produto() {
+        this.idProducao=0;
+        this.idProduto=0;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Producao_Produto(long idProducao, long idProduto) {
+        this.idProducao = idProducao;
+        this.idProduto = idProduto;
+
+    }
+
+    public long getIdProducao() {
+        return idProducao;
+    }
+
+    public void setIdProducao(long idProducao) {
+        this.idProducao = idProducao;
+    }
+
+    public long getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(long idProduto) {
+        this.idProduto = idProduto;
     }
 }
