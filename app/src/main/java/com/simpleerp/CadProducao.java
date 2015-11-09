@@ -148,6 +148,7 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
                 produto.setIsAddList(false);
                 sistema.removeProdutoProducao(produto);
                 onResume();
+                break;
             case 2:
                 break;
             default:

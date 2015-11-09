@@ -1,9 +1,12 @@
 package com.simpleerp.fragments;
 
 
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +30,8 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
     private SimpleControl sistema;
     private PlanilhaAdapter adapter;
     private View view;
+    private static File file;
+    private ListView producoes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,17 +44,28 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_layout_producao, container, false);
         acessViews(view);
+        buildListProducoes();
         buildListPlanilhas();
         return view;
 
     }
 
+    private void buildListProducoes() {
+        producoes.setOnItemClickListener(this);
+        producoes.setVerticalScrollBarEnabled(false);
+        registerForContextMenu(producoes);
+
+
+    }
+
     public void acessViews(View view){
         planilhas=(ListView)view.findViewById(R.id.listViewPlanilhas);
+        producoes=(ListView)view.findViewById(R.id.listViewProducoes);
     }
     public void buildListPlanilhas() {
+        registerForContextMenu(planilhas);
         planilhas.setVerticalScrollBarEnabled(false);
-        planilhas.setOnItemClickListener( this);
+        planilhas.setOnItemClickListener(this);
 
         try{
             File [] files =sistema.carregaArquivosDiretorioRaiz();
@@ -80,10 +96,56 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        file = adapter.getItem(position);
         try {
-           startActivity(sistema.abrirPlanilha(adapter.getItem(position)));
+           startActivity(sistema.abrirPlanilha(file));
         }catch (Exception e ){
             showMessage("Aplicativo necessário para abrir o arquivo não encontrado.");
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
+
+        file =adapter.getItem(aInfo.position);
+
+        menu.setHeaderTitle("Opções de " + file.getName());
+        menu.add(1, 1, 1, "Excluir");
+        menu.add(2, 2, 1, "Salvar no Drive");
+        menu.add(2, 2, 1, "Remover do Drive");
+
+
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        // Implements our logic
+        switch (itemId){
+            case 1:
+                try {
+                    file.delete();
+                    MediaScannerConnection.scanFile(getContext(), new String[]{file.toString()}, null, null);
+
+
+
+                }catch (Exception e){
+                    showMessage("Não Excluido.");
+                }
+                break;
+            case 2:
+                showMessage("Arquivo"+file.getName()+" em Upload no Drive.");
+                break;
+            case 3:
+                showMessage("Arquivo"+file.getName()+" Removido do Drive.");
+                break;
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+        return true;
     }
 }
