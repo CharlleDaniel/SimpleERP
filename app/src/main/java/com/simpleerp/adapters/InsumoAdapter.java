@@ -53,7 +53,7 @@ public class InsumoAdapter extends BaseAdapter {
 
 
         TextView tvId = (TextView) layout.findViewById(R.id.textViewPreco);
-        tvId.setText(""+ insumo.getCustoUnidade());
+        tvId.setText(" R$ "+ insumo.getCustoUnidade());
 
         TextView tvQtd = (TextView) layout.findViewById(R.id.textViewQtd);
         if(!insumo.getTipo().equalsIgnoreCase("Unidade")){

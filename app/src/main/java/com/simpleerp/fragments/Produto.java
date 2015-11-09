@@ -31,7 +31,6 @@ public class Produto extends Fragment implements AdapterView.OnItemClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
@@ -39,6 +38,7 @@ public class Produto extends Fragment implements AdapterView.OnItemClickListener
         View view = inflater.inflate(R.layout.frag_layout_produto, container, false);
         this.sistema = MenuPrincipal.sistema;
         this.accessViews(view);
+        buildListProdutos();
 
         return view;
 
@@ -52,6 +52,7 @@ public class Produto extends Fragment implements AdapterView.OnItemClickListener
         this.listProdutos.setOnItemClickListener(this);
         registerForContextMenu(this.listProdutos);
         this.adapter = new ProdutoAdapter(getContext(),this.sistema.getProdutoList());
+        this.listProdutos.setAdapter(adapter);
     }
 
     @Override

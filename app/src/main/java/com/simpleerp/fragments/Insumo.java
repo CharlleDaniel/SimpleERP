@@ -39,6 +39,7 @@ public class Insumo extends Fragment implements AdapterView.OnItemClickListener 
         View view = inflater.inflate(R.layout.frag_layout_insumo, container, false);
         this.sistema = MenuPrincipal.sistema;
         this.accessViews(view);
+        buildListInsumos();
 
         return view;
 
@@ -48,10 +49,11 @@ public class Insumo extends Fragment implements AdapterView.OnItemClickListener 
         this.listInsumos = (ListView) view.findViewById(R.id.listInsumos);
     }
 
-    public void buildListProdutos(){
+    public void buildListInsumos(){
         this.listInsumos.setOnItemClickListener(this);
         registerForContextMenu(this.listInsumos);
         this.adapter = new InsumoAdapter(getContext(),this.sistema.getInsumoList());
+        this.listInsumos.setAdapter(adapter);
     }
 
     @Override

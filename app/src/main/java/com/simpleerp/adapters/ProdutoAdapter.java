@@ -52,7 +52,7 @@ public class ProdutoAdapter extends BaseAdapter {
         tvNome.setText(produto.getNome());
 
         TextView tvPreco = (TextView) layout.findViewById(R.id.textViewPreco);
-        tvPreco.setText(""+ produto.getPreco());
+        tvPreco.setText(" R$ "+ produto.getPreco());
 
         ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
         if(context.getClass().getSimpleName().equalsIgnoreCase("AddProdutoProducao")){
