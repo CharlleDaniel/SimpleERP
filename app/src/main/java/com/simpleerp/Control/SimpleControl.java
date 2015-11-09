@@ -299,4 +299,22 @@ public class SimpleControl {
         it.setDataAndType(Uri.fromFile(file), type);
        return it;
     }
+
+    //Produto
+    public void removeProduto(Produto p){
+        this.produtoList.remove(p);
+        this.bd.deletarProduto(p);
+    }
+
+    //Produto
+    public void removeInsumo(Insumo i){
+        this.insumoList.remove(i);
+        this.bd.deletarInsumo(i);
+    }
+
+    //Produção
+    public void removeProducao(Producao p){
+        this.producaoList.remove(p);
+        this.bd.deletarProducao(p);
+    }
 }

@@ -19,4 +19,6 @@
     <string name="descr_overflow_button">descr_overflow_button</string>
     <string name="texto_boasvindas">    Ola! Você já pode começar a otimizar sua empresa.  Adicione Isumos,
         Produtos e Produções clicando no botão + abaixo!!</string>
+    <string name="todos_os_produtos">Todos os Produtos</string>
+    <string name="todos_os_insumos">Todos os Insumos</string>
 </resources>
