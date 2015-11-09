@@ -231,7 +231,6 @@ public class BD {
                 Produto_Insumo produto_insumo = new Produto_Insumo();
                 produto_insumo.setIdProduto(cursor.getInt(1));
                 produto_insumo.setIdInsumo(cursor.getInt(2));
-                String[] colunas2 = new String[]{"_id", "Nome", "CustoUnidade", "Quantidade", "Tipo"};
                 list.add(produto_insumo);
             } while (cursor.moveToNext());
         }

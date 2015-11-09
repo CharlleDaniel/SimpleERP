@@ -54,7 +54,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="160dp"
                 android:elevation="5dp"
                 android:background="@drawable/toolbar_rounded_corners"
                 android:layout_below="@+id/rela1"
@@ -66,29 +66,45 @@
                 android:layout_marginBottom="10dp"
                 android:id="@+id/rela2">
 
-                <TextView
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/title_planilhas">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Minhas Planilhas"
+                        android:id="@+id/textView7"
+                        android:textSize="14dp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:id="@+id/view2"
+                        android:background="@color/colorDivider"
+                        android:layout_below="@+id/textView7"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
+
+                <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Minhas Planilhas"
-                    android:id="@+id/textView7"
-                    android:textSize="14dp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_alignParentTop="true"
+                    android:id="@+id/listViewPlanilhas"
+                    android:layout_below="@+id/title_planilhas"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="5dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:id="@+id/view2"
-                    android:background="@color/colorDivider"
-                    android:layout_below="@+id/textView7"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
             </RelativeLayout>
 
             <RelativeLayout

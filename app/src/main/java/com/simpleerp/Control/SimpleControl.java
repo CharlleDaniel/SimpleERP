@@ -265,4 +265,38 @@ public class SimpleControl {
             p.setIsAddList(b);
         }
     }
+
+
+
+    //Planilhas
+
+    public File[] carregaArquivosDiretorioRaiz() throws Exception {
+        File []f= new File[0];
+        File [] retorno= new File[0];
+        try {
+            if((new File("/sdcard/SimpleERP/Planilhas")).exists()){
+                f=(new File("/sdcard/SimpleERP/Planilhas/")).listFiles();
+
+                if(f.length>0){
+                    retorno= new File[f.length];
+                    for (int k=0; k<f.length;k++){
+                        if(f[k].getName().endsWith(".xlsx")){
+                            retorno[k]=f[k];
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+           throw new Exception("Não foi Possivel encontrar a pasta do simpleERP");
+        }
+        return retorno;
+    }
+
+    public Intent abrirPlanilha(File file){
+        String type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        Intent it = new Intent();
+        it.setAction(android.content.Intent.ACTION_VIEW);
+        it.setDataAndType(Uri.fromFile(file), type);
+       return it;
+    }
 }

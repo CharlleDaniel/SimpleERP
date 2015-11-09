@@ -8,22 +8,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.simpleerp.Control.SimpleControl;
+
 import java.io.File;
 
 /**
  * Created by CharlleNot on 30/10/2015.
  */
 public class MinhasPlanilhas extends AppCompatActivity {
+    private SimpleControl sistema;
+    private File[] files;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_minhas_planilhas);
-        File[] f=carregaArquivosDiretorioRaiz();
-        if(f.length>0) {
-            if(f[0]!=null){
-                abrirPlanilha(f[0]);
-            }
+        sistema = MenuPrincipal.sistema;
+        try{
+            files=sistema.carregaArquivosDiretorioRaiz();
+
+        }catch(Exception e){
+            showMessage(e.getMessage());
         }
+
     }
 
 
@@ -47,39 +54,8 @@ public class MinhasPlanilhas extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void abrirPlanilha(File file){
-        String type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        Intent it = new Intent();
-        it.setAction(android.content.Intent.ACTION_VIEW);
-        it.setDataAndType(Uri.fromFile(file), type);
-        try {
-            startActivity(it);
-        } catch (Exception e) {
 
-           showMessage("Aplicativo necessário para abrir o arquivo não encontrado.");
-        }
-    }
 
-    public File[] carregaArquivosDiretorioRaiz(){
-        File []f= new File[0];
-        File [] retorno= new File[0];
-        try {
-            if((new File("/sdcard/SimpleERP/Planilhas")).exists()){// Cria o diretório
-                f=(new File("/sdcard/SimpleERP/Planilhas/")).listFiles();
 
-                if(f.length>0){
-                    retorno= new File[f.length];
-                    for (int k=0; k<f.length;k++){
-                        if(f[k].getName().endsWith(".xlsx")){
-                            retorno[k]=f[k];
-                        }
-                   }
-               }
-            }
-        } catch (Exception ex) {
-           showMessage("Não foi Possivel encontrar a pasta do simpleERP");
-        }
-        return retorno;
-    }
 
 }
