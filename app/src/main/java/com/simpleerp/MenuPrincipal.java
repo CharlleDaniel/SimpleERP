@@ -40,18 +40,7 @@ public class MenuPrincipal extends AppCompatActivity {
         bar.setSubtitleTextAppearance(this, R.style.AppThemeBarSubTitle);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
-
-                setSupportActionBar(bar);
-        if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
-            Dialog d = new Dialog(this);
-            d.setContentView(R.layout.dialog_bemvindos);
-            d.setTitle("Boas Vindas");
-            d.setCancelable(true);
-            d.show();
-            rl.setVisibility(View.VISIBLE);
-
-
-        }
+        setSupportActionBar(bar);
 
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
         mViewPager.setAdapter( new TabAdapters( getSupportFragmentManager(), this ));
@@ -77,6 +66,16 @@ public class MenuPrincipal extends AppCompatActivity {
         });
         mSlidingTabLayout.setViewPager( mViewPager );
 
+        if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
+            Dialog d = new Dialog(this);
+            d.setContentView(R.layout.dialog_bemvindos);
+            d.setTitle("Boas Vindas");
+            d.setCancelable(true);
+            d.show();
+            rl.setVisibility(View.VISIBLE);
+
+
+        }
     }
 
     public void acessviews(){
@@ -121,7 +120,7 @@ public class MenuPrincipal extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_settings){
-           Intent it = new Intent(this, MinhasPlanilhas.class);
+            Intent it = new Intent(this, MinhasPlanilhas.class);
             startActivity(it);
         }
         return super.onOptionsItemSelected(item);

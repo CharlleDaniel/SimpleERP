@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.simpleerp.fragments.Insumo;
-import com.simpleerp.fragments.Producao;
-import com.simpleerp.fragments.Produto;
+import com.simpleerp.fragments.FragInsumo;
+import com.simpleerp.fragments.FragProducao;
+import com.simpleerp.fragments.FragProduto;
 
 
 /**
@@ -27,11 +27,11 @@ public class TabAdapters extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         Fragment frag= null;
         if(i==0){
-            frag= new Producao();
+            frag= new FragProducao();
         }else if (i==1){
-            frag= new Produto();
+            frag= new FragProduto();
         }else if (i==2){
-            frag= new Insumo();
+            frag= new FragInsumo();
         }
 
         Bundle b = new Bundle();
