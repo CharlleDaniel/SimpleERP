@@ -1,7 +1,6 @@
 package com.simpleerp.fragments;
 
 
-import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -54,7 +53,6 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
         producoes.setVerticalScrollBarEnabled(false);
         registerForContextMenu(producoes);
 
-
     }
 
     public void acessViews(View view){
@@ -86,6 +84,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onResume(){
         buildListPlanilhas();
