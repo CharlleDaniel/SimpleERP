@@ -301,5 +301,14 @@ public class SimpleControl {
     public void removeProduto(Produto p){
         produtoList.remove(p);
         bd.deletarProduto(p);
+
+    }
+    public void removeInsumo(Insumo i){
+        insumoList.remove(i);
+        bd.deletarInsumo(i);
+    }
+    public void removeProducao(Producao p){
+        producaoList.remove(p);
+        bd.deletarProducao(p);
     }
 }
