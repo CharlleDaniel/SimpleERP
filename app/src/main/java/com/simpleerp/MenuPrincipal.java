@@ -1,11 +1,14 @@
 package com.simpleerp;
 
 import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ public class MenuPrincipal extends AppCompatActivity {
     private int tabposition;
     private RelativeLayout rl;
     public  static  SimpleControl sistema;
+    private MenuItem searchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +44,7 @@ public class MenuPrincipal extends AppCompatActivity {
         bar.setSubtitleTextAppearance(this, R.style.AppThemeBarSubTitle);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
-
-                setSupportActionBar(bar);
-        if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
-            Dialog d = new Dialog(this);
-            d.setContentView(R.layout.dialog_bemvindos);
-            d.setTitle("Boas Vindas");
-            d.setCancelable(true);
-            d.show();
-            rl.setVisibility(View.VISIBLE);
-
-
-        }
+        setSupportActionBar(bar);
 
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
         mViewPager.setAdapter( new TabAdapters( getSupportFragmentManager(), this ));
@@ -69,6 +62,7 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 tabposition=position;
+                showSearch();
             }
 
             @Override
@@ -77,6 +71,16 @@ public class MenuPrincipal extends AppCompatActivity {
         });
         mSlidingTabLayout.setViewPager( mViewPager );
 
+        if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
+            Dialog d = new Dialog(this);
+            d.setContentView(R.layout.dialog_bemvindos);
+            d.setTitle("Boas Vindas");
+            d.setCancelable(true);
+            d.show();
+            rl.setVisibility(View.VISIBLE);
+
+
+        }
     }
 
     public void acessviews(){
@@ -111,8 +115,37 @@ public class MenuPrincipal extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
+        searchItem = menu.findItem(R.id.action_search);
+        showSearch();
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+            searchView.setOnQueryTextListener(filterText());
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+
         return true;
+    }
+
+    private SearchView.OnQueryTextListener filterText() {
+        SearchView.OnQueryTextListener oq= new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        };
+                return oq;
     }
 
 
@@ -121,7 +154,7 @@ public class MenuPrincipal extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_settings){
-           Intent it = new Intent(this, MinhasPlanilhas.class);
+            Intent it = new Intent(this, MinhasPlanilhas.class);
             startActivity(it);
         }
         return super.onOptionsItemSelected(item);
@@ -131,4 +164,16 @@ public class MenuPrincipal extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    public void showSearch(){
+        if(searchItem!=null){
+            if(tabposition==0){
+                searchItem.setVisible(false);
+            }else{
+                searchItem.setVisible(true);
+            }
+
+        }
+
+
+    }
 }

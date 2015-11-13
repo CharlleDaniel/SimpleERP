@@ -11,7 +11,6 @@ import com.simpleerp.entidades.Produto;
 import com.simpleerp.entidades.Usuario;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -299,22 +298,17 @@ public class SimpleControl {
         it.setDataAndType(Uri.fromFile(file), type);
        return it;
     }
-
-    //Produto
     public void removeProduto(Produto p){
-        this.produtoList.remove(p);
-        this.bd.deletarProduto(p);
-    }
+        produtoList.remove(p);
+        bd.deletarProduto(p);
 
-    //Produto
+    }
     public void removeInsumo(Insumo i){
-        this.insumoList.remove(i);
-        this.bd.deletarInsumo(i);
+        insumoList.remove(i);
+        bd.deletarInsumo(i);
     }
-
-    //Produção
     public void removeProducao(Producao p){
-        this.producaoList.remove(p);
-        this.bd.deletarProducao(p);
+        producaoList.remove(p);
+        bd.deletarProducao(p);
     }
 }

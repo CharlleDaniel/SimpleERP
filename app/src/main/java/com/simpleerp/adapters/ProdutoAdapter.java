@@ -69,5 +69,4 @@ public class ProdutoAdapter extends BaseAdapter {
         return layout;
     }
 
-
 }

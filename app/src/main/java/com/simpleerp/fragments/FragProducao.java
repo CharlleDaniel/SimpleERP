@@ -1,7 +1,6 @@
 package com.simpleerp.fragments;
 
 
-import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -17,7 +16,6 @@ import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.PlanilhaAdapter;
-import com.simpleerp.adapters.ProdutoAdapter;
 
 import java.io.File;
 
@@ -25,7 +23,7 @@ import java.io.File;
 /**
  * Created by CharlleNot on 09/10/2015.
  */
-public class Producao extends Fragment implements AdapterView.OnItemClickListener {
+public class FragProducao extends Fragment implements AdapterView.OnItemClickListener {
     private ListView planilhas;
     private SimpleControl sistema;
     private PlanilhaAdapter adapter;
@@ -54,7 +52,6 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
         producoes.setOnItemClickListener(this);
         producoes.setVerticalScrollBarEnabled(false);
         registerForContextMenu(producoes);
-
 
     }
 
@@ -87,6 +84,7 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onResume(){
         buildListPlanilhas();
@@ -114,9 +112,9 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
         file =adapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Opções de " + file.getName());
-        menu.add(1, 1, 1, "Excluir");
-        menu.add(2, 2, 1, "Salvar no Drive");
-        menu.add(2, 2, 1, "Remover do Drive");
+        menu.add(0, 1, 0, "Excluir");
+        menu.add(0, 2, 0, "Salvar no Drive");
+        menu.add(0, 3, 0, "Remover do Drive");
 
 
     }
@@ -128,11 +126,7 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
             case 1:
                 try {
                     file.delete();
-                    MediaScannerConnection.scanFile(getContext(), new String[]{file.toString()}, null, null);
-
-
-
-                }catch (Exception e){
+                    }catch (Exception e){
                     showMessage("Não Excluido.");
                 }
                 break;
@@ -142,10 +136,13 @@ public class Producao extends Fragment implements AdapterView.OnItemClickListene
             case 3:
                 showMessage("Arquivo"+file.getName()+" Removido do Drive.");
                 break;
+
             default:
                 return super.onContextItemSelected(item);
 
         }
         return true;
     }
+
+
 }

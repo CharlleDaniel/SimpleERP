@@ -34,9 +34,7 @@
         </activity>
         <activity
             android:name=".MenuPrincipal"
-            android:parentActivityName=".MainActivity"
-            >
-
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".CadProduto"

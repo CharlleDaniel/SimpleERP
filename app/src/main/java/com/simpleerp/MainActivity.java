@@ -1,6 +1,5 @@
 package com.simpleerp;
 
-
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
@@ -20,8 +19,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.entidades.Usuario;
-
-
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
 
@@ -60,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             super.finish();
         }
 
-
         googleApiClient = new GoogleApiClient.Builder(MainActivity.this)
                 .addConnectionCallbacks(MainActivity.this)
                 .addOnConnectionFailedListener(MainActivity.this)
@@ -69,12 +65,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 .addScope(com.google.android.gms.drive.Drive.SCOPE_FILE)
                 .build();
 
-
         showUi(false,true);
 
-
     }
-
 
     public void criaDiretorios(){
         try {
@@ -86,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             showMessage("Erro");
         }
     }
-
-
 
     // UTIL
     public void accessViews(){
@@ -121,8 +112,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
     }
 
-
-
     // LISTENERS
     @Override
     public void onClick(View v) {
@@ -152,8 +141,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-
-
     @Override
     public void onStart(){
         super.onStart();
@@ -176,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == SIGN_IN_CODE){
 
-
             if(resultCode != RESULT_OK){
                 resolveSignIn();
             }
@@ -198,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
     }
 
-
     @Override
     public void onConnected(Bundle connectionHint) {
         if(googleApiClient.isConnected()){
@@ -206,14 +191,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             mAccountName = Plus.AccountApi.getAccountName(googleApiClient);
             showMessage("Conectado "+ mAccountName + " No Drive");
 
-
-
         }else{
             resolveSignIn();
         }
-
-
-
     }
 
     @Override
@@ -221,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         googleApiClient.connect();
         showUi(false, false);
     }
-
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
