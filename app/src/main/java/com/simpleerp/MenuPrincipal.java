@@ -4,24 +4,26 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.TabAdapters;
+import com.simpleerp.entidades.Insumo;
 import com.simpleerp.extras.SlidingTabLayout;
 
 
-public class MenuPrincipal extends AppCompatActivity {
+public class MenuPrincipal extends AppCompatActivity implements View.OnClickListener, SearchView.OnCloseListener {
     private FloatingActionButton fab;
     private Toolbar bar ;
     private SlidingTabLayout mSlidingTabLayout;
@@ -30,6 +32,7 @@ public class MenuPrincipal extends AppCompatActivity {
     private RelativeLayout rl;
     public  static  SimpleControl sistema;
     private MenuItem searchItem;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,21 +118,27 @@ public class MenuPrincipal extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+
         getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
         searchItem = menu.findItem(R.id.action_search);
+
         showSearch();
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
+
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
             searchView.setOnQueryTextListener(filterText());
         }
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        }
+            searchView.setQueryHint("Pesquisar...");
+            searchView.setOnSearchClickListener(this);
+            searchView.setOnCloseListener(this);
 
+        }
         return true;
     }
 
@@ -142,6 +151,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 return false;
             }
         };
@@ -157,6 +167,17 @@ public class MenuPrincipal extends AppCompatActivity {
             Intent it = new Intent(this, MinhasPlanilhas.class);
             startActivity(it);
         }
+        if(id == android.R.id.home){
+
+            if(searchView.isActivated()){
+                onClose();
+                searchView.onActionViewCollapsed();
+            }
+
+
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -168,12 +189,52 @@ public class MenuPrincipal extends AppCompatActivity {
         if(searchItem!=null){
             if(tabposition==0){
                 searchItem.setVisible(false);
+                if(searchView!=null){
+                    if(searchView.isActivated()){
+                        showToolbar();
+                    }
+                }
             }else{
                 searchItem.setVisible(true);
+                if(searchView!=null){
+                    if(searchView.isActivated()){
+                        hideToolbar();
+                    }
+                }
             }
-
         }
+    }
+
+
+
+    private void hideToolbar() {
+        mSlidingTabLayout.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        fab.setVisibility(View.GONE);
+
 
 
     }
+
+    private void showToolbar() {
+        mSlidingTabLayout.setVisibility(View.VISIBLE);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        fab.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        searchView.setActivated(true);
+        hideToolbar();
+    }
+
+    @Override
+    public boolean onClose() {
+        searchView.setActivated(false);
+        showToolbar();
+        return false;
+    }
+
+
 }
