@@ -8,7 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.simpleerp.Control.SimpleControl;
+import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
+import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Produto;
 
 import java.util.List;
@@ -20,10 +23,11 @@ import java.util.List;
 public class ProdutoAdapter extends BaseAdapter {
     private List<Produto> lProduto;
     private Context context;
-
+    private SimpleControl sistema;
     public ProdutoAdapter(Context context, List<Produto> lProduto){
         this.context = context;
        this.lProduto=lProduto;
+        sistema= MenuPrincipal.sistema;
     }
 
     @Override
@@ -53,7 +57,27 @@ public class ProdutoAdapter extends BaseAdapter {
 
         TextView tvPreco = (TextView) layout.findViewById(R.id.textViewPreco);
         tvPreco.setText(" R$ "+ produto.getPreco());
+        try {
+            List<Insumo> list=sistema.getInsumoProduto(produto);
+            TextView tvQtd = (TextView) layout.findViewById(R.id.textViewQtdInsumo);
 
+            TextView tvCust = (TextView) layout.findViewById(R.id.textViewCusto);
+            if(list.size()>0){
+                tvQtd.setText(""+list.size());
+                float custo=0;
+                for(Insumo i : list){
+                    custo=custo+i.getCustoUnidade();
+                }
+                tvCust.setText(""+custo);
+
+            }else{
+                tvCust.setText("0");
+                tvQtd.setText("0");
+            }
+
+        } catch (Exception e){
+
+        }
         ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
         if(context.getClass().getSimpleName().equalsIgnoreCase("AddProdutoProducao")){
             addMarca.setVisibility(View.VISIBLE);
