@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -19,18 +18,17 @@ import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.TabAdapters;
-import com.simpleerp.entidades.Insumo;
 import com.simpleerp.extras.SlidingTabLayout;
 
 
 public class MenuPrincipal extends AppCompatActivity implements View.OnClickListener, SearchView.OnCloseListener {
     private FloatingActionButton fab;
-    private Toolbar bar ;
+    private Toolbar bar;
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
     private int tabposition;
     private RelativeLayout rl;
-    public  static  SimpleControl sistema;
+    public static SimpleControl sistema;
     private MenuItem searchItem;
     private SearchView searchView;
 
@@ -38,7 +36,7 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_menu_principal);
-        sistema= new SimpleControl(this);
+        sistema = new SimpleControl(this);
         acessviews();
 
         bar.setTitle("SimpleERP");
@@ -50,7 +48,7 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
         setSupportActionBar(bar);
 
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
-        mViewPager.setAdapter( new TabAdapters( getSupportFragmentManager(), this ));
+        mViewPager.setAdapter(new TabAdapters(getSupportFragmentManager(), this));
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
         mSlidingTabLayout.setDistributeEvenly(true);
@@ -62,19 +60,25 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
-                tabposition=position;
+                tabposition = position;
                 showSearch();
+                if(searchView!=null){
+                    if(searchView.isActivated()){
+                        onClose();
+                    }
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-        mSlidingTabLayout.setViewPager( mViewPager );
+        mSlidingTabLayout.setViewPager(mViewPager);
 
-        if(sistema.getInsumoList().size()<1 && sistema.getProducaoList().size()<1 && sistema.getProdutoList().size()<1){
+        if (sistema.getInsumoList().size() < 1 && sistema.getProducaoList().size() < 1 && sistema.getProdutoList().size() < 1) {
             Dialog d = new Dialog(this);
             d.setContentView(R.layout.dialog_bemvindos);
             d.setTitle("Boas Vindas");
@@ -86,27 +90,27 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void acessviews(){
-        bar=(Toolbar) findViewById(R.id.bar);
-        fab= (FloatingActionButton)findViewById(R.id.fab);
-        rl=(RelativeLayout)findViewById(R.id.rl_indica);
+    public void acessviews() {
+        bar = (Toolbar) findViewById(R.id.bar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        rl = (RelativeLayout) findViewById(R.id.rl_indica);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rl.setVisibility(View.GONE);
-                if(mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Produção")){
-                    Intent it = new Intent(MenuPrincipal.this,CadProducao.class);
+                if (mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Produção")) {
+                    Intent it = new Intent(MenuPrincipal.this, CadProducao.class);
                     startActivity(it);
 
                 }
-                if(mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Produtos")){
-                    Intent it = new Intent(MenuPrincipal.this,CadProduto.class);
+                if (mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Produtos")) {
+                    Intent it = new Intent(MenuPrincipal.this, CadProduto.class);
                     startActivity(it);
 
                 }
-                if(mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Insumos")){
-                    Intent it = new Intent(MenuPrincipal.this,CadInsumo.class);
+                if (mViewPager.getAdapter().getPageTitle(tabposition).toString().equalsIgnoreCase("Insumos")) {
+                    Intent it = new Intent(MenuPrincipal.this, CadInsumo.class);
                     startActivity(it);
 
                 }
@@ -137,13 +141,12 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
             searchView.setQueryHint("Pesquisar...");
             searchView.setOnSearchClickListener(this);
             searchView.setOnCloseListener(this);
-
         }
         return true;
     }
 
     private SearchView.OnQueryTextListener filterText() {
-        SearchView.OnQueryTextListener oq= new SearchView.OnQueryTextListener() {
+        SearchView.OnQueryTextListener oq = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -155,7 +158,7 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
                 return false;
             }
         };
-                return oq;
+        return oq;
     }
 
 
@@ -163,16 +166,12 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent it = new Intent(this, MinhasPlanilhas.class);
             startActivity(it);
         }
-        if(id == android.R.id.home){
-
-            if(searchView.isActivated()){
-                onClose();
-                searchView.onActionViewCollapsed();
-            }
+        if (id == android.R.id.home) {
+            this.onClose();
 
 
         }
@@ -185,32 +184,21 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void showSearch(){
-        if(searchItem!=null){
-            if(tabposition==0){
+    public void showSearch() {
+        if (searchItem != null) {
+            if (tabposition == 0) {
                 searchItem.setVisible(false);
-                if(searchView!=null){
-                    if(searchView.isActivated()){
-                        showToolbar();
-                    }
-                }
-            }else{
+
+            } else {
                 searchItem.setVisible(true);
-                if(searchView!=null){
-                    if(searchView.isActivated()){
-                        hideToolbar();
-                    }
-                }
             }
         }
     }
 
 
-
     private void hideToolbar() {
         mSlidingTabLayout.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fab.setVisibility(View.GONE);
 
 
 
@@ -219,22 +207,37 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
     private void showToolbar() {
         mSlidingTabLayout.setVisibility(View.VISIBLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        fab.setVisibility(View.VISIBLE);
+
 
     }
 
     @Override
     public void onClick(View v) {
+        searchView.onActionViewExpanded();
         searchView.setActivated(true);
         hideToolbar();
     }
 
     @Override
     public boolean onClose() {
+        searchView.onActionViewCollapsed();
         searchView.setActivated(false);
         showToolbar();
-        return false;
+
+        return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if(searchView!=null){
+            if(searchView.isActivated()==true){
+               onClose();
+            }else{
+                super.onBackPressed();
+            }
+        }else{
+            super.onBackPressed();
+        }
 
+    }
 }
