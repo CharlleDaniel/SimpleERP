@@ -1,6 +1,7 @@
 package com.simpleerp.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.PlanilhaAdapter;
+import com.simpleerp.adapters.ProducaoAdapter;
 
 import java.io.File;
 
@@ -30,6 +33,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     private View view;
     private static File file;
     private ListView producoes;
+    private ProducaoAdapter adapaterProducao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +53,11 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     }
 
     private void buildListProducoes() {
+        registerForContextMenu(producoes);
         producoes.setOnItemClickListener(this);
         producoes.setVerticalScrollBarEnabled(false);
-        registerForContextMenu(producoes);
-
+        adapaterProducao= new ProducaoAdapter(getContext(),sistema.getProducaoList());
+        producoes.setAdapter(adapaterProducao);
     }
 
     public void acessViews(View view){
@@ -76,11 +81,9 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
         }catch (Exception e){
             showMessage(e.getMessage());
         }
-
-
-
-
     }
+
+
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
@@ -88,6 +91,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onResume(){
         buildListPlanilhas();
+        buildListProducoes();
         super.onResume();
     }
 
@@ -143,6 +147,5 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
         }
         return true;
     }
-
 
 }

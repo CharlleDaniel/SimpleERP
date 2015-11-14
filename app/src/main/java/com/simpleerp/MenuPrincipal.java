@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -65,11 +66,7 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
             public void onPageSelected(int position) {
                 tabposition = position;
                 showSearch();
-                if(searchView!=null){
-                    if(searchView.isActivated()){
-                        onClose();
-                    }
-                }
+
             }
 
             @Override
@@ -149,12 +146,12 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
         SearchView.OnQueryTextListener oq = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                showMessage(query);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                showMessage(newText);
                 return false;
             }
         };
@@ -188,16 +185,37 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
         if (searchItem != null) {
             if (tabposition == 0) {
                 searchItem.setVisible(false);
-
+                if(searchView!=null){
+                    if(searchView.isActivated()){
+                        showToolbar();
+                        hideKey();
+                    }
+                }
             } else {
                 searchItem.setVisible(true);
+                if(searchView!=null){
+                    if(searchView.isActivated()){
+                        hideToolbar();
+                    }
+                }
             }
         }
     }
 
+    private void hideKey(){
+        View view = this.searchView;
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        View view2= this.getCurrentFocus();
+        if (view2 != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view2.getWindowToken(), 0);
+        }
 
+    }
     private void hideToolbar() {
-        mSlidingTabLayout.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -205,7 +223,6 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
     }
 
     private void showToolbar() {
-        mSlidingTabLayout.setVisibility(View.VISIBLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
