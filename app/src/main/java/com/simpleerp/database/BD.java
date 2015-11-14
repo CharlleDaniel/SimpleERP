@@ -1,8 +1,12 @@
 package com.simpleerp.database;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -425,7 +429,7 @@ public class BD {
         return false;
     }
 
-    public boolean arquivarInsumoProduto() throws IOException{
+    public boolean arquivarInsumoProdutos() throws IOException{
         FileWriter arq = new FileWriter("produtoInsumos.txt");
         List<Produto_Insumo> produto_insumos = this.buscarInsumoProduto();
 
@@ -441,7 +445,7 @@ public class BD {
         return false;
     }
 
-    public boolean arquivarProdutoProducao() throws IOException{
+    public boolean arquivarProdutoProducoes() throws IOException{
         FileWriter arq = new FileWriter("producaoProdutos.txt");
         List<Producao_Produto> producao_produtos = this.buscarProdutosProducao();
 
@@ -455,5 +459,169 @@ public class BD {
         }
 
         return false;
+    }
+
+    //Separa as informações do string por ";"
+    public List<String> tokenizer(String s){
+        List<String> retorno = new ArrayList<String>();
+        StringTokenizer tokenizer = new StringTokenizer(s,";");
+
+        while(tokenizer.hasMoreTokens()){
+            retorno.add(tokenizer.nextToken());
+        }
+
+        return retorno;
+    }
+
+    public BufferedReader carregarArquivo(String path) throws FileNotFoundException {
+        FileReader arq = new FileReader(path);
+        BufferedReader lerArq = new BufferedReader(arq);
+        return lerArq;
+    }
+
+
+    public boolean carregarUsuarios() throws IOException {
+        String path = "usuarios.txt";
+        BufferedReader lerArq = this.carregarArquivo(path);
+
+        String dados = lerArq.readLine();
+
+        boolean flag = false; //Se for true, os usuários foram adicionados
+        while(dados != null){
+            List<String> dadosUsuario = this.tokenizer(dados);
+
+            Usuario usuario = new Usuario();
+            usuario.setId(Long.parseLong(dadosUsuario.get(0)));
+            usuario.setNome(dadosUsuario.get(1));
+            usuario.setEmail(dadosUsuario.get(2));
+            this.inserirUsuario(usuario);
+
+            flag = true;
+
+            dados = lerArq.readLine();
+        }
+
+        return flag;
+    }
+
+    public boolean carregarInsumos() throws IOException {
+        String path = "insumos.txt";
+        BufferedReader lerArq = this.carregarArquivo(path);
+
+        String dados = lerArq.readLine();
+
+        boolean flag = false; //Se for true, os insumos foram adicionados
+        while(dados != null){
+            List<String> dadosInsumo = this.tokenizer(dados);
+
+            Insumo insumo = new Insumo();
+            insumo.setId(Long.parseLong(dadosInsumo.get(0)));
+            insumo.setNome(dadosInsumo.get(1));
+            insumo.setTipo(dadosInsumo.get(2));
+            insumo.setCustoUnidade(Float.parseFloat(dadosInsumo.get(3)));
+            insumo.setQuantidade(Float.parseFloat(dadosInsumo.get(4)));
+            this.inserirInsumo(insumo);
+
+            flag = true;
+
+            dados = lerArq.readLine();
+        }
+
+        return flag;
+    }
+
+    public boolean carregarProdutos() throws IOException {
+        String path = "produtos.txt";
+        BufferedReader lerArq = this.carregarArquivo(path);
+
+        String dados = lerArq.readLine();
+
+        boolean flag = false; //Se for true, os insumos foram adicionados
+        while(dados != null){
+            List<String> dadosProduto = this.tokenizer(dados);
+
+            Produto produto = new Produto();
+            produto.setId(Long.parseLong(dadosProduto.get(0)));
+            produto.setNome(dadosProduto.get(1));
+            produto.setPreco(Float.parseFloat(dadosProduto.get(2)));
+            this.inserirProduto(produto);
+
+            flag = true;
+
+            dados = lerArq.readLine();
+        }
+
+        return flag;
+    }
+
+    public boolean carregarProducoes() throws IOException {
+        String path = "producoes.txt";
+        BufferedReader lerArq = this.carregarArquivo(path);
+
+        String dados = lerArq.readLine();
+
+        boolean flag = false; //Se for true, os insumos foram adicionados
+        while(dados != null){
+            List<String> dadosProducao = this.tokenizer(dados);
+
+            Producao producao = new Producao();
+            producao.setId(Long.parseLong(dadosProducao.get(0)));
+            producao.setNome(dadosProducao.get(1));
+            this.inserirProducao(producao);
+
+            flag = true;
+
+            dados = lerArq.readLine();
+        }
+
+        return flag;
+    }
+
+    //TODO Implementar o método inserirInsumoProduto(Produto_Insumo produto_insumo)
+    public boolean carregarInsumoProdutos() throws IOException {
+        String path = "produtoInsumos.txt";
+        BufferedReader lerArq = this.carregarArquivo(path);
+
+        String dados = lerArq.readLine();
+
+        boolean flag = false; //Se for true, os insumos foram adicionados
+        while(dados != null){
+            List<String> dadosInsumoProdutos = this.tokenizer(dados);
+
+            Produto_Insumo produto_insumo = new Produto_Insumo();
+            produto_insumo.setIdProduto(Long.parseLong(dadosInsumoProdutos.get(0)));
+            produto_insumo.setIdInsumo(Long.parseLong(dadosInsumoProdutos.get(1)));
+            this.inserirInsumoProduto(produto_insumo);
+
+            flag = true;
+
+            dados = lerArq.readLine();
+        }
+
+        return flag;
+    }
+
+    //TODO Implementar o método inserirProdutoProducao(Producao_Produto producao_produto)
+    public boolean carregarProdutoProducoes() throws IOException {
+        String path = "producaoProdutos.txt";
+        BufferedReader lerArq = this.carregarArquivo(path);
+
+        String dados = lerArq.readLine();
+
+        boolean flag = false; //Se for true, os insumos foram adicionados
+        while(dados != null){
+            List<String> dadosProdutoProducoes = this.tokenizer(dados);
+
+            Producao_Produto producao_produto = new Producao_Produto();
+            producao_produto.setIdProducao(Long.parseLong(dadosProdutoProducoes.get(0)));
+            producao_produto.setIdProduto(Long.parseLong(dadosProdutoProducoes.get(1)));
+            this.inserirProdutoProducao(producao_produto);
+
+            flag = true;
+
+            dados = lerArq.readLine();
+        }
+
+        return flag;
     }
 }
