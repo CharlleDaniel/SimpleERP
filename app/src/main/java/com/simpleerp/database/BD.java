@@ -591,7 +591,7 @@ public class BD {
             Produto_Insumo produto_insumo = new Produto_Insumo();
             produto_insumo.setIdProduto(Long.parseLong(dadosInsumoProdutos.get(0)));
             produto_insumo.setIdInsumo(Long.parseLong(dadosInsumoProdutos.get(1)));
-            this.inserirInsumoProduto(produto_insumo);
+            //this.inserirInsumoProduto(produto_insumo);
 
             flag = true;
 
@@ -615,7 +615,7 @@ public class BD {
             Producao_Produto producao_produto = new Producao_Produto();
             producao_produto.setIdProducao(Long.parseLong(dadosProdutoProducoes.get(0)));
             producao_produto.setIdProduto(Long.parseLong(dadosProdutoProducoes.get(1)));
-            this.inserirProdutoProducao(producao_produto);
+            //this.inserirProdutoProducao(producao_produto);
 
             flag = true;
 
