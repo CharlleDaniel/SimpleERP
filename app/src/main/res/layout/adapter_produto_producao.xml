@@ -79,7 +79,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="150dp"
-            android:src="@drawable/cifrao_red" />
+            android:src="@drawable/cifrao" />
 
         <TextView
             android:layout_width="wrap_content"
