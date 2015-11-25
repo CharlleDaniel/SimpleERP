@@ -99,6 +99,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         file = adapter.getItem(position);
+        showMessage(parent.getAdapter().toString());
         try {
            startActivity(sistema.abrirPlanilha(file));
         }catch (Exception e ){

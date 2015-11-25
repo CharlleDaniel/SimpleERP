@@ -82,7 +82,7 @@ public class SimpleControl {
 
     public void addInsumo(Insumo insumo) throws Exception {
         boolean test= false;
-        String tempNome=upCaseAllFristChar(insumo.getNome());
+        String tempNome=upCaseAllFirstChar(insumo.getNome());
         for (Insumo i : insumoList){
             if(i.getNome().equalsIgnoreCase(tempNome)){
                 test=true;
@@ -110,7 +110,7 @@ public class SimpleControl {
 
     public void addProduto(Produto produto) throws Exception{
         boolean test = false;
-        String tempNome = upCaseAllFristChar(produto.getNome());
+        String tempNome = upCaseAllFirstChar(produto.getNome());
         for(Produto p: produtoList) {
             if (p.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
@@ -142,7 +142,7 @@ public class SimpleControl {
 
     public void addProducao(Producao producao) throws Exception{
         boolean test = false;
-        String tempNome = upCaseAllFristChar(producao.getNome());
+        String tempNome = upCaseAllFirstChar(producao.getNome());
         for(Producao pro: producaoList) {
             if (pro.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
@@ -170,7 +170,7 @@ public class SimpleControl {
             i.setIsAddList(bool);
         }
     }
-    public String upCaseAllFristChar(String txt){
+    public String upCaseAllFirstChar(String txt){
         String temp="";
         Pattern p = Pattern.compile("[a-zA-Zà-úÀ-Ú]+");
         Matcher m = p.matcher(txt);
