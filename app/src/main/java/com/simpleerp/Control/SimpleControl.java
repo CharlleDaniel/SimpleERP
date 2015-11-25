@@ -194,6 +194,7 @@ public class SimpleControl {
            tempInsumo=list;
        }
 
+
     }
     public void removeInsumoProduto(){
         tempInsumo= null;
