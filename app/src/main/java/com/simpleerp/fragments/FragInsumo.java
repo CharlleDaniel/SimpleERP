@@ -1,6 +1,7 @@
 package com.simpleerp.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -16,6 +17,7 @@ import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.InsumoAdapter;
+import com.simpleerp.classesSecundarias.EditaInsumo;
 import com.simpleerp.entidades.Insumo;
 
 
@@ -26,7 +28,7 @@ public class FragInsumo extends Fragment implements AdapterView.OnItemClickListe
     private ListView listInsumos;
     private InsumoAdapter adapter;
     private SimpleControl sistema;
-    private static Insumo insumo;
+    public static Insumo insumo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class FragInsumo extends Fragment implements AdapterView.OnItemClickListe
 
         menu.setHeaderTitle("Opções de " + insumo.getNome());
         menu.add(0, 24, 0, "Excluir");
+        menu.add(0, 25, 0, "Editar");
 
     }
 
@@ -96,7 +99,16 @@ public class FragInsumo extends Fragment implements AdapterView.OnItemClickListe
                     showMessage("Não Excluido.");
                 }
                 break;
+            case 25 :
+                try{
+                    Intent intent = new Intent(getActivity(),EditaInsumo.class);
+                    startActivity(intent);
+                }catch (Exception e){
+                    showMessage("Erro ");
+                }
 
+
+                break;
             default:
                 return super.onContextItemSelected(item);
 

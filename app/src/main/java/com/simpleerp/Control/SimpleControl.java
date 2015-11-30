@@ -312,4 +312,11 @@ public class SimpleControl {
         producaoList.remove(p);
         bd.deletarProducao(p);
     }
+    public void alteraInsumo(Insumo i)throws Exception{
+        try{
+            bd.atualizarInsumo(i);
+        }catch (Exception e){
+            throw new Exception("Não foi possível salvar suas alterações.");
+        }
+    }
 }
