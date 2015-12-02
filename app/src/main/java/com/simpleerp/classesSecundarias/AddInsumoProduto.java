@@ -56,6 +56,7 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         bar= (Toolbar)findViewById(R.id.bar);
 
     }
+
     public void atualizaList(){
         List<Insumo>insumos=sistema.getInsumoProduto();
         boolean teste =false;
@@ -99,7 +100,11 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         if(id == R.id.salvar){
             showMessage("Salvo");
             sistema.addInsumoProduto(listTemp);
-            sistema.removeInsumoProduto(listRemove);
+            try {
+                sistema.removeInsumoProduto(listRemove);
+            } catch (Exception e) {
+                showMessage("Insumo não removido do produto.");
+            }
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -161,7 +166,6 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         }
 
     }
-
 
     @Override
     protected void onStop() {

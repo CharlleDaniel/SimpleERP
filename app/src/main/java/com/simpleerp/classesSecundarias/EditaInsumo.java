@@ -38,7 +38,7 @@ public class EditaInsumo extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_edit_insumo);
         acessViews();
-        insumo= FragInsumo.insumo;
+        insumo = FragInsumo.insumo;
 
         etNome.setText(insumo.getNome());
         etPreco.setText(""+insumo.getCustoUnidade());

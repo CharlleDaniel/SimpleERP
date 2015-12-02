@@ -60,8 +60,6 @@ public class SimpleControl {
                 }
             }
         }
-
-
     }
 
     public Usuario getUsuarioLogado(){
@@ -208,7 +206,7 @@ public class SimpleControl {
     }
     public List<Insumo> getInsumoProduto(Produto p) throws Exception {
         try{
-            List<Insumo> listTemp=bd.buscarInsumoProduto(p);
+            List<Insumo> listTemp = bd.buscarInsumoProduto(p);
             if(listTemp==null){
                 listTemp= new LinkedList<Insumo>();
             }
@@ -216,14 +214,17 @@ public class SimpleControl {
         }catch (Exception e){
             throw new Exception("Erro");
         }
-
-
-
     }
+
     public void removeInsumoProduto(Insumo insumo){
         tempInsumo.remove(insumo);
 
     }
+
+    /*public void removeInsumoProduto(Produto produto, Insumo insumo){
+        bd.deletarInsumoProduto(produto, insumo);
+    }*/
+
     public void removeInsumoProduto(List <Insumo> insumo){
         for(Insumo i : insumo){
             tempInsumo.remove(i);
@@ -316,6 +317,14 @@ public class SimpleControl {
         try{
             bd.atualizarInsumo(i);
         }catch (Exception e){
+            throw new Exception("Não foi possível salvar suas alterações.");
+        }
+    }
+
+    public void alteraProduto(Produto p) throws Exception{
+        try{
+            bd.atualizarProduto(p);
+        }catch(Exception e){
             throw new Exception("Não foi possível salvar suas alterações.");
         }
     }
