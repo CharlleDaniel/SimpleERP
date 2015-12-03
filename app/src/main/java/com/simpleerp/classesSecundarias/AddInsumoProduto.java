@@ -132,10 +132,16 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         if(insumo.isAddList()==false){
             insumo.setIsAddList(true);
             listTemp.add(insumo);
+            listRemove.remove(insumo);
+            showMessage("Adicionou "+insumo.getNome()+" ao produto.");
+
+
         }else{
             insumo.setIsAddList(false);
-            listTemp.remove(insumo);
             listRemove.add(insumo);
+            listTemp.remove(insumo);
+            showMessage("Removeu "+insumo.getNome()+" do produto.");
+
         }
         buildListInsumos();
     }

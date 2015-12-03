@@ -199,7 +199,19 @@ public class SimpleControl {
 
     public void addInsumoProdutoTemp(List<Insumo> list) {
         if(tempInsumo!=null) {
-            tempInsumo.addAll(list);
+            for(Insumo i : list){
+                boolean teste = false;
+                for(Insumo in :tempInsumo){
+                    if(i.getId() == in .getId()){
+                        teste = true;
+                        break;
+                    }
+                }
+                if(teste== false){
+                    tempInsumo.add(i);
+                }
+            }
+
         }else{
             tempInsumo=list;
         }
