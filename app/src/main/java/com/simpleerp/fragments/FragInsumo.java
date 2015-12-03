@@ -25,7 +25,6 @@ import com.simpleerp.entidades.Insumo;
  * Created by CharlleNot on 09/10/2015.
  */
 public class FragInsumo extends Fragment implements AdapterView.OnItemClickListener {
-
     private ListView listInsumos;
     private InsumoAdapter adapter;
     private SimpleControl sistema;
@@ -47,7 +46,6 @@ public class FragInsumo extends Fragment implements AdapterView.OnItemClickListe
         buildListInsumos();
 
         return view;
-
     }
 
     public void accessViews(View view){
@@ -73,11 +71,12 @@ public class FragInsumo extends Fragment implements AdapterView.OnItemClickListe
         super.onCreateContextMenu(menu, view, menuInfo);
         AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-        insumo = adapter.getItem(aInfo.position);
+        insumo =adapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Opções de " + insumo.getNome());
         menu.add(0, 24, 0, "Excluir");
         menu.add(0, 25, 0, "Editar");
+
     }
 
     public void showMessage(String message) {

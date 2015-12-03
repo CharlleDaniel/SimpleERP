@@ -109,7 +109,7 @@ public class CadProducao extends AppCompatActivity implements AdapterView.OnItem
         produto=adapter.getItem(position);
 
        try{
-           List <Insumo> list=sistema.getInsumoProduto(produto);
+           List <Insumo> list=sistema.getInsumosProduto(produto);
            for(Insumo l:list){
                showMessage(""+l.getNome());
            }

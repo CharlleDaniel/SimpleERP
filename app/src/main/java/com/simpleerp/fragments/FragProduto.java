@@ -31,7 +31,6 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
     private SimpleControl sistema;
     public static Produto produto;
     private View view;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +41,13 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_layout_produto, container, false);
 
+
         buildListProdutos();
 
         return view;
+
     }
+
 
     public void buildListProdutos(){
         listProdutos = (ListView) view.findViewById(R.id.listProdutosFrag);
@@ -58,6 +60,7 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         produto = adapter.getItem(position);
+
     }
 
     @Override
@@ -67,12 +70,13 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
         super.onCreateContextMenu(menu, view, menuInfo);
         AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-        produto = adapter.getItem(aInfo.position);
+        produto =adapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Opções de " + produto.getNome());
         menu.add(0, 14, 0, "Excluir");
         menu.add(0, 15, 0, "Editar");
     }
+
 
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
@@ -93,16 +97,12 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
                 }
                 break;
             case 15:
-                try{
-                    Intent intent = new Intent(this.getActivity(), EditaProduto.class);
-                    startActivity(intent);
-                }catch(Exception e){
-                    showMessage("Não editado.");
-                }
+                Intent it = new Intent(getActivity(), EditaProduto.class);
+                startActivity(it);
                 break;
+
             default:
                 return super.onContextItemSelected(item);
-
         }
         return true;
     }

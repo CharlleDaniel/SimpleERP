@@ -1,6 +1,7 @@
 package com.simpleerp.classesSecundarias;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -57,31 +58,11 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
     }
 
-    public void atualizaList(){
-        List<Insumo>insumos=sistema.getInsumoProduto();
-        boolean teste =false;
-        if(insumos.size()>0){
-            for(Insumo i : insumos){
-                for(Insumo remove : listRemove){
-                    if(remove.getId()==i.getId()){
-                        teste=true;
-                    }
-                }
-                if(teste==false){
-                    i.setIsAddList(true);
-
-                }else{
-                    teste=false;
-                }
-            }
-        }
-    }
 
     public void buildListInsumos() {
         listInsumo = (ListView) findViewById(R.id.lvInsumos);
         listInsumo.setOnItemClickListener(this);
         registerForContextMenu(listInsumo);
-        atualizaList();
         adapter = new InsumoAdapter(this, sistema.getInsumoList());
         listInsumo.setAdapter(adapter);
 
@@ -99,13 +80,12 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
         if(id == R.id.salvar){
             showMessage("Salvo");
-            sistema.addInsumoProduto(listTemp);
-            try {
-                sistema.removeInsumoProduto(listRemove);
-            } catch (Exception e) {
-                showMessage("Insumo não removido do produto.");
-            }
+            sistema.addInsumoProdutoTemp(listTemp);
+            sistema.removeInsumoProdutoTemp(listRemove);
             finish();
+        }if(id==android.R.id.home){
+            onBackPressed();
+            return  true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -124,13 +104,9 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         insumo =adapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Opções de " + insumo.getNome());
-       if(insumo.isAddList()){
-           menu.add(1, 1, 1, "Remover do Produto");
-           menu.add(2, 2, 1, "Editar");
-       }else{
-           menu.add(1, 2, 1, "Editar");
-       }
-
+        if(insumo.isAddList()){
+            menu.add(0, 1, 0, "Editar");
+        }
 
     }
     @Override
@@ -138,13 +114,8 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         int itemId = item.getItemId();
         // Implements our logic
         switch (itemId){
+
             case 1:
-                listTemp.remove(insumo);
-                buildListInsumos();
-                insumo.setIsAddList(false);
-                listRemove.add(insumo);
-                break;
-            case 2:
                 showMessage("Editar");
                 break;
             default:
@@ -159,19 +130,28 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         insumo=adapter.getItem(position);
 
         if(insumo.isAddList()==false){
-
             insumo.setIsAddList(true);
             listTemp.add(insumo);
-            buildListInsumos();
+        }else{
+            insumo.setIsAddList(false);
+            listTemp.remove(insumo);
+            listRemove.add(insumo);
         }
-
+        buildListInsumos();
     }
 
+    public void verificaAlteracoes(){
+        if(listTemp.size()>0){
+            sistema.setAllInsumos(false,listTemp);
+        }
+        if(listRemove.size()>0){
+            sistema.setAllInsumos(true,listRemove);
+        }
+    }
     @Override
-    protected void onStop() {
-        for(Insumo i : listTemp){
-            i.setIsAddList(false);
-        }
-        super.onStop();
+    public void onBackPressed() {
+        verificaAlteracoes();
+        super.onBackPressed();
     }
+
 }

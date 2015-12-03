@@ -38,7 +38,7 @@ public class EditaInsumo extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_edit_insumo);
         acessViews();
-        insumo = FragInsumo.insumo;
+        insumo= FragInsumo.insumo;
 
         etNome.setText(insumo.getNome());
         etPreco.setText(""+insumo.getCustoUnidade());
@@ -61,7 +61,7 @@ public class EditaInsumo extends AppCompatActivity implements View.OnClickListen
             etQtd.setVisibility(View.VISIBLE);
         }
 
-        bar.setTitle("Editar "+insumo.getNome());
+        bar.setTitle("Editar Insumo");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(bar);
@@ -191,9 +191,9 @@ public class EditaInsumo extends AppCompatActivity implements View.OnClickListen
                         runOnUiThread(new Runnable() {
                             public void run() {
 
-                               if(rbUnidade.isChecked()==false){
-                                   etPreco.setVisibility(View.GONE);
-                               }
+                                if(rbUnidade.isChecked()==false){
+                                    etPreco.setVisibility(View.GONE);
+                                }
                                 etPreco.setText("");
                             }
                         });

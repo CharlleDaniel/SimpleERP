@@ -159,9 +159,9 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
                         runOnUiThread(new Runnable() {
                             public void run() {
 
-                               if(rbUnidade.isChecked()==false){
-                                   etPreco.setVisibility(View.GONE);
-                               }
+                                if(rbUnidade.isChecked()==false){
+                                    etPreco.setVisibility(View.GONE);
+                                }
                                 etPreco.setText("");
                             }
                         });

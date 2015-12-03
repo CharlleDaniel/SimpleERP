@@ -60,6 +60,8 @@ public class SimpleControl {
                 }
             }
         }
+
+
     }
 
     public Usuario getUsuarioLogado(){
@@ -154,7 +156,7 @@ public class SimpleControl {
                 if (p.getNome().equalsIgnoreCase(producao.getNome())) {
                     this.producaoList.add(p);
                     for(Produto t: tempProdutos){
-                        bd.inserirProdutoProducao(p,t);
+                        bd.inserirProdutoProducao(p, t);
                     }
                 }
             }
@@ -166,6 +168,16 @@ public class SimpleControl {
     public void setAllInsumos(boolean bool){
         for(Insumo i: insumoList){
             i.setIsAddList(bool);
+        }
+    }
+    public void setAllInsumos(boolean bool, List<Insumo>list){
+        for(Insumo i: insumoList){
+            for(Insumo in : list){
+                if(i.getId()==in.getId()){
+                    i.setIsAddList(bool);
+                }
+            }
+
         }
     }
     public String upCaseAllFirstChar(String txt){
@@ -183,30 +195,77 @@ public class SimpleControl {
         return temp;
     }
 
-    // Insumo_Produto
+    // Insumo_Produto temp
 
-    public void addInsumoProduto(List<Insumo> list) {
-       if(tempInsumo!=null) {
-           tempInsumo.addAll(list);
-       }else{
-           tempInsumo=list;
-       }
-
+    public void addInsumoProdutoTemp(List<Insumo> list) {
+        if(tempInsumo!=null) {
+            tempInsumo.addAll(list);
+        }else{
+            tempInsumo=list;
+        }
+        if(tempInsumo!=null){
+            for(Insumo i :tempInsumo){
+                i.setIsAddList(true);
+                for(Insumo l : insumoList){
+                    if(i.getId()==l.getId()){
+                        l.setIsAddList(true);
+                        break;
+                    }
+                }
+            }
+        }
 
     }
-    public void removeInsumoProduto(){
-        tempInsumo= null;
-
-    }
-    public List<Insumo> getInsumoProduto(){
+    public List<Insumo> getInsumoProdutoTemp(){
         if(tempInsumo==null){
             tempInsumo= new LinkedList<Insumo>();
         }
         return tempInsumo;
     }
-    public List<Insumo> getInsumoProduto(Produto p) throws Exception {
+    public void removeAllInsumosProdutoTemp(){
+
+        tempInsumo.clear();
+    }
+
+    public void removeInsumoProdutoTemp(Insumo insumo){
+        for( Insumo i : tempInsumo){
+            if(i.getId()== insumo.getId()){
+                i.setIsAddList(false);
+                tempInsumo.remove(i);
+                for(Insumo l : insumoList){
+                    if(i.getId()==l.getId()){
+                        l.setIsAddList(false);
+                        break;
+                    }
+                }
+                break;
+            }
+
+        }
+
+    }
+    public void removeInsumoProdutoTemp(List <Insumo> insumos){
+        for(Insumo i : insumos){
+
+            for(Insumo in :tempInsumo){
+                if(i.getId()==in.getId()){
+                    in.setIsAddList(false);
+                    tempInsumo.remove(in);
+                    break;
+                }
+            }
+            for(Insumo l : insumoList){
+                if(i.getId()==l.getId()){
+                    l.setIsAddList(false);
+                    break;
+                }
+            }
+        }
+    }
+
+    public List<Insumo> getInsumosProduto(Produto p) throws Exception {
         try{
-            List<Insumo> listTemp = bd.buscarInsumoProduto(p);
+            List<Insumo> listTemp=bd.buscarInsumoProduto(p);
             if(listTemp==null){
                 listTemp= new LinkedList<Insumo>();
             }
@@ -214,22 +273,11 @@ public class SimpleControl {
         }catch (Exception e){
             throw new Exception("Erro");
         }
-    }
 
-    public void removeInsumoProduto(Insumo insumo){
-        tempInsumo.remove(insumo);
+
 
     }
 
-    /*public void removeInsumoProduto(Produto produto, Insumo insumo){
-        bd.deletarInsumoProduto(produto, insumo);
-    }*/
-
-    public void removeInsumoProduto(List <Insumo> insumo){
-        for(Insumo i : insumo){
-            tempInsumo.remove(i);
-        }
-    }
 
     //Produto_Produção
     public void addProdutoProducao(List<Produto> list){
@@ -288,7 +336,7 @@ public class SimpleControl {
                 }
             }
         } catch (Exception ex) {
-           throw new Exception("Não foi Possivel encontrar a pasta do simpleERP");
+            throw new Exception("Não foi Possivel encontrar a pasta do simpleERP");
         }
         return retorno;
     }
@@ -298,17 +346,18 @@ public class SimpleControl {
         Intent it = new Intent();
         it.setAction(android.content.Intent.ACTION_VIEW);
         it.setDataAndType(Uri.fromFile(file), type);
-       return it;
+        return it;
     }
     public void removeProduto(Produto p){
         produtoList.remove(p);
         bd.deletarProduto(p);
-
     }
+
     public void removeInsumo(Insumo i){
         insumoList.remove(i);
         bd.deletarInsumo(i);
     }
+
     public void removeProducao(Producao p){
         producaoList.remove(p);
         bd.deletarProducao(p);
@@ -320,11 +369,10 @@ public class SimpleControl {
             throw new Exception("Não foi possível salvar suas alterações.");
         }
     }
-
-    public void alteraProduto(Produto p) throws Exception{
+    public void alteraProduto(Produto p)throws Exception{
         try{
             bd.atualizarProduto(p);
-        }catch(Exception e){
+        }catch (Exception e){
             throw new Exception("Não foi possível salvar suas alterações.");
         }
     }

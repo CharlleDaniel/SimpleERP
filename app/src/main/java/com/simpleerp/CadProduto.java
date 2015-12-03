@@ -66,7 +66,7 @@ public class CadProduto extends AppCompatActivity{
     public void buildListInsumos() {
         lvInsumo = (ListView) findViewById(R.id.lvInsumo);
         registerForContextMenu(lvInsumo);
-        adapter = new InsumoAdapter(this, MenuPrincipal.sistema.getInsumoProduto());
+        adapter = new InsumoAdapter(this,sistema.getInsumoProdutoTemp());
         lvInsumo.setAdapter(adapter);
 
     }
@@ -93,7 +93,7 @@ public class CadProduto extends AppCompatActivity{
                     sistema.addProduto(p);
                     showMessage("Salvo");
                     sistema.setAllInsumos(false);
-                    sistema.removeInsumoProduto();
+                    sistema.removeAllInsumosProdutoTemp();
                     finish();
                 }catch (Exception e){
                     showMessage(e.getMessage());
@@ -101,6 +101,9 @@ public class CadProduto extends AppCompatActivity{
 
             }
 
+        }if(id==android.R.id.home){
+            onBackPressed();
+            return  true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -141,8 +144,10 @@ public class CadProduto extends AppCompatActivity{
         switch (itemId){
             case 1:
                 insumo.setIsAddList(false);
-                sistema.removeInsumoProduto(insumo);
-                onResume();
+                sistema.removeInsumoProdutoTemp(insumo);
+                buildListInsumos();
+                break;
+            case 2:
                 break;
             default:
                 return super.onContextItemSelected(item);
@@ -167,18 +172,20 @@ public class CadProduto extends AppCompatActivity{
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sistema.removeInsumoProduto();
                 sistema.setAllInsumos(false);
+                sistema.removeAllInsumosProdutoTemp();
                 buildListInsumos();
                 d.dismiss();
             }
         });
         d.show();
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
-    public SimpleControl getSistema(){
-        return sistema;
-    }
 
 }
 
