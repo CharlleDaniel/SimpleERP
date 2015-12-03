@@ -38,6 +38,7 @@ public class EditaProduto extends AppCompatActivity{
     private EditText etNome;
     private EditText etPreco;
     private SimpleControl sistema;
+    private Produto produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class EditaProduto extends AppCompatActivity{
         acessViews();
 
         sistema = MenuPrincipal.sistema;
-        Produto produto = FragProduto.produto;
+        produto = FragProduto.produto;
 
         try {
             List<Insumo> list = sistema.getInsumosProduto(produto);
@@ -54,6 +55,8 @@ public class EditaProduto extends AppCompatActivity{
         } catch (Exception e) {
 
         }
+        etNome.setText(produto.getNome());
+        etPreco.setText(""+produto.getPreco());
 
         bar.setTitle("Editar Produto");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
@@ -100,11 +103,12 @@ public class EditaProduto extends AppCompatActivity{
                 showMessage("O preço tem que ser maior que Zero.");
             }else{
 
-                Produto p = new Produto(etNome.getText().toString().trim(),Float.parseFloat(etPreco.getText().toString()));
+                produto.setNome(etNome.getText().toString().trim());
+                produto.setPreco(Float.parseFloat(etPreco.getText().toString()));
 
                 try{
-                    sistema.addProduto(p);
-                    showMessage("Salvo");
+                    sistema.alteraProduto(produto);
+                    showMessage("Salvo.");
                     sistema.setAllInsumos(false);
                     sistema.removeAllInsumosProdutoTemp();
                     finish();

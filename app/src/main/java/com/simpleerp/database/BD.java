@@ -182,7 +182,8 @@ public class BD {
         bd.insert("PRODUTO_INSUMO", null, valores);
     }
     public void deletarInsumoProduto(Produto produto,Insumo insumo) {
-        bd.delete("PRODUTO_INSUMO", "idProduto = " + produto.getId() + " and " + "idInsumo = " + insumo.getId(), null);
+
+        bd.delete("PRODUTO_INSUMO", "idProduto ="+produto.getId()+" and idInsumo =" + insumo.getId(),null );
     }
 
     public List<Insumo> buscarInsumoProduto(Produto produto) {

@@ -79,7 +79,7 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         int id = item.getItemId();
 
         if(id == R.id.salvar){
-            showMessage("Salvo");
+            showMessage("Alterado.");
             sistema.addInsumoProdutoTemp(listTemp);
             sistema.removeInsumoProdutoTemp(listRemove);
             finish();
@@ -133,14 +133,14 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
             insumo.setIsAddList(true);
             listTemp.add(insumo);
             listRemove.remove(insumo);
-            showMessage("Adicionou "+insumo.getNome()+" ao produto.");
+            showMessage("Adicionou "+insumo.getNome().trim()+" ao produto.");
 
 
         }else{
             insumo.setIsAddList(false);
             listRemove.add(insumo);
             listTemp.remove(insumo);
-            showMessage("Removeu "+insumo.getNome()+" do produto.");
+            showMessage("Removeu "+insumo.getNome().trim()+" do produto.");
 
         }
         buildListInsumos();

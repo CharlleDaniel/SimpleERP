@@ -3,6 +3,8 @@ package com.simpleerp.Control;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
@@ -86,6 +88,7 @@ public class SimpleControl {
         for (Insumo i : insumoList){
             if(i.getNome().equalsIgnoreCase(tempNome)){
                 test=true;
+                break;
             }
         }
         if(test==false){
@@ -114,6 +117,7 @@ public class SimpleControl {
         for(Produto p: produtoList) {
             if (p.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
+                break;
             }
         }
         if(test==false) {
@@ -146,6 +150,7 @@ public class SimpleControl {
         for(Producao pro: producaoList) {
             if (pro.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
+                break;
             }
         }
         if(test == false){
@@ -383,7 +388,40 @@ public class SimpleControl {
     }
     public void alteraProduto(Produto p)throws Exception{
         try{
+            List<Insumo> insumos=bd.buscarInsumoProduto(p);
+            if(insumos.size()>0){
+                for(Insumo i :insumos){
+                    boolean teste = false;
+                    for (Insumo in : tempInsumo) {
+                        if (i.getId() == in.getId()) {
+                            teste = true;
+                            break;
+                        }
+                    }
+                    if(teste==false){
+                        bd.deletarInsumoProduto(p, i);
+                    }
+
+                }
+                for(Insumo i :tempInsumo){
+                    boolean teste = false;
+                    for(Insumo in : insumos){
+                        if(i.getId()==in.getId()){
+                            teste=true;
+                            break;
+                        }
+                    }
+                    if(teste==false){
+                       bd.inserirInsumoProduto(p,i);
+                    }
+                }
+            }else{
+                for(Insumo i :tempInsumo){
+                    bd.inserirInsumoProduto(p,i);
+                }
+            }
             bd.atualizarProduto(p);
+
         }catch (Exception e){
             throw new Exception("Não foi possível salvar suas alterações.");
         }
