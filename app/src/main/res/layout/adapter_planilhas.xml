@@ -16,7 +16,7 @@
             android:textColor="@color/textPrimary"
             android:id="@+id/textViewNomeArq"
             android:layout_gravity="center_horizontal"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:singleLine="true"
             android:layout_alignTop="@+id/imageView5"
             android:layout_toRightOf="@+id/imageView5"

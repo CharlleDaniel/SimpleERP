@@ -58,7 +58,7 @@ public class ProdutoAdapter extends BaseAdapter {
         TextView tvPreco = (TextView) layout.findViewById(R.id.textViewPreco);
         tvPreco.setText(" R$ "+ produto.getPreco());
         try {
-            List<Insumo> list=sistema.getInsumoProduto(produto);
+            List<Insumo> list=sistema.getInsumosProduto(produto);
             TextView tvQtd = (TextView) layout.findViewById(R.id.textViewQtdInsumo);
 
             TextView tvCust = (TextView) layout.findViewById(R.id.textViewCusto);

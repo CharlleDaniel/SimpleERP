@@ -3,6 +3,8 @@ package com.simpleerp.Control;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
@@ -82,10 +84,11 @@ public class SimpleControl {
 
     public void addInsumo(Insumo insumo) throws Exception {
         boolean test= false;
-        String tempNome=upCaseAllFristChar(insumo.getNome());
+        String tempNome=upCaseAllFirstChar(insumo.getNome());
         for (Insumo i : insumoList){
             if(i.getNome().equalsIgnoreCase(tempNome)){
                 test=true;
+                break;
             }
         }
         if(test==false){
@@ -110,10 +113,11 @@ public class SimpleControl {
 
     public void addProduto(Produto produto) throws Exception{
         boolean test = false;
-        String tempNome = upCaseAllFristChar(produto.getNome());
+        String tempNome = upCaseAllFirstChar(produto.getNome());
         for(Produto p: produtoList) {
             if (p.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
+                break;
             }
         }
         if(test==false) {
@@ -142,10 +146,11 @@ public class SimpleControl {
 
     public void addProducao(Producao producao) throws Exception{
         boolean test = false;
-        String tempNome = upCaseAllFristChar(producao.getNome());
+        String tempNome = upCaseAllFirstChar(producao.getNome());
         for(Producao pro: producaoList) {
             if (pro.getNome().equalsIgnoreCase(tempNome)) {
                 test = true;
+                break;
             }
         }
         if(test == false){
@@ -156,7 +161,7 @@ public class SimpleControl {
                 if (p.getNome().equalsIgnoreCase(producao.getNome())) {
                     this.producaoList.add(p);
                     for(Produto t: tempProdutos){
-                        bd.inserirProdutoProducao(p,t);
+                        bd.inserirProdutoProducao(p, t);
                     }
                 }
             }
@@ -170,7 +175,17 @@ public class SimpleControl {
             i.setIsAddList(bool);
         }
     }
-    public String upCaseAllFristChar(String txt){
+    public void setAllInsumos(boolean bool, List<Insumo>list){
+        for(Insumo i: insumoList){
+            for(Insumo in : list){
+                if(i.getId()==in.getId()){
+                    i.setIsAddList(bool);
+                }
+            }
+
+        }
+    }
+    public String upCaseAllFirstChar(String txt){
         String temp="";
         Pattern p = Pattern.compile("[a-zA-Zà-úÀ-Ú]+");
         Matcher m = p.matcher(txt);
@@ -185,27 +200,87 @@ public class SimpleControl {
         return temp;
     }
 
-    // Insumo_Produto
+    // Insumo_Produto temp
 
-    public void addInsumoProduto(List<Insumo> list) {
-       if(tempInsumo!=null) {
-           tempInsumo.addAll(list);
-       }else{
-           tempInsumo=list;
-       }
+    public void addInsumoProdutoTemp(List<Insumo> list) {
+        if(tempInsumo!=null) {
+            for(Insumo i : list){
+                boolean teste = false;
+                for(Insumo in :tempInsumo){
+                    if(i.getId() == in .getId()){
+                        teste = true;
+                        break;
+                    }
+                }
+                if(teste== false){
+                    tempInsumo.add(i);
+                }
+            }
+
+        }else{
+            tempInsumo=list;
+        }
+        if(tempInsumo!=null){
+            for(Insumo i :tempInsumo){
+                i.setIsAddList(true);
+                for(Insumo l : insumoList){
+                    if(i.getId()==l.getId()){
+                        l.setIsAddList(true);
+                        break;
+                    }
+                }
+            }
+        }
 
     }
-    public void removeInsumoProduto(){
-        tempInsumo= null;
-
-    }
-    public List<Insumo> getInsumoProduto(){
+    public List<Insumo> getInsumoProdutoTemp(){
         if(tempInsumo==null){
             tempInsumo= new LinkedList<Insumo>();
         }
         return tempInsumo;
     }
-    public List<Insumo> getInsumoProduto(Produto p) throws Exception {
+    public void removeAllInsumosProdutoTemp(){
+
+        tempInsumo.clear();
+    }
+
+    public void removeInsumoProdutoTemp(Insumo insumo){
+        for( Insumo i : tempInsumo){
+            if(i.getId()== insumo.getId()){
+                i.setIsAddList(false);
+                tempInsumo.remove(i);
+                for(Insumo l : insumoList){
+                    if(i.getId()==l.getId()){
+                        l.setIsAddList(false);
+                        break;
+                    }
+                }
+                break;
+            }
+
+        }
+
+    }
+    public void removeInsumoProdutoTemp(List <Insumo> insumos){
+        for(Insumo i : insumos){
+
+            for(Insumo in :tempInsumo){
+                if(i.getId()==in.getId()){
+                    in.setIsAddList(false);
+                    tempInsumo.remove(in);
+                    break;
+                }
+            }
+            for(Insumo l : insumoList){
+                if(i.getId()==l.getId()){
+                    l.setIsAddList(false);
+                    break;
+                }
+            }
+        }
+    }
+
+    public List<Insumo> getInsumosProduto(Produto p) throws Exception {
         try{
             List<Insumo> listTemp=bd.buscarInsumoProduto(p);
             if(listTemp==null){
@@ -219,15 +294,7 @@ public class SimpleControl {
 
 
     }
-    public void removeInsumoProduto(Insumo insumo){
-        tempInsumo.remove(insumo);
 
-    }
-    public void removeInsumoProduto(List <Insumo> insumo){
-        for(Insumo i : insumo){
-            tempInsumo.remove(i);
-        }
-    }
 
     //Produto_Produção
     public void addProdutoProducao(List<Produto> list){
@@ -286,7 +353,7 @@ public class SimpleControl {
                 }
             }
         } catch (Exception ex) {
-           throw new Exception("Não foi Possivel encontrar a pasta do simpleERP");
+            throw new Exception("Não foi Possivel encontrar a pasta do simpleERP");
         }
         return retorno;
     }
@@ -296,19 +363,67 @@ public class SimpleControl {
         Intent it = new Intent();
         it.setAction(android.content.Intent.ACTION_VIEW);
         it.setDataAndType(Uri.fromFile(file), type);
-       return it;
+        return it;
     }
     public void removeProduto(Produto p){
         produtoList.remove(p);
         bd.deletarProduto(p);
-
     }
+
     public void removeInsumo(Insumo i){
         insumoList.remove(i);
         bd.deletarInsumo(i);
     }
+
     public void removeProducao(Producao p){
         producaoList.remove(p);
         bd.deletarProducao(p);
+    }
+    public void alteraInsumo(Insumo i)throws Exception{
+        try{
+            bd.atualizarInsumo(i);
+        }catch (Exception e){
+            throw new Exception("Não foi possível salvar suas alterações.");
+        }
+    }
+    public void alteraProduto(Produto p)throws Exception{
+        try{
+            List<Insumo> insumos=bd.buscarInsumoProduto(p);
+            if(insumos.size()>0){
+                for(Insumo i :insumos){
+                    boolean teste = false;
+                    for (Insumo in : tempInsumo) {
+                        if (i.getId() == in.getId()) {
+                            teste = true;
+                            break;
+                        }
+                    }
+                    if(teste==false){
+                        bd.deletarInsumoProduto(p, i);
+                    }
+
+                }
+                for(Insumo i :tempInsumo){
+                    boolean teste = false;
+                    for(Insumo in : insumos){
+                        if(i.getId()==in.getId()){
+                            teste=true;
+                            break;
+                        }
+                    }
+                    if(teste==false){
+                       bd.inserirInsumoProduto(p,i);
+                    }
+                }
+            }else{
+                for(Insumo i :tempInsumo){
+                    bd.inserirInsumoProduto(p,i);
+                }
+            }
+            bd.atualizarProduto(p);
+
+        }catch (Exception e){
+            throw new Exception("Não foi possível salvar suas alterações.");
+        }
     }
 }

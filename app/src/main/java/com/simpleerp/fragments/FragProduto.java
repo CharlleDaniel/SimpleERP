@@ -1,9 +1,9 @@
 package com.simpleerp.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,6 +17,7 @@ import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.ProdutoAdapter;
+import com.simpleerp.classesSecundarias.EditaProduto;
 import com.simpleerp.entidades.Produto;
 
 
@@ -28,7 +29,7 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
     private ListView listProdutos;
     private ProdutoAdapter adapter;
     private SimpleControl sistema;
-    private static Produto produto;
+    public static Produto produto;
     private View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
 
         menu.setHeaderTitle("Opções de " + produto.getNome());
         menu.add(0, 14, 0, "Excluir");
-
+        menu.add(0, 15, 0, "Editar");
     }
 
 
@@ -95,10 +96,13 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
                     showMessage("Não Excluido.");
                 }
                 break;
+            case 15:
+                Intent it = new Intent(getActivity(), EditaProduto.class);
+                startActivity(it);
+                break;
 
             default:
                 return super.onContextItemSelected(item);
-
         }
         return true;
     }

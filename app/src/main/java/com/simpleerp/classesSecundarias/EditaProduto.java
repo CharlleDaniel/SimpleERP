@@ -1,4 +1,4 @@
-package com.simpleerp;
+package com.simpleerp.classesSecundarias;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -15,17 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.simpleerp.Control.SimpleControl;
+import com.simpleerp.MenuPrincipal;
+import com.simpleerp.R;
 import com.simpleerp.adapters.InsumoAdapter;
-import com.simpleerp.classesSecundarias.AddInsumoProduto;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Produto;
+import com.simpleerp.fragments.FragProduto;
+
+import java.util.List;
 
 
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class CadProduto extends AppCompatActivity{
+public class EditaProduto extends AppCompatActivity{
     private Toolbar bar;
     private ListView lvInsumo;
     private InsumoAdapter adapter;
@@ -33,16 +38,27 @@ public class CadProduto extends AppCompatActivity{
     private EditText etNome;
     private EditText etPreco;
     private SimpleControl sistema;
+    private Produto produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_cad_produto);
+        setContentView(R.layout.layout_edit_produto);
         acessViews();
 
         sistema = MenuPrincipal.sistema;
+        produto = FragProduto.produto;
 
-        bar.setTitle("Novo Produto");
+        try {
+            List<Insumo> list = sistema.getInsumosProduto(produto);
+            sistema.addInsumoProdutoTemp(list);
+        } catch (Exception e) {
+
+        }
+        etNome.setText(produto.getNome());
+        etPreco.setText(""+produto.getPreco());
+
+        bar.setTitle("Editar Produto");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(bar);
@@ -87,11 +103,12 @@ public class CadProduto extends AppCompatActivity{
                 showMessage("O preço tem que ser maior que Zero.");
             }else{
 
-                Produto p = new Produto(etNome.getText().toString().trim(),Float.parseFloat(etPreco.getText().toString()));
+                produto.setNome(etNome.getText().toString().trim());
+                produto.setPreco(Float.parseFloat(etPreco.getText().toString()));
 
                 try{
-                    sistema.addProduto(p);
-                    showMessage("Salvo");
+                    sistema.alteraProduto(produto);
+                    showMessage("Salvo.");
                     sistema.setAllInsumos(false);
                     sistema.removeAllInsumosProdutoTemp();
                     finish();
@@ -143,7 +160,6 @@ public class CadProduto extends AppCompatActivity{
         // Implements our logic
         switch (itemId){
             case 1:
-                insumo.setIsAddList(false);
                 sistema.removeInsumoProdutoTemp(insumo);
                 buildListInsumos();
                 break;
@@ -183,6 +199,8 @@ public class CadProduto extends AppCompatActivity{
     }
     @Override
     public void onBackPressed() {
+        sistema.setAllInsumos(false);
+        sistema.removeAllInsumosProdutoTemp();
         super.onBackPressed();
     }
 

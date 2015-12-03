@@ -1,4 +1,4 @@
-package com.simpleerp;
+package com.simpleerp.classesSecundarias;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,14 +12,16 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
+import com.simpleerp.MenuPrincipal;
+import com.simpleerp.R;
 import com.simpleerp.entidades.Insumo;
-
+import com.simpleerp.fragments.FragInsumo;
 
 
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class CadInsumo extends AppCompatActivity implements View.OnClickListener {
+public class EditaInsumo extends AppCompatActivity implements View.OnClickListener {
     private Toolbar bar;
     private RadioButton rbUnidade;
     private RadioButton rbQuilo;
@@ -29,14 +31,37 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
     private EditText etNome;
     private String quant;
     protected SimpleControl sistema= MenuPrincipal.sistema;
+    private Insumo insumo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_cad_insumo);
+        setContentView(R.layout.layout_edit_insumo);
         acessViews();
+        insumo= FragInsumo.insumo;
 
-        bar.setTitle("Novo Insumo");
+        etNome.setText(insumo.getNome());
+        etPreco.setText(""+insumo.getCustoUnidade());
+        if(insumo.getTipo().equalsIgnoreCase("Unidade")){
+            rbUnidade.setChecked(true);
+            rbGrama.setChecked(false);
+            rbQuilo.setChecked(false);
+        }
+        if(insumo.getTipo().equalsIgnoreCase("Quilos")){
+            rbUnidade.setChecked(false);
+            rbGrama.setChecked(false);
+            rbQuilo.setChecked(true);
+            etQtd.setText("" + insumo.getQuantidade());
+            etQtd.setVisibility(View.VISIBLE);
+        }else{
+            rbUnidade.setChecked(false);
+            rbGrama.setChecked(true);
+            rbQuilo.setChecked(false);
+            etQtd.setText("" + insumo.getQuantidade());
+            etQtd.setVisibility(View.VISIBLE);
+        }
+
+        bar.setTitle("Editar Insumo");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(bar);
@@ -82,16 +107,23 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
                 showMessage("A quantidade tem que ser maior que Zero.");
             }else{
                 try{
-                    Insumo i= null;
+                    String tipo="";
                     if(rbUnidade.isChecked()){
-                        i = new Insumo(etNome.getText().toString().trim(),1,Float.parseFloat(etPreco.getText().toString()),"Unidade");
+                        tipo="Unidade";
                     }else if(rbQuilo.isChecked()){
-                        i = new Insumo(etNome.getText().toString().trim(),Float.parseFloat(etQtd.getText().toString()),Float.parseFloat(etPreco.getText().toString()),"Quilos");
+                        tipo="Quilos";
                     }else{
-                        i = new Insumo(etNome.getText().toString().trim(),Float.parseFloat(etQtd.getText().toString()),Float.parseFloat(etPreco.getText().toString()),"Gramas");
+                        tipo="Gramas";
                     }
-
-                    sistema.addInsumo(i);
+                    insumo.setNome(etNome.getText().toString());
+                    insumo.setCustoUnidade(Float.parseFloat(etPreco.getText().toString()));
+                    insumo.setTipo(tipo);
+                    if(tipo.equalsIgnoreCase("Unidade")){
+                        insumo.setQuantidade(1);
+                    }else{
+                        insumo.setQuantidade(Float.parseFloat(etQtd.getText().toString()));
+                    }
+                    sistema.alteraInsumo(insumo);
                     showMessage("Salvo");
                     super.finish();
                 }catch (Exception e){

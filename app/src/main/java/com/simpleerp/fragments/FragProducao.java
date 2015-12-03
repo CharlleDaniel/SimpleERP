@@ -1,7 +1,7 @@
 package com.simpleerp.fragments;
 
 
-import android.content.Context;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -9,18 +9,23 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.simpleerp.Control.SimpleBilling;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.PlanilhaAdapter;
 import com.simpleerp.adapters.ProducaoAdapter;
+import com.simpleerp.entidades.Producao;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -34,11 +39,14 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     private static File file;
     private ListView producoes;
     private ProducaoAdapter adapaterProducao;
+    private static Producao producao;
+    private SimpleBilling sistemaFaturamento;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sistema= MenuPrincipal.sistema;
+
 
     }
 
@@ -71,13 +79,9 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
 
         try{
             File [] files =sistema.carregaArquivosDiretorioRaiz();
-            if(files.length>0){
-                if(files[0]!=null){
-                    adapter = new PlanilhaAdapter(getContext(), files);
-                    planilhas.setAdapter(adapter);
+            adapter = new PlanilhaAdapter(getContext(), files);
+            planilhas.setAdapter(adapter);
 
-                }
-            }
         }catch (Exception e){
             showMessage(e.getMessage());
         }
@@ -98,12 +102,24 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        file = adapter.getItem(position);
-        try {
-           startActivity(sistema.abrirPlanilha(file));
-        }catch (Exception e ){
-            showMessage("Aplicativo necessário para abrir o arquivo não encontrado.");
+        String nameAdapter=parent.getAdapter().toString();
+        nameAdapter=nameAdapter.substring(nameAdapter.lastIndexOf(".") + 1, nameAdapter.indexOf("@"));
+        if(nameAdapter.equalsIgnoreCase("PlanilhaAdapter")){
+            file = adapter.getItem(position);
+            try {
+                startActivity(sistema.abrirPlanilha(file));
+            }catch (Exception e ){
+                showMessage("Aplicativo necessário para abrir o arquivo não encontrado.");
+            }
+        }else{
+            producao= adapaterProducao.getItem(position);
+            showMessage(producao.getNome());
         }
+
+
+
+
+
     }
 
     @Override
@@ -113,12 +129,26 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-        file =adapter.getItem(aInfo.position);
+        AdapterView parent = (AdapterView)v;
+        String nameAdapter=parent.getAdapter().toString();
+        nameAdapter=nameAdapter.substring(nameAdapter.lastIndexOf(".") + 1, nameAdapter.indexOf("@"));
 
-        menu.setHeaderTitle("Opções de " + file.getName());
-        menu.add(0, 1, 0, "Excluir");
-        menu.add(0, 2, 0, "Salvar no Drive");
-        menu.add(0, 3, 0, "Remover do Drive");
+        if(nameAdapter.equalsIgnoreCase("PlanilhaAdapter")){
+            file =adapter.getItem(aInfo.position);
+
+            menu.setHeaderTitle("Opções de " + file.getName());
+            menu.add(0, 1, 0, "Excluir");
+            menu.add(0, 2, 0, "Salvar no Drive");
+            menu.add(0, 3, 0, "Remover do Drive");
+
+        }else{
+            producao=adapaterProducao.getItem(aInfo.position);
+            sistemaFaturamento = new SimpleBilling(producao);
+            menu.setHeaderTitle("Opções de "+ producao.getNome());
+            menu.add(0, 5, 0, "Excluir");
+            menu.add(0,7,0, "Gerar Planilha");
+        }
+
 
 
     }
@@ -130,7 +160,8 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
             case 1:
                 try {
                     file.delete();
-                    }catch (Exception e){
+                    buildListPlanilhas();
+                }catch (Exception e){
                     showMessage("Não Excluido.");
                 }
                 break;
@@ -140,6 +171,24 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
             case 3:
                 showMessage("Arquivo"+file.getName()+" Removido do Drive.");
                 break;
+            case 5:
+                try {
+                    sistema.removeProducao(producao);
+                    showMessage("Excluido.");
+                    buildListProducoes();
+                }catch (Exception e){
+                    showMessage("Não Excluido.");
+                }
+                break;
+            case 7:
+                try {
+                    sistemaFaturamento.gerarPlanilhas();
+                    showMessage("Planilha criada com sucesso.");
+                    buildListPlanilhas();
+
+                } catch (FileNotFoundException e) {
+                    showMessage("Planilha não criada.");
+                }
 
             default:
                 return super.onContextItemSelected(item);
