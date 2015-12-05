@@ -49,12 +49,9 @@ public class EditaProduto extends AppCompatActivity{
         sistema = MenuPrincipal.sistema;
         produto = FragProduto.produto;
 
-        try {
-            List<Insumo> list = sistema.getInsumosProduto(produto);
-            sistema.addInsumoProdutoTemp(list);
-        } catch (Exception e) {
+        List<Insumo> list = sistema.getInsumosProduto(produto);
+        sistema.addInsumoProdutoTemp(list);
 
-        }
         etNome.setText(produto.getNome());
         etPreco.setText(""+produto.getPreco());
 
@@ -160,10 +157,9 @@ public class EditaProduto extends AppCompatActivity{
         // Implements our logic
         switch (itemId){
             case 1:
+                insumo.setIsAddList(false);
                 sistema.removeInsumoProdutoTemp(insumo);
                 buildListInsumos();
-                break;
-            case 2:
                 break;
             default:
                 return super.onContextItemSelected(item);

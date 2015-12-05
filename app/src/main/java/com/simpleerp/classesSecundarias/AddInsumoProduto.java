@@ -58,7 +58,6 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
     }
 
-
     public void buildListInsumos() {
         listInsumo = (ListView) findViewById(R.id.lvInsumos);
         listInsumo.setOnItemClickListener(this);

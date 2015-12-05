@@ -139,6 +139,25 @@ public class SimpleControl {
         }
 
     }
+    public void setAllInsumos(boolean bool){
+        for(Insumo i: insumoList){
+            i.setIsAddList(bool);
+        }
+    }
+    public void setAllInsumos(boolean bool, List<Insumo>list){
+        for(Insumo i: insumoList){
+            for(Insumo in : list){
+                if(i.getId()==in.getId()){
+                    i.setIsAddList(bool);
+                }
+            }
+
+        }
+    }
+    public List<Insumo> getInsumosProduto(Produto p) {
+        List<Insumo> listTemp=bd.buscarInsumoProduto(p);
+        return listTemp;
+    }
 
     public List<Producao> getProducaoList() {
         return producaoList;
@@ -170,21 +189,28 @@ public class SimpleControl {
             throw new Exception("Já existe esta produção.");
         }
     }
-    public void setAllInsumos(boolean bool){
-        for(Insumo i: insumoList){
-            i.setIsAddList(bool);
+    public List<Produto> getProdutoProducao(Producao p){
+        List<Produto> produtos = this.bd.buscarProdutosProducao(p);
+        return produtos;
+    }
+    public void setAllProdutos(boolean b) {
+        for(Produto p : produtoList){
+            p.setIsAddList(b);
         }
     }
-    public void setAllInsumos(boolean bool, List<Insumo>list){
-        for(Insumo i: insumoList){
-            for(Insumo in : list){
-                if(i.getId()==in.getId()){
-                    i.setIsAddList(bool);
+    public void setAllProdutos(boolean bool, List<Produto>list){
+        for(Produto p : produtoList){
+            for(Produto in : list){
+                if(p.getId()==in.getId()){
+                    p.setIsAddList(bool);
                 }
             }
 
         }
     }
+
+
+    //Text
     public String upCaseAllFirstChar(String txt){
         String temp="";
         Pattern p = Pattern.compile("[a-zA-Zà-úÀ-Ú]+");
@@ -280,63 +306,88 @@ public class SimpleControl {
         }
     }
 
-    public List<Insumo> getInsumosProduto(Produto p) throws Exception {
-        try{
-            List<Insumo> listTemp=bd.buscarInsumoProduto(p);
-            if(listTemp==null){
-                listTemp= new LinkedList<Insumo>();
+
+
+
+    //Produto_Produção Temp
+
+    public void addProdutoProducaoTemp(List<Produto> list) {
+        if(tempProdutos!=null) {
+            for(Produto p : list){
+                boolean teste = false;
+                for(Produto pr :tempProdutos){
+                    if(p.getId()==pr .getId()){
+                        teste = true;
+                        break;
+                    }
+                }
+                if(teste== false){
+                    tempProdutos.add(p);
+                }
             }
-            return listTemp;
-        }catch (Exception e){
-            throw new Exception("Erro");
+
+        }else{
+            tempProdutos=list;
+        }
+        if(tempProdutos!=null){
+            for(Produto p :tempProdutos){
+                p.setIsAddList(true);
+                for(Produto pr  : produtoList){
+                    if(p.getId()==pr.getId()){
+                        pr.setIsAddList(true);
+                        break;
+                    }
+                }
+            }
         }
 
-
-
     }
-
-
-    //Produto_Produção
-    public void addProdutoProducao(List<Produto> list){
-        if(tempProdutos != null){
-            this.tempProdutos.addAll(list);
-        }
-        else {
-            this.tempProdutos = list;
-        }
-    }
-    public void removeProdutoProducao(){
-        tempProdutos= null;
-
-    }
-    public void removeProdutoProducao(List<Produto> list){
-        for(Produto p: list){
-            tempProdutos.remove(p);
-        }
-    }
-    public void removeProdutoProducao(Produto produto){
-        tempProdutos.remove(produto);
-
-    }
-    public List<Produto> getProdutoProducao(){
-
+    public List<Produto> getProdutoProducaoTemp(){
         if(tempProdutos==null){
             tempProdutos= new LinkedList<Produto>();
         }
         return tempProdutos;
     }
+    public void removeAllProdutosProducaoTemp(){
 
-    public List<Produto> getProdutoProducao(Producao p){
-        List<Produto> produtos = this.bd.buscarProdutosProducao(p);
-        return produtos;
+        tempProdutos.clear();
     }
 
-    public void setAllProdutos(boolean b) {
-        for(Produto p : produtoList){
-            p.setIsAddList(b);
+    public void removeProdutoProducaoTemp(Produto produto){
+        for( Produto p : tempProdutos){
+            if(p.getId()== produto.getId()){
+                p.setIsAddList(false);
+                tempProdutos.remove(p);
+                for(Produto pr : produtoList){
+                    if(p.getId()==pr.getId()){
+                        pr.setIsAddList(false);
+                        break;
+                    }
+                }
+                break;
+            }
+
+        }
+
+    }
+    public void removeProdutoProducaoTemp(List <Produto>produtos){
+        for(Produto i : produtos){
+
+            for(Produto in :tempProdutos){
+                if(i.getId()==in.getId()){
+                    in.setIsAddList(false);
+                    tempProdutos.remove(in);
+                    break;
+                }
+            }
+            for(Produto l : produtoList){
+                if(i.getId()==l.getId()){
+                    l.setIsAddList(false);
+                    break;
+                }
+            }
         }
     }
-
 
 
     //Planilhas
@@ -370,6 +421,9 @@ public class SimpleControl {
         it.setDataAndType(Uri.fromFile(file), type);
         return it;
     }
+
+
+    //Removes
     public void removeProduto(Produto p){
         produtoList.remove(p);
         bd.deletarProduto(p);
@@ -384,6 +438,9 @@ public class SimpleControl {
         producaoList.remove(p);
         bd.deletarProducao(p);
     }
+
+
+    //Updates
     public void alteraInsumo(Insumo i)throws Exception{
         try{
             bd.atualizarInsumo(i);
@@ -426,6 +483,47 @@ public class SimpleControl {
                 }
             }
             bd.atualizarProduto(p);
+
+        }catch (Exception e){
+            throw new Exception("Não foi possível salvar suas alterações.");
+        }
+    }
+
+    public void alteraProducao(Producao producao) throws  Exception{
+        try{
+            List<Produto> produtos=bd.buscarProdutosProducao(producao);
+            if(produtos.size()>0){
+                for(Produto p : produtos){
+                    boolean teste = false;
+                    for (Produto pr : tempProdutos) {
+                        if (p.getId() == pr.getId()) {
+                            teste = true;
+                            break;
+                        }
+                    }
+                    if(teste==false){
+                        bd.deletarProdutoProducao(producao,p );
+                    }
+
+                }
+                for(Produto p :tempProdutos){
+                    boolean teste = false;
+                    for(Produto pr : produtos){
+                        if(p.getId()==pr.getId()){
+                            teste=true;
+                            break;
+                        }
+                    }
+                    if(teste==false){
+                        bd.inserirProdutoProducao(producao, p);
+                    }
+                }
+            }else{
+                for(Produto p :tempProdutos){
+                    bd.inserirProdutoProducao(producao, p);
+                }
+            }
+            bd.atualizarProducao(producao);
 
         }catch (Exception e){
             throw new Exception("Não foi possível salvar suas alterações.");

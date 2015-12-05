@@ -295,7 +295,7 @@ public class BD {
     }
 
     public void deletarProdutoProducao(Producao producao, Produto produto) {
-        bd.delete("PRODUCAO_PRODUTO", "idProducao = " + producao.getId() + " and " + "idProduto = " + produto.getId(), null);
+        bd.delete("PRODUCAO_PRODUTO", "idProducao =" + producao.getId() + " and idProduto =" + produto.getId(), null);
     }
 
     public List<Produto> buscarProdutosProducao(Producao producao) {

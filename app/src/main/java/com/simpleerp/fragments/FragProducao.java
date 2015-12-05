@@ -2,6 +2,7 @@ package com.simpleerp.fragments;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -19,6 +20,8 @@ import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.PlanilhaAdapter;
 import com.simpleerp.adapters.ProducaoAdapter;
+import com.simpleerp.classesSecundarias.EditaProducao;
+import com.simpleerp.classesSecundarias.EditaProduto;
 import com.simpleerp.entidades.Producao;
 
 import java.io.File;
@@ -39,7 +42,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     private static File file;
     private ListView producoes;
     private ProducaoAdapter adapaterProducao;
-    private static Producao producao;
+    public static Producao producao;
     private SimpleBilling sistemaFaturamento;
 
     @Override
@@ -144,9 +147,11 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
         }else{
             producao=adapaterProducao.getItem(aInfo.position);
             sistemaFaturamento = new SimpleBilling(producao);
-            menu.setHeaderTitle("Opções de "+ producao.getNome());
+            menu.setHeaderTitle("Opções de " + producao.getNome());
             menu.add(0, 5, 0, "Excluir");
+            menu.add(0,8,0, "Editar");
             menu.add(0,7,0, "Gerar Planilha");
+
         }
 
 
@@ -189,7 +194,10 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
                 } catch (FileNotFoundException e) {
                     showMessage("Planilha não criada.");
                 }
-
+            case 8 :
+                Intent it = new Intent(getActivity(), EditaProducao.class);
+                startActivity(it);
+                break ;
             default:
                 return super.onContextItemSelected(item);
 

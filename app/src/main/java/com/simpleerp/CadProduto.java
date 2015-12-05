@@ -147,8 +147,6 @@ public class CadProduto extends AppCompatActivity{
                 sistema.removeInsumoProdutoTemp(insumo);
                 buildListInsumos();
                 break;
-            case 2:
-                break;
             default:
                 return super.onContextItemSelected(item);
 

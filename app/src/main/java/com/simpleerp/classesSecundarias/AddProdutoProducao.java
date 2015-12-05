@@ -41,14 +41,14 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         listTemp=new LinkedList<>();
         listRemove=new LinkedList<>();
 
-        bar.setTitle("Adicionar Insumos");
+        bar.setTitle("Adicionar Produtos");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(bar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        buildListInsumos();
+        buildListProdutos();
 
     }
 
@@ -56,31 +56,11 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         bar= (Toolbar)findViewById(R.id.bar);
 
     }
-    public void atualizaList(){
-        List <Produto> produtos = sistema.getProdutoProducao();
-        boolean teste =false;
-        if(produtos.size()>0){
-            for(Produto i : produtos){
-                for(Produto remove : listRemove){
-                    if(remove.getId()==i.getId()){
-                        teste=true;
-                    }
-                }
-                if(teste==false){
-                    i.setIsAddList(true);
 
-                }else{
-                    teste=false;
-                }
-            }
-        }
-    }
-
-    public void buildListInsumos() {
+    public void buildListProdutos() {
         listProduto = (ListView) findViewById(R.id.lvProdutos);
         listProduto.setOnItemClickListener(this);
         registerForContextMenu(listProduto);
-        atualizaList();
         adapter = new ProdutoAdapter(this, sistema.getProdutoList());
         listProduto.setAdapter(adapter);
 
@@ -97,10 +77,14 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         int id = item.getItemId();
 
         if(id == R.id.salvar){
-            showMessage("Salvo");
-            sistema.addProdutoProducao(listTemp);
-            sistema.removeProdutoProducao(listRemove);
+            showMessage("Alterado.");
+            sistema.addProdutoProducaoTemp(listTemp);
+            sistema.removeProdutoProducaoTemp(listRemove);
             finish();
+        }
+        if(id==android.R.id.home){
+            onBackPressed();
+            return  true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -119,11 +103,8 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         produto = adapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Opções de " + produto.getNome());
-       if(produto.isAddList()){
-           menu.add(1, 1, 1, "Remover do Produto");
-           menu.add(2, 2, 1, "Editar");
-       }else{
-           menu.add(1, 2, 1, "Editar");
+       if(produto.isAddList()) {
+           menu.add(0, 1, 0, "Editar");
        }
 
 
@@ -133,13 +114,8 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         int itemId = item.getItemId();
         // Implements our logic
         switch (itemId){
+
             case 1:
-                listTemp.remove(produto);
-                buildListInsumos();
-                produto.setIsAddList(false);
-                listRemove.add(produto);
-                break;
-            case 2:
                 showMessage("Editar");
                 break;
             default:
@@ -152,19 +128,35 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         produto = adapter.getItem(position);
 
-        if(produto.isAddList()==false){
 
+        if(produto.isAddList()==false){
             produto.setIsAddList(true);
             listTemp.add(produto);
-            buildListInsumos();
+            listRemove.remove(produto);
+            showMessage("Adicionou "+produto.getNome().trim()+" a produção.");
+
+
+        }else{
+            produto.setIsAddList(false);
+            listRemove.add(produto);
+            listTemp.remove(produto);
+            showMessage("Removeu " + produto.getNome().trim() + " da produção.");
+
         }
+        buildListProdutos();
     }
 
-    @Override
-    protected void onStop() {
-        for(Produto i : listTemp){
-            i.setIsAddList(false);
+    public void verificaAlteracoes(){
+        if(listTemp.size()>0){
+            sistema.setAllProdutos(false, listTemp);
         }
-        super.onStop();
+        if(listRemove.size()>0){
+            sistema.setAllProdutos(true, listRemove);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        verificaAlteracoes();
+        super.onBackPressed();
     }
 }
