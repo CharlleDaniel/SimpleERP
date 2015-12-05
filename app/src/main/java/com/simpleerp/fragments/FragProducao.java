@@ -194,6 +194,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
                 } catch (FileNotFoundException e) {
                     showMessage("Planilha não criada.");
                 }
+                break;
             case 8 :
                 Intent it = new Intent(getActivity(), EditaProducao.class);
                 startActivity(it);
