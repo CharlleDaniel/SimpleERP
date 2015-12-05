@@ -326,6 +326,11 @@ public class SimpleControl {
         return tempProdutos;
     }
 
+    public List<Produto> getProdutoProducao(Producao p){
+        List<Produto> produtos = this.bd.buscarProdutosProducao(p);
+        return produtos;
+    }
+
     public void setAllProdutos(boolean b) {
         for(Produto p : produtoList){
             p.setIsAddList(b);
