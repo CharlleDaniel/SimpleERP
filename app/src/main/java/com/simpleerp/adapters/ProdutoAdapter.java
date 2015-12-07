@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
@@ -24,6 +25,11 @@ public class ProdutoAdapter extends BaseAdapter {
     private List<Produto> lProduto;
     private Context context;
     private SimpleControl sistema;
+    private TextView tvQtd;
+    private ImageView imgCusto;
+    private ImageView imgInsumos;
+    private TextView tvCust;
+
     public ProdutoAdapter(Context context, List<Produto> lProduto){
         this.context = context;
        this.lProduto=lProduto;
@@ -57,40 +63,57 @@ public class ProdutoAdapter extends BaseAdapter {
 
         TextView tvPreco = (TextView) layout.findViewById(R.id.textViewPreco);
         tvPreco.setText(" R$ "+ produto.getPreco());
-        try {
-            List<Insumo> list=sistema.getInsumosProduto(produto);
-            TextView tvQtd = (TextView) layout.findViewById(R.id.textViewQtdInsumo);
 
-            TextView tvCust = (TextView) layout.findViewById(R.id.textViewCusto);
-            if(list.size()>0){
-                tvQtd.setText(""+list.size());
-                float custo=0;
-                for(Insumo i : list){
-                    custo=custo+i.getCustoUnidade();
+        ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
+        imgCusto = (ImageView)layout.findViewById(R.id.imageView14);
+        imgInsumos = (ImageView)layout.findViewById(R.id.imageView15);
+
+
+        tvQtd = (TextView) layout.findViewById(R.id.textViewQtdInsumo);
+        tvCust = (TextView) layout.findViewById(R.id.textViewCusto);
+
+        if(context.getClass().getSimpleName().equalsIgnoreCase("MenuPrincipal")){
+            Toast.makeText(context,context.getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
+            alterVisibility(View.VISIBLE);
+            addMarca.setVisibility(View.GONE);
+            try {
+                List<Insumo> list=sistema.getInsumosProduto(produto);
+
+                if(list.size()>0){
+                    tvQtd.setText(""+list.size());
+                    float custo=0;
+                    for(Insumo i : list){
+                        custo=custo+i.getCustoUnidade();
+                    }
+                    tvCust.setText(""+custo);
+
+                }else{
+                    tvCust.setText("0");
+                    tvQtd.setText("0");
                 }
-                tvCust.setText(""+custo);
 
-            }else{
-                tvCust.setText("0");
-                tvQtd.setText("0");
+            } catch (Exception e){
+
             }
 
-        } catch (Exception e){
-
-        }
-        ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
-        if(context.getClass().getSimpleName().equalsIgnoreCase("AddProdutoProducao")){
+        }else{
+            alterVisibility(View.GONE);
             addMarca.setVisibility(View.VISIBLE);
             if(produto.isAddList()==true){
                 addMarca.setBackgroundResource(R.drawable.ok);
             }else{
                 addMarca.setBackgroundResource(android.R.drawable.ic_input_add);
             }
-        }else{
-            addMarca.setVisibility(View.GONE);
+
         }
 
         return layout;
+    }
+    private void alterVisibility(int visibility){
+        tvCust.setVisibility(visibility);
+        tvQtd.setVisibility(visibility);
+        imgCusto.setVisibility(visibility);
+        imgInsumos.setVisibility(visibility);
     }
 
 }

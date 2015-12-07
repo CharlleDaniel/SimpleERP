@@ -26,6 +26,7 @@ import com.simpleerp.entidades.Producao;
 import com.simpleerp.entidades.Produto;
 import com.simpleerp.fragments.FragProducao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -62,7 +63,7 @@ public class EditaProducao extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        buildListInsumos();
+        buildListProdutos();
 
     }
 
@@ -71,7 +72,7 @@ public class EditaProducao extends AppCompatActivity {
         nomeProducao = (TextView) findViewById(R.id.editTextNome);
     }
 
-    public void buildListInsumos() {
+    public void buildListProdutos() {
         lvProdutos = (ListView) findViewById(R.id.listProdutos);
         registerForContextMenu(lvProdutos);
         adapter = new ProdutoAdapter(this, MenuPrincipal.sistema.getProdutoProducaoTemp());
@@ -102,9 +103,9 @@ public class EditaProducao extends AppCompatActivity {
                     producao.setNome(nomeProducao.getText().toString());
                     sistema.alteraProducao(producao);
                     showMessage("Salvo");
-                    finish();
                     sistema.setAllProdutos(false);
                     sistema.removeAllProdutosProducaoTemp();
+                    finish();
                 } catch (Exception e) {
                     showMessage(e.getMessage());
                 }
@@ -124,7 +125,7 @@ public class EditaProducao extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        buildListInsumos();
+        buildListProdutos();
         super.onResume();
     }
 
@@ -138,8 +139,7 @@ public class EditaProducao extends AppCompatActivity {
         produto = adapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Opções de " + produto.getNome());
-        menu.add(1, 1, 1, "Remover da Produção");
-
+        menu.add(0, 1, 0, "Remover da Produção");
 
     }
 
@@ -151,8 +151,9 @@ public class EditaProducao extends AppCompatActivity {
             case 1:
                 produto.setIsAddList(false);
                 sistema.removeProdutoProducaoTemp(produto);
-                onResume();
+                buildListProdutos();
                 break;
+
             default:
                 return super.onContextItemSelected(item);
 
@@ -183,9 +184,9 @@ public class EditaProducao extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sistema.removeAllProdutosProducaoTemp();
                 sistema.setAllProdutos(false);
-                buildListInsumos();
+                sistema.removeAllProdutosProducaoTemp();
+                buildListProdutos();
                 d.dismiss();
             }
         });

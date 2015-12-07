@@ -63,7 +63,7 @@ public class CadProducao extends AppCompatActivity {
     public void buildListProdutos() {
         lvProdutos = (ListView) findViewById(R.id.listProdutos);
         registerForContextMenu(lvProdutos);
-        adapter = new ProdutoAdapter(this, MenuPrincipal.sistema.getProdutoProducaoTemp());
+        adapter = new ProdutoAdapter(this, sistema.getProdutoProducaoTemp());
         lvProdutos.setAdapter(adapter);
 
     }
@@ -90,9 +90,9 @@ public class CadProducao extends AppCompatActivity {
                     p.setNome(nomeProducao.getText().toString());
                     sistema.addProducao(p);
                     showMessage("Salvo");
-                    finish();
                     sistema.setAllProdutos(false);
                     sistema.removeAllProdutosProducaoTemp();
+                    finish();
                 }catch (Exception e){
                     showMessage(e.getMessage());
                 }

@@ -35,7 +35,7 @@ public class SimpleBilling {
         if(new File(dir).exists()){
             buildPlanilha();
         }else{
-            new File(dir).mkdir();
+            new File(dir).mkdirs();
             buildPlanilha();
         }
 
@@ -46,7 +46,7 @@ public class SimpleBilling {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd");
         String dd =dateFormat.format(date);
-        dateFormat = new SimpleDateFormat("mm");
+        dateFormat = new SimpleDateFormat("MM");
         String mm =dateFormat.format(date);
         dateFormat = new SimpleDateFormat("yyyy");
         String yy =dateFormat.format(date);
