@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.InsumoAdapter;
@@ -25,7 +26,7 @@ import com.simpleerp.entidades.Produto;
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class CadProduto extends AppCompatActivity{
+public class CadProduto extends AppCompatActivity implements View.OnClickListener {
     private Toolbar bar;
     private ListView lvInsumo;
     private InsumoAdapter adapter;
@@ -33,6 +34,10 @@ public class CadProduto extends AppCompatActivity{
     private EditText etNome;
     private EditText etPreco;
     private SimpleControl sistema;
+    private RadioButton rbDia;
+    private RadioButton rbSemana;
+    private RadioButton rbMes;
+    private EditText etQtdVenda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,16 @@ public class CadProduto extends AppCompatActivity{
         bar= (Toolbar)findViewById(R.id.bar);
         etPreco=(EditText)findViewById(R.id.editTextPreco);
         etNome=(EditText)findViewById(R.id.editTextNome);
+        etQtdVenda=(EditText)findViewById(R.id.edQtdVenda);
+
+        rbDia= (RadioButton)findViewById(R.id.rbDiaCadP);
+        rbSemana= (RadioButton)findViewById(R.id.rbSemCadP);
+        rbMes= (RadioButton)findViewById(R.id.rbMesCadP);
+
+
+        rbDia.setOnClickListener(this);
+        rbSemana.setOnClickListener(this);
+        rbMes.setOnClickListener(this);
 
     }
     @Override
@@ -77,7 +92,7 @@ public class CadProduto extends AppCompatActivity{
 
         if(id == R.id.salvar){
 
-            if(etNome.getText().toString().trim().equalsIgnoreCase("")|| etPreco.getText().toString().trim().equalsIgnoreCase("")){
+            if(etNome.getText().toString().trim().equalsIgnoreCase("")|| etPreco.getText().toString().trim().equalsIgnoreCase("")|| etQtdVenda.getText().toString().trim().equalsIgnoreCase("")){
                 showMessage("Não é permitido campo em branco.");
 
             }
@@ -86,10 +101,20 @@ public class CadProduto extends AppCompatActivity{
             }else if (Float.parseFloat(etPreco.getText().toString().trim())==0) {
                 showMessage("O preço tem que ser maior que Zero.");
             }else{
-
+                String check="";
+                if(rbDia.isChecked()){
+                    check="Dia";
+                }
+                else if(rbSemana.isChecked()){
+                    check="Semana";
+                }
+                else{
+                    check="Més";
+                }
                 Produto p = new Produto(etNome.getText().toString().trim(),Float.parseFloat(etPreco.getText().toString()));
-
+                p.setPeriodo(check);
                 try{
+                    p.setQtdVendas(Float.parseFloat(etQtdVenda.getText().toString()));
                     sistema.addProduto(p);
                     showMessage("Salvo");
                     sistema.setAllInsumos(false);
@@ -185,5 +210,23 @@ public class CadProduto extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==rbDia.getId()){
+            rbDia.setChecked(true);
+            rbSemana.setChecked(false);
+            rbMes.setChecked(false);
+        }
+        else if (v.getId()==rbSemana.getId()){
+            rbDia.setChecked(false);
+            rbSemana.setChecked(true);
+            rbMes.setChecked(false);
+        }
+        else{
+            rbDia.setChecked(false);
+            rbSemana.setChecked(false);
+            rbMes.setChecked(true);
+        }
+    }
 }
 

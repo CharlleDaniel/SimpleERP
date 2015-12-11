@@ -136,6 +136,9 @@ public class BD {
         ContentValues valores = new ContentValues();
         valores.put("Nome", produto.getNome());
         valores.put("PRECO", produto.getPreco());
+        valores.put("PERIODO", produto.getPeriodo());
+        valores.put("QtdVenda", produto.getQtdVendas());
+
         bd.insert("PRODUTO", null, valores);
     }
 
@@ -143,6 +146,8 @@ public class BD {
         ContentValues valores = new ContentValues();
         valores.put("Nome", produto.getNome());
         valores.put("PRECO", produto.getPreco());
+        valores.put("PERIODO", produto.getPeriodo());
+        valores.put("QtdVenda", produto.getQtdVendas());
 
         bd.update("PRODUTO", valores, "_id = ?", new String[]{"" + produto.getId()});
     }
@@ -153,7 +158,7 @@ public class BD {
 
     public List<Produto> buscarProdutos() {
         List<Produto> list = new ArrayList<Produto>();
-        String[] colunas = new String[]{"_id", "NOME", "PRECO"};
+        String[] colunas = new String[]{"_id", "NOME", "PRECO", "PERIODO", "QtdVenda"};
 
         Cursor cursor = bd.query("PRODUTO", colunas, null, null, null, null, "NOME ASC");
 
@@ -166,6 +171,8 @@ public class BD {
                 p.setId(cursor.getInt(0));
                 p.setNome(cursor.getString(1));
                 p.setPreco(cursor.getFloat(2));
+                p.setPeriodo(cursor.getString(3));
+                p.setQtdVendas(cursor.getFloat(4));
 
                 list.add(p);
 
@@ -246,6 +253,7 @@ public class BD {
     public void inserirProducao(Producao producao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", producao.getNome());
+        valores.put("PERIODO", producao.getPeriodo());
 
         bd.insert("PRODUCAO", null, valores);
     }
@@ -253,6 +261,7 @@ public class BD {
     public void atualizarProducao(Producao producao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", producao.getNome());
+        valores.put("PERIODO", producao.getPeriodo());
         bd.update("PRODUCAO", valores, "_id = ?", new String[]{"" + producao.getId()});
     }
 
@@ -264,7 +273,7 @@ public class BD {
 
     public List<Producao> buscarProducoes() {
         List<Producao> list = new ArrayList<Producao>();
-        String[] colunas = new String[]{"_id", "Nome"};
+        String[] colunas = new String[]{"_id", "Nome", "PERIODO"};
 
         Cursor cursor = bd.query("PRODUCAO", colunas, null, null, null, null, "Nome ASC");
 
@@ -276,7 +285,7 @@ public class BD {
                 Producao p = new Producao();
                 p.setId(cursor.getInt(0));
                 p.setNome(cursor.getString(1));
-
+                p.setPeriodo(cursor.getString(2));
                 list.add(p);
 
             } while (cursor.moveToNext());

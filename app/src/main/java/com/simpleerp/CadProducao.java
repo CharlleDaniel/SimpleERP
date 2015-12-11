@@ -96,9 +96,21 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
             if(nomeProducao.getText().toString().trim().length()<4){
                 showMessage("O nome deve possuir no minimo quatro caracteres.");
             }else{
+                String check="";
+                if(rbDia.isChecked()){
+                    check="Dia";
+                }
+                else if(rbSemana.isChecked()){
+                    check="Semana";
+                }
+                else{
+                    check="Més";
+                }
+
                 try{
                     Producao p = new Producao();
                     p.setNome(nomeProducao.getText().toString());
+                    p.setPeriodo(check);
                     sistema.addProducao(p);
                     showMessage("Salvo");
                     sistema.setAllProdutos(false);

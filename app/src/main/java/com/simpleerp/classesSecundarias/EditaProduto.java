@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
@@ -30,7 +31,7 @@ import java.util.List;
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class EditaProduto extends AppCompatActivity{
+public class EditaProduto extends AppCompatActivity implements View.OnClickListener {
     private Toolbar bar;
     private ListView lvInsumo;
     private InsumoAdapter adapter;
@@ -39,6 +40,10 @@ public class EditaProduto extends AppCompatActivity{
     private EditText etPreco;
     private SimpleControl sistema;
     private Produto produto;
+    private EditText etQtdVenda;
+    private RadioButton rbDia;
+    private RadioButton rbSemana;
+    private RadioButton rbMes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,17 @@ public class EditaProduto extends AppCompatActivity{
         etNome.setText(produto.getNome());
         etPreco.setText(""+produto.getPreco());
 
+        if(produto.getPeriodo().equals("Dia")){
+            rbDia.setChecked(true);
+        }
+        else if(produto.getPeriodo().equals("Semana")){
+            rbSemana.setChecked(true);
+        }
+        else{
+            rbMes.setChecked(true);
+        }
+        etQtdVenda.setText(""+produto.getQtdVendas());
+
         bar.setTitle("Editar Produto");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
         bar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
@@ -69,7 +85,16 @@ public class EditaProduto extends AppCompatActivity{
         bar= (Toolbar)findViewById(R.id.bar);
         etPreco=(EditText)findViewById(R.id.editTextPreco);
         etNome=(EditText)findViewById(R.id.editTextNome);
+        etQtdVenda=(EditText)findViewById(R.id.edQtdVenda);
 
+        rbDia= (RadioButton)findViewById(R.id.rbDiaCadP);
+        rbSemana= (RadioButton)findViewById(R.id.rbSemCadP);
+        rbMes= (RadioButton)findViewById(R.id.rbMesCadP);
+
+
+        rbDia.setOnClickListener(this);
+        rbSemana.setOnClickListener(this);
+        rbMes.setOnClickListener(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,7 +115,7 @@ public class EditaProduto extends AppCompatActivity{
 
         if(id == R.id.salvar){
 
-            if(etNome.getText().toString().trim().equalsIgnoreCase("")|| etPreco.getText().toString().trim().equalsIgnoreCase("")){
+            if(etNome.getText().toString().trim().equalsIgnoreCase("")|| etPreco.getText().toString().trim().equalsIgnoreCase("")|| etQtdVenda.getText().toString().trim().equalsIgnoreCase("")){
                 showMessage("Não é permitido campo em branco.");
 
             }
@@ -99,11 +124,22 @@ public class EditaProduto extends AppCompatActivity{
             }else if (Float.parseFloat(etPreco.getText().toString().trim())==0) {
                 showMessage("O preço tem que ser maior que Zero.");
             }else{
-
+                String check="";
+                if(rbDia.isChecked()){
+                    check="Dia";
+                }
+                else if(rbSemana.isChecked()){
+                    check="Semana";
+                }
+                else{
+                    check="Més";
+                }
                 produto.setNome(etNome.getText().toString().trim());
                 produto.setPreco(Float.parseFloat(etPreco.getText().toString()));
+                produto.setPeriodo(check);
 
                 try{
+                    produto.setQtdVendas(Float.parseFloat(etQtdVenda.getText().toString()));
                     sistema.alteraProduto(produto);
                     showMessage("Salvo.");
                     sistema.setAllInsumos(false);
@@ -201,5 +237,24 @@ public class EditaProduto extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==rbDia.getId()){
+            rbDia.setChecked(true);
+            rbSemana.setChecked(false);
+            rbMes.setChecked(false);
+        }
+        else if (v.getId()==rbSemana.getId()){
+            rbDia.setChecked(false);
+            rbSemana.setChecked(true);
+            rbMes.setChecked(false);
+        }
+        else{
+            rbDia.setChecked(false);
+            rbSemana.setChecked(false);
+            rbMes.setChecked(true);
+        }
+
+    }
 }
 

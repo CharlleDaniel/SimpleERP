@@ -8,15 +8,19 @@ public class Produto {
     private long id;
     private String nome;
     private float preco;
+    private String periodo;
+    private float qtdVendas;
     private boolean isAddList;
 
     public Produto(String nome, float preco) {
         this.nome = nome;
         this.preco = preco;
+        this.isAddList=false;
     }
     public Produto() {
         this.nome = "";
         this.preco = 0;
+        this.isAddList=false;
     }
 
     public boolean isAddList() {
@@ -49,5 +53,21 @@ public class Produto {
 
     public void setPreco(float preco) {
         this.preco = preco;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    public float getQtdVendas() {
+        return qtdVendas;
+    }
+
+    public void setQtdVendas(float qtdVendas) {
+        this.qtdVendas = qtdVendas;
     }
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ import java.util.List;
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class EditaProducao extends AppCompatActivity {
+public class EditaProducao extends AppCompatActivity implements View.OnClickListener {
     private Toolbar bar;
     private ListView lvProdutos;
     private static Produto produto;
@@ -41,6 +42,9 @@ public class EditaProducao extends AppCompatActivity {
     private SimpleControl sistema;
     private TextView nomeProducao;
     private Producao producao;
+    private RadioButton rbDia;
+    private RadioButton rbSemana;
+    private RadioButton rbMes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,15 @@ public class EditaProducao extends AppCompatActivity {
 
         nomeProducao.setText(producao.getNome());
 
+        if(producao.getPeriodo().equals("Dia")){
+            rbDia.setChecked(true);
+        }
+        else if(producao.getPeriodo().equals("Semana")){
+            rbSemana.setChecked(true);
+        }
+        else{
+            rbMes.setChecked(true);
+        }
         List<Produto> list = sistema.getProdutoProducao(producao);
         sistema.addProdutoProducaoTemp(list);
 
@@ -70,6 +83,14 @@ public class EditaProducao extends AppCompatActivity {
     private void acessViews() {
         bar = (Toolbar) findViewById(R.id.bar);
         nomeProducao = (TextView) findViewById(R.id.editTextNome);
+
+        rbDia= (RadioButton)findViewById(R.id.rbDiaCad);
+        rbSemana= (RadioButton)findViewById(R.id.rbSemanaCad);
+        rbMes= (RadioButton)findViewById(R.id.rbMesCad);
+
+        rbDia.setOnClickListener(this);
+        rbSemana.setOnClickListener(this);
+        rbMes.setOnClickListener(this);
     }
 
     public void buildListProdutos() {
@@ -98,9 +119,20 @@ public class EditaProducao extends AppCompatActivity {
             if (nomeProducao.getText().toString().trim().length() < 4) {
                 showMessage("O nome deve possuir no minimo quatro caracteres.");
             } else {
+                String check="";
+                if(rbDia.isChecked()){
+                    check="Dia";
+                }
+                else if(rbSemana.isChecked()){
+                    check="Semana";
+                }
+                else{
+                    check="Més";
+                }
                 try {
 
                     producao.setNome(nomeProducao.getText().toString());
+                    producao.setPeriodo(check);
                     sistema.alteraProducao(producao);
                     showMessage("Salvo");
                     sistema.setAllProdutos(false);
@@ -162,7 +194,18 @@ public class EditaProducao extends AppCompatActivity {
     }
 
     public void addProdutoProducao(View view) {
+        Bundle b = new Bundle();
+        if(rbDia.isChecked()){
+            b.putString("check","Dia" );
+        }
+        else if(rbSemana.isChecked()){
+            b.putString("check","Semana" );
+        }
+        else{
+            b.putString("check","Més" );
+        }
         Intent intent = new Intent(this, AddProdutoProducao.class);
+        intent.putExtras(b);
         startActivity(intent);
     }
 
@@ -200,5 +243,22 @@ public class EditaProducao extends AppCompatActivity {
         sistema.removeAllProdutosProducaoTemp();
         super.onBackPressed();
     }
-
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==rbDia.getId()){
+            rbDia.setChecked(true);
+            rbSemana.setChecked(false);
+            rbMes.setChecked(false);
+        }
+        else if (v.getId()==rbSemana.getId()){
+            rbDia.setChecked(false);
+            rbSemana.setChecked(true);
+            rbMes.setChecked(false);
+        }
+        else{
+            rbDia.setChecked(false);
+            rbSemana.setChecked(false);
+            rbMes.setChecked(true);
+        }
+    }
 }

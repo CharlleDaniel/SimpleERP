@@ -128,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dia"
-                android:id="@+id/radioButton"
+                android:id="@+id/rbDiaCadP"
                 android:checked="true"
                 android:layout_below="@+id/textView6"
                 android:layout_alignLeft="@+id/textView6"
@@ -139,23 +139,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Semana"
-                android:id="@+id/radioButton2"
+                android:id="@+id/rbSemCadP"
                 android:checked="false"
                 android:backgroundTint="@color/colorPrimary"
-                android:layout_above="@+id/editText"
-                android:layout_toRightOf="@+id/radioButton"
-                android:layout_toEndOf="@+id/radioButton"
+                android:layout_above="@+id/edQtdVenda"
+                android:layout_toRightOf="@+id/rbDiaCadP"
+                android:layout_toEndOf="@+id/rbDiaCadP"
                 android:layout_marginRight="10dp" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
+                android:id="@+id/edQtdVenda"
                 android:hint="Média de vendas por dia"
                 android:inputType="numberDecimal"
-                android:layout_below="@+id/radioButton"
-                android:layout_alignLeft="@+id/radioButton"
-                android:layout_alignStart="@+id/radioButton"
+                android:layout_below="@+id/rbDiaCadP"
+                android:layout_alignLeft="@+id/rbDiaCadP"
+                android:layout_alignStart="@+id/rbDiaCadP"
                 android:layout_marginBottom="10dp"
                 android:layout_alignRight="@+id/editTextPreco"
                 android:layout_alignEnd="@+id/editTextPreco"
@@ -165,12 +165,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mês"
-                android:id="@+id/radioButton3"
+                android:id="@+id/rbMesCadP"
                 android:checked="false"
                 android:backgroundTint="@color/colorPrimary"
-                android:layout_above="@+id/editText"
-                android:layout_toRightOf="@+id/radioButton2"
-                android:layout_toEndOf="@+id/radioButton2" />
+                android:layout_above="@+id/edQtdVenda"
+                android:layout_toRightOf="@+id/rbSemCadP"
+                android:layout_toEndOf="@+id/rbSemCadP" />
 
 
         </RelativeLayout>

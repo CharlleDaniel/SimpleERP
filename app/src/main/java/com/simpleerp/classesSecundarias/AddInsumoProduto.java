@@ -1,5 +1,6 @@
 package com.simpleerp.classesSecundarias;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
@@ -10,7 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
@@ -129,11 +133,55 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
         insumo=adapter.getItem(position);
 
         if(insumo.isAddList()==false){
-            insumo.setIsAddList(true);
-            listTemp.add(insumo);
-            listRemove.remove(insumo);
-            showMessage("Adicionou "+insumo.getNome().trim()+" ao produto.");
+            final Dialog d = new Dialog(this);
+            d.setContentView(R.layout.dialog_add_text);
 
+            d.setTitle(insumo.getNome());
+            d.setCancelable(false);
+
+            final TextView tvQtdProduzida= (TextView)d.findViewById(R.id.tvQtdProduzida);
+            String check= "";
+            if(insumo.getTipo().equalsIgnoreCase("Quilos")){
+                check="Quilos";
+                tvQtdProduzida.setText("Quantos Quilos Deseja Adicionar ?" );
+            }else if(insumo.getTipo().equalsIgnoreCase("Unidade")) {
+                check="Unidades";
+                tvQtdProduzida.setText("Quantas Unidades Deseja Adicionar ?" );
+            }else{
+                check="Gramas";
+                tvQtdProduzida.setText("Quantas Gramas Deseja Adicionar ?" );
+            }
+
+            final EditText qtdProduzida = (EditText) d.findViewById(R.id.qtdProduzida);
+            qtdProduzida.setHint("Quantidade de "+check);
+
+            Button buttonClosed= (Button)d.findViewById(R.id.btCancelar);
+            buttonClosed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    d.dismiss();
+                }
+            });
+
+            Button buttonYes=(Button)d.findViewById(R.id.buttonSave);
+            buttonYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (qtdProduzida.getText().toString().trim().equals("")) {
+                        showMessage("Não é permitido campo em branco.");
+                    } else if (Double.parseDouble(qtdProduzida.getText().toString()) <= 0) {
+                        showMessage("Não é permitido valor nulo ou zero.");
+                    } else {
+                        insumo.setIsAddList(true);
+                        listTemp.add(insumo);
+                        listRemove.remove(insumo);
+                        showMessage("Adicionou " + insumo.getNome().trim() + " ao produto.");
+                        d.dismiss();
+                        buildListInsumos();
+                    }
+                }
+            });
+            d.show();
 
         }else{
             insumo.setIsAddList(false);

@@ -95,8 +95,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_alignRight="@+id/editTextPreco"
                 android:layout_alignEnd="@+id/editTextPreco"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginTop="5dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -107,12 +106,71 @@
                 android:layout_below="@+id/editTextNome"
                 android:clickable="false"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:inputType="number|numberDecimal"
                 android:hint="Preço do Produto"
 
                 android:textSize="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Média de Vendas Por:"
+                android:id="@+id/textView6"
+                android:textColor="@color/colorPrimary"
+                android:layout_below="@+id/editTextPreco"
+                android:layout_alignLeft="@+id/editTextPreco"
+                android:layout_alignStart="@+id/editTextPreco" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dia"
+                android:id="@+id/rbDiaCadP"
+                android:checked="false"
+                android:layout_below="@+id/textView6"
+                android:layout_alignLeft="@+id/textView6"
+                android:layout_alignStart="@+id/textView6"
                 android:layout_marginRight="10dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semana"
+                android:id="@+id/rbSemCadP"
+                android:checked="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_above="@+id/edQtdVenda"
+                android:layout_toRightOf="@+id/rbDiaCadP"
+                android:layout_toEndOf="@+id/rbDiaCadP"
+                android:layout_marginRight="10dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edQtdVenda"
+                android:hint="Média de vendas por dia"
+                android:inputType="numberDecimal"
+                android:layout_below="@+id/rbDiaCadP"
+                android:layout_alignLeft="@+id/rbDiaCadP"
+                android:layout_alignStart="@+id/rbDiaCadP"
+                android:layout_marginBottom="10dp"
+                android:layout_alignRight="@+id/editTextPreco"
+                android:layout_alignEnd="@+id/editTextPreco"
+                android:textSize="15dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mês"
+                android:id="@+id/rbMesCadP"
+                android:checked="false"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_above="@+id/edQtdVenda"
+                android:layout_toRightOf="@+id/rbSemCadP"
+                android:layout_toEndOf="@+id/rbSemCadP" />
 
 
         </RelativeLayout>
@@ -188,7 +246,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/rl_title3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -213,7 +271,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adicionar Insumo"
+                    android:text="Adicionar Insumos"
                     android:id="@+id/textView10"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/imageView8"
