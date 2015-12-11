@@ -51,8 +51,9 @@ public class SimpleBilling {
         dateFormat = new SimpleDateFormat("yyyy");
         String yy =dateFormat.format(date);
 
+        File f = new File(dir+"Produção de "+producao.getNome().trim()+" "+dd+"."+mm+"."+yy+".xlsx");
+        FileOutputStream outFile =new FileOutputStream(f);
 
-        FileOutputStream outFile =new FileOutputStream(new File(dir+"Produção de "+producao.getNome().trim()+" "+dd+"."+mm+"."+yy+".xlsx"));
 
     }
 

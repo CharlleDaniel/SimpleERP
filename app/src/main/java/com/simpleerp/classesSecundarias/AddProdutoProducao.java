@@ -1,5 +1,6 @@
 package com.simpleerp.classesSecundarias;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
@@ -32,9 +38,15 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     private SimpleControl sistema;
     private List<Produto>listTemp;
     private List<Produto>listRemove;
+    private String tipoProducao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        tipoProducao=getIntent().getExtras().getString("check");
+
         setContentView(R.layout.add_produto_producao);
         acessViews();
         sistema = MenuPrincipal.sistema;
@@ -49,7 +61,6 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         buildListProdutos();
-
     }
 
     private void acessViews(){
@@ -128,32 +139,68 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         produto = adapter.getItem(position);
 
-
         if(produto.isAddList()==false){
-            produto.setIsAddList(true);
-            listTemp.add(produto);
-            listRemove.remove(produto);
-            showMessage("Adicionou "+produto.getNome().trim()+" a produção.");
+            final Dialog d = new Dialog(this);
+            d.setContentView(R.layout.dialog_add_text);
 
+            d.setTitle(produto.getNome());
+            d.setCancelable(false);
+
+            final TextView tvQtdProduzida= (TextView)d.findViewById(R.id.tvQtdProduzida);
+            tvQtdProduzida.setText("Quantidade Produzida Por "+tipoProducao + ": " );
+            final EditText qtdProduzida = (EditText) d.findViewById(R.id.qtdProduzida);
+            qtdProduzida.setHint("Quantidade produzida por "+tipoProducao.toLowerCase()+ ": " );
+
+            Button buttonClosed= (Button)d.findViewById(R.id.btCancelar);
+            buttonClosed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    d.dismiss();
+                }
+            });
+
+            Button buttonYes=(Button)d.findViewById(R.id.buttonSave);
+            buttonYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (qtdProduzida.getText().toString().trim().equals("")) {
+                        showMessage("Não é permitido campo em branco.");
+                    }
+
+                    else if (Double.parseDouble(qtdProduzida.getText().toString()) <= 0) {
+                        showMessage("Não é permitido valor nulo ou zero.");
+                    }
+                    else {
+                        produto.setIsAddList(true);
+                        listTemp.add(produto);
+                        listRemove.remove(produto);
+                        showMessage("Adicionou " + produto.getNome().trim() + " a produção.");
+                        d.dismiss();
+                        buildListProdutos();
+                    }
+                }
+            });
+            d.show();
 
         }else{
             produto.setIsAddList(false);
             listRemove.add(produto);
             listTemp.remove(produto);
             showMessage("Removeu " + produto.getNome().trim() + " da produção.");
-
+            buildListProdutos();
         }
-        buildListProdutos();
+
     }
 
     public void verificaAlteracoes(){
-        if(listTemp.size()>0){
+        if(listTemp.size() > 0){
             sistema.setAllProdutos(false, listTemp);
         }
-        if(listRemove.size()>0){
+        if(listRemove.size() > 0){
             sistema.setAllProdutos(true, listRemove);
         }
     }
+
     @Override
     public void onBackPressed() {
         verificaAlteracoes();

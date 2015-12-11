@@ -20,6 +20,7 @@ import com.melnykov.fab.FloatingActionButton;
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.TabAdapters;
 import com.simpleerp.extras.SlidingTabLayout;
+import com.simpleerp.fragments.FragProducao;
 
 
 public class MenuPrincipal extends AppCompatActivity implements View.OnClickListener, SearchView.OnCloseListener {
@@ -249,7 +250,8 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
         if(searchView!=null){
             if(searchView.isActivated()==true){
                onClose();
-            }else{
+            }
+            else{
                 super.onBackPressed();
             }
         }else{

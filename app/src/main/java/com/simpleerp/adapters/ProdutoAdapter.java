@@ -73,7 +73,6 @@ public class ProdutoAdapter extends BaseAdapter {
         tvCust = (TextView) layout.findViewById(R.id.textViewCusto);
 
         if(context.getClass().getSimpleName().equalsIgnoreCase("MenuPrincipal")){
-            Toast.makeText(context,context.getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
             alterVisibility(View.VISIBLE);
             addMarca.setVisibility(View.GONE);
             try {

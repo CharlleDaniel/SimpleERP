@@ -2,7 +2,9 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f1eeee">
 
@@ -10,7 +12,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView3" >
+        android:id="@+id/containerMini"
+        android:fillViewport="false"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Todas as Produções"
-                    android:id="@+id/textView6"
+                    android:id="@+id/tvProd"
                     android:textSize="14dp"
                     android:textColor="@color/colorPrimary"
                     android:layout_alignParentTop="true"
@@ -47,7 +51,7 @@
                     android:layout_height="0.5dp"
                     android:id="@+id/view"
                     android:background="@color/colorDivider"
-                    android:layout_below="@+id/textView6"
+                    android:layout_below="@+id/tvProd"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
 
@@ -84,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Minhas Planilhas"
-                        android:id="@+id/textView7"
+                        android:id="@+id/tvPlanilhas"
                         android:textSize="14dp"
                         android:textColor="@color/colorPrimary"
                         android:layout_alignParentTop="true"
@@ -99,7 +103,7 @@
                         android:layout_height="0.5dp"
                         android:id="@+id/view2"
                         android:background="@color/colorDivider"
-                        android:layout_below="@+id/textView7"
+                        android:layout_below="@+id/tvPlanilhas"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true" />
                 </RelativeLayout>
@@ -134,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Faturamento"
-                    android:id="@+id/textView8"
+                    android:id="@+id/tvFaturamento"
                     android:textSize="14dp"
                     android:textColor="@color/colorPrimary"
                     android:layout_alignParentTop="true"
@@ -149,12 +153,208 @@
                     android:layout_height="0.5dp"
                     android:id="@+id/view3"
                     android:background="@color/colorDivider"
-                    android:layout_below="@+id/textView8"
+                    android:layout_below="@+id/tvFaturamento"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
                 </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/containerMax"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Aba1"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:id="@+id/aba1"
+                android:src="@drawable/aba"
+                android:layout_alignParentTop="true" />
+
+            <LinearLayout
+                android:layout_width="110dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/aba1"
+                android:layout_marginTop="-6dp"
+                android:background="#f4f2f2"
+                android:visibility="gone"
+                android:id="@+id/abaL1"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Produções"
+                android:id="@+id/textView12"
+                android:textSize="10dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:id="@+id/Aba2"
+            android:layout_alignTop="@+id/Aba1"
+            android:layout_toRightOf="@+id/Aba1">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:id="@+id/aba2"
+                android:src="@drawable/aba"
+                android:layout_alignParentTop="true"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="110dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/aba2"
+                android:layout_marginTop="-6dp"
+                android:visibility="visible"
+                android:background="#f4f2f2"
+                android:id="@+id/abaL2"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Planilhas"
+                android:id="@+id/textView13"
+                android:textSize="10dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:id="@+id/Aba3"
+            android:layout_alignTop="@+id/Aba2"
+            android:layout_toRightOf="@+id/Aba2"
+            android:layout_toEndOf="@+id/Aba2">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:id="@+id/aba3"
+                android:src="@drawable/aba"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <LinearLayout
+                android:layout_width="110dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/aba3"
+                android:layout_marginTop="-6dp"
+                android:visibility="visible"
+                android:background="#f4f2f2"
+                android:id="@+id/abaL3"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Faturamento"
+                android:id="@+id/textView14"
+                android:textSize="10dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:id="@+id/rlAba1"
+            android:visibility="visible"
+            android:layout_below="@+id/Aba1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="-5dp">
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lvAbaProd"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:background="@color/white"
+            android:id="@+id/rlAba2"
+            android:layout_below="@+id/Aba1"
+            android:layout_marginTop="-5dp"
+            android:visibility="gone" >
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lvAbaPlan"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp" />
+        </RelativeLayout>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            fab:fab_colorNormal="@color/colorFAB"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:elevation="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/revert2"
+            android:tint="#ffffff" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:background="@color/white"
+            android:id="@+id/rlAba3"
+            android:layout_below="@+id/Aba1"
+            android:layout_marginTop="-5dp"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Faturamento"
+                android:id="@+id/textView8"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="79dp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>
 

@@ -7,10 +7,18 @@ public class Producao {
 
     private long id;
     private String nome;
+    private String periodo;
 
-    public Producao(String nome, int id){ this.nome = nome; this.id = id; }
-    public Producao(){ this.nome = "Sem nome"; this.id = 0; }
+    public Producao(){ this.nome = "Sem nome"; this.id = 0; this.periodo="Não Informado";}
 
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
     public long getId() {
         return id;
     }
