@@ -20,6 +20,10 @@ import java.util.List;
 public class InsumoAdapter extends BaseAdapter {
     private List<Insumo> lInsumo;
     private Context context;
+    private ImageView tipoMedida;
+    private TextView tvQtd;
+    private TextView tvId;
+    private ImageView imgPreco;
 
     public InsumoAdapter(Context context, List<Insumo> lInsumo){
         this.context = context;
@@ -52,43 +56,52 @@ public class InsumoAdapter extends BaseAdapter {
         tvNome.setText(insumo.getNome());
 
 
-        TextView tvId = (TextView) layout.findViewById(R.id.textViewPreco);
-        tvId.setText(" R$ "+ insumo.getCustoUnidade());
+        tvId = (TextView) layout.findViewById(R.id.textViewPreco);
+        tvQtd = (TextView) layout.findViewById(R.id.textViewQtd);
 
-        TextView tvQtd = (TextView) layout.findViewById(R.id.textViewQtd);
-        if(!insumo.getTipo().equalsIgnoreCase("Unidade")){
-            if(insumo.getQuantidade()>1){
-                tvQtd.setText(""+insumo.getQuantidade()+" "+insumo.getTipo());
+        tipoMedida = (ImageView)layout.findViewById(R.id.imageViewQtdTipo);
+        imgPreco = (ImageView)layout.findViewById(R.id.ivPrecos);
+        ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
+
+        if(context.getClass().getSimpleName().equalsIgnoreCase("MenuPrincipal")){
+            alterVisibility(View.VISIBLE);
+            tvId.setText(" R$ "+ insumo.getCustoUnidade());
+            if(!insumo.getTipo().equalsIgnoreCase("Unidade")){
+                if(insumo.getQuantidade()>1){
+                    tvQtd.setText(""+insumo.getQuantidade()+" "+insumo.getTipo());
+                }else{
+                    tvQtd.setText(""+insumo.getQuantidade()+" "+insumo.getTipo().substring(0,insumo.getTipo().length()-1));
+                }
             }else{
-                tvQtd.setText(""+insumo.getQuantidade()+" "+insumo.getTipo().substring(0,insumo.getTipo().length()-1));
+                tvQtd.setText("" + insumo.getQuantidade() + " " + insumo.getTipo());
+
+            }
+
+            if(insumo.getTipo().equalsIgnoreCase("unidade")){
+                tipoMedida.setBackgroundResource(R.drawable.icon_unidade);
+            } else {
+                tipoMedida.setBackgroundResource(R.drawable.balanca);
+
             }
         }else{
-            tvQtd.setText("" + insumo.getQuantidade() + " " + insumo.getTipo());
-
-        }
-
-        ImageView tipoMedida = (ImageView)layout.findViewById(R.id.imageViewQtdTipo);
-
-        if(insumo.getTipo().equalsIgnoreCase("unidade")){
-            tipoMedida.setBackgroundResource(R.drawable.icon_unidade);
-        } else {
-            tipoMedida.setBackgroundResource(R.drawable.balanca);
-
-        }
-
-        ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
-        if(context.getClass().getSimpleName().equalsIgnoreCase("AddInsumoProduto")){
+            alterVisibility(View.GONE);
             addMarca.setVisibility(View.VISIBLE);
             if(insumo.isAddList()==true){
                 addMarca.setBackgroundResource(R.drawable.ok);
             }else{
                 addMarca.setBackgroundResource(android.R.drawable.ic_input_add);
             }
-        }else{
-            addMarca.setVisibility(View.GONE);
+
         }
 
         return layout;
+    }
+
+    private void alterVisibility(int visibility) {
+        tvId.setVisibility(visibility);
+        tvQtd.setVisibility(visibility);
+        imgPreco.setVisibility(visibility);
+        tipoMedida.setVisibility(visibility);
     }
 
 

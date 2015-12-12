@@ -80,28 +80,30 @@ public class CadInsumo extends AppCompatActivity implements View.OnClickListener
                 showMessage("O nome deve possuir no minimo quatro caracteres.");
             }else if (!rbUnidade.isChecked()&& Float.parseFloat(etQtd.getText().toString().trim())==0){
                 showMessage("A quantidade tem que ser maior que Zero.");
-            }else{
-                try{
-                    Insumo i= null;
-                    if(rbUnidade.isChecked()){
-                        i = new Insumo(etNome.getText().toString().trim(),1,Float.parseFloat(etPreco.getText().toString()),"Unidade");
-                    }else if(rbQuilo.isChecked()){
-                        i = new Insumo(etNome.getText().toString().trim(),Float.parseFloat(etQtd.getText().toString()),Float.parseFloat(etPreco.getText().toString()),"Quilos");
-                    }else{
-                        i = new Insumo(etNome.getText().toString().trim(),Float.parseFloat(etQtd.getText().toString()),Float.parseFloat(etPreco.getText().toString()),"Gramas");
+            }else {
+                try {
+                    Insumo i = null;
+                    if (rbUnidade.isChecked()) {
+                        i = new Insumo(etNome.getText().toString().trim(), 1, Float.parseFloat(etPreco.getText().toString()), "Unidade");
+                    } else if (rbQuilo.isChecked()) {
+                        i = new Insumo(etNome.getText().toString().trim(), Float.parseFloat(etQtd.getText().toString()), Float.parseFloat(etPreco.getText().toString()), "Quilos");
+                    } else {
+                        i = new Insumo(etNome.getText().toString().trim(), Float.parseFloat(etQtd.getText().toString()), Float.parseFloat(etPreco.getText().toString()), "Gramas");
                     }
 
                     sistema.addInsumo(i);
                     showMessage("Salvo");
                     super.finish();
-                }catch (Exception e){
+                } catch (Exception e) {
                     showMessage(e.getMessage());
                 }
 
             }
-
-
+        }if(id==android.R.id.home){
+            onBackPressed();
+            return  true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

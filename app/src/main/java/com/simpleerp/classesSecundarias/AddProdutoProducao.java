@@ -167,7 +167,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
                         showMessage("Não é permitido campo em branco.");
                     }
 
-                    else if (Double.parseDouble(qtdProduzida.getText().toString()) <= 0) {
+                    else if (Double.parseDouble(qtdProduzida.getText().toString()) <1) {
                         showMessage("Não é permitido valor nulo ou zero.");
                     }
                     else {

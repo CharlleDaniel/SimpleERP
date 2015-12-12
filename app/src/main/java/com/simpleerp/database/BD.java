@@ -5,9 +5,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
-
+import java.util.HashMap;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -181,17 +182,30 @@ public class BD {
 
         return (list);
     }
-    public void inserirInsumoProduto(Produto produto , Insumo i){
+    public void inserirInsumoProduto(Produto produto , Insumo i, List<String> list){
         ContentValues valores = new ContentValues();
         valores.put("idProduto", produto.getId());
         valores.put("idInsumo", i.getId());
+        if(list.size()==2){
+            valores.put("tipoMedida", list.get(0));
+            valores.put("qtdInsumo", Float.parseFloat(list.get(1)));
+        }
 
         bd.insert("PRODUTO_INSUMO", null, valores);
     }
     public void deletarInsumoProduto(Produto produto,Insumo insumo) {
 
-        bd.delete("PRODUTO_INSUMO", "idProduto ="+produto.getId()+" and idInsumo =" + insumo.getId(),null );
+        bd.delete("PRODUTO_INSUMO", "idProduto =" + produto.getId() + " and idInsumo =" + insumo.getId(), null);
     }
+    public void atualizarRelacaoInsumoProduto(Produto produto, Insumo insumo, List<String>list) {
+        ContentValues valores = new ContentValues();
+        if(list.size()==2){
+            valores.put("tipoMedida", list.get(0));
+            valores.put("qtdInsumo", Float.parseFloat(list.get(1)));
+        }
+        bd.update("PRODUTO_INSUMO", valores, "idProduto =" + produto.getId() + " and idInsumo =" + insumo.getId(), null);
+    }
+
 
     public List<Insumo> buscarInsumoProduto(Produto produto) {
         List<Insumo> list = new ArrayList<Insumo>();
@@ -217,6 +231,27 @@ public class BD {
                     list.add(i);
 
                 }
+            } while (cursor.moveToNext());
+        }
+
+        return (list);
+    }
+    public HashMap<Long,List<String>> buscarRelacaoInsumoProduto(Produto produto) {
+        HashMap<Long,List<String>> list = new HashMap<>();
+        String[] colunas = new String[]{"idInsumo","tipoMedida", "qtdInsumo"};
+        Cursor cursor = bd.query("PRODUTO_INSUMO",colunas, "idProduto ="+produto.getId(), null, null, null,null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+
+                long id=cursor.getLong(0);
+                List<String> l = new LinkedList<String>();
+                l.add(cursor.getString(1));
+                l.add(cursor.getString(2));
+
+                list.put(id,l);
             } while (cursor.moveToNext());
         }
 

@@ -71,6 +71,8 @@ public class ScriptSQL {
         sqlBuilder.append("_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,");
         sqlBuilder.append("idProduto INTEGER NOT NULL,");
         sqlBuilder.append("idInsumo INTEGER NOT NULL,");
+        sqlBuilder.append("tipoMedida varchar(10),");
+        sqlBuilder.append("qtdInsumo Float,");
         sqlBuilder.append("FOREIGN KEY (idProduto) REFERENCES PRODUTO (_id),");
         sqlBuilder.append("FOREIGN KEY (idInsumo) REFERENCES INSUMO (_id)");
         sqlBuilder.append(");");

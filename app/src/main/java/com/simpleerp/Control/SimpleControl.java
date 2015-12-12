@@ -3,8 +3,6 @@ package com.simpleerp.Control;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
@@ -17,7 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.Map;
+import java.util.HashMap;
 /**
  * Created by CharlleNot on 12/10/2015.
  */
@@ -29,6 +28,7 @@ public class SimpleControl {
     private Usuario usuarioLogado;
     private BD bd ;
     private List <Produto> tempProdutos;
+    private Map<Long, List<String>> tempRelacao;
 
     public SimpleControl(Context context) {
 
@@ -129,7 +129,8 @@ public class SimpleControl {
                 if (p.getNome().equalsIgnoreCase(produto.getNome())) {
                     this.produtoList.add(p);
                     for(Insumo t: tempInsumo){
-                        bd.inserirInsumoProduto(p,t);
+                        List<String>list=tempRelacao.get(t.getId());
+                        bd.inserirInsumoProduto(p,t,list);
                     }
 
                 }
@@ -225,9 +226,21 @@ public class SimpleControl {
 
         return temp;
     }
+    //Relação
+    public void addRelacaoTemp(Map<Long,List<String>> list){
 
+        tempRelacao=list;
+
+    }
+    public void removeAllRelacaoTemp(){
+        tempRelacao.clear();
+    }
+
+    public HashMap<Long, List<String>> getRelacaoTemp(Produto p){
+        HashMap list =bd.buscarRelacaoInsumoProduto(p);
+        return list;
+    }
     // Insumo_Produto temp
-
     public void addInsumoProdutoTemp(List<Insumo> list) {
         if(tempInsumo!=null) {
             for(Insumo i : list){
@@ -305,9 +318,6 @@ public class SimpleControl {
             }
         }
     }
-
-
-
 
     //Produto_Produção Temp
 
@@ -474,12 +484,20 @@ public class SimpleControl {
                         }
                     }
                     if(teste==false){
-                       bd.inserirInsumoProduto(p,i);
+                        List<String>list=tempRelacao.get(i.getId());
+                        bd.inserirInsumoProduto(p,i,list);
                     }
+                    if(teste==true){
+                       List<String>list=tempRelacao.get(i.getId());
+                       bd.atualizarRelacaoInsumoProduto(p,i,list);
+
+                    }
+
                 }
             }else{
                 for(Insumo i :tempInsumo){
-                    bd.inserirInsumoProduto(p,i);
+                    List<String>list=tempRelacao.get(i.getId());
+                    bd.inserirInsumoProduto(p,i,list);
                 }
             }
             bd.atualizarProduto(p);

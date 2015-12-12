@@ -16,7 +16,8 @@
         android:layout_marginTop="5dp"
         style="@style/AppTheme"
         android:backgroundTint="@color/colorPrimary"
-        android:inputType="numberDecimal" />
+        android:maxLength="3"
+        android:inputType="numberSigned" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,11 +25,11 @@
         android:text="Quantidade produzida: "
         android:id="@+id/tvQtdProduzida"
         android:textColor="@color/colorPrimary"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/rlMedida"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -60,5 +61,49 @@
         android:layout_alignRight="@+id/qtdProduzida"
         android:layout_alignEnd="@+id/qtdProduzida"
         android:layout_marginBottom="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rlMedida"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medida :"
+            android:id="@+id/textView"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gramas"
+            android:id="@+id/radioButton"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:checked="false"
+            android:buttonTint="@color/colorAccent" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quilos"
+            android:id="@+id/radioButton2"
+            android:checked="false"
+            android:layout_alignTop="@+id/radioButton"
+            android:layout_toRightOf="@+id/radioButton"
+            android:layout_toEndOf="@+id/radioButton"
+            android:buttonTint="@color/colorAccent" />
+    </RelativeLayout>
 
 </RelativeLayout>

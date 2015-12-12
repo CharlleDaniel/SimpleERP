@@ -141,7 +141,6 @@
                 android:text="Semana"
                 android:id="@+id/rbSemCadP"
                 android:checked="false"
-                android:backgroundTint="@color/colorPrimary"
                 android:layout_above="@+id/edQtdVenda"
                 android:layout_toRightOf="@+id/rbDiaCadP"
                 android:layout_toEndOf="@+id/rbDiaCadP"

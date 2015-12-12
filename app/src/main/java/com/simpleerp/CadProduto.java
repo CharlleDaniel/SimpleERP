@@ -117,6 +117,7 @@ public class CadProduto extends AppCompatActivity implements View.OnClickListene
                     p.setQtdVendas(Float.parseFloat(etQtdVenda.getText().toString()));
                     sistema.addProduto(p);
                     showMessage("Salvo");
+                    sistema.removeAllRelacaoTemp();
                     sistema.setAllInsumos(false);
                     sistema.removeAllInsumosProdutoTemp();
                     finish();
@@ -195,6 +196,7 @@ public class CadProduto extends AppCompatActivity implements View.OnClickListene
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sistema.removeAllRelacaoTemp();
                 sistema.setAllInsumos(false);
                 sistema.removeAllInsumosProdutoTemp();
                 buildListInsumos();
@@ -213,16 +215,19 @@ public class CadProduto extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if(v.getId()==rbDia.getId()){
+            etQtdVenda.setHint("Média de vendas por dia");
             rbDia.setChecked(true);
             rbSemana.setChecked(false);
             rbMes.setChecked(false);
         }
         else if (v.getId()==rbSemana.getId()){
+            etQtdVenda.setHint("Média de vendas por semana");
             rbDia.setChecked(false);
             rbSemana.setChecked(true);
             rbMes.setChecked(false);
         }
         else{
+            etQtdVenda.setHint("Média de vendas por mês");
             rbDia.setChecked(false);
             rbSemana.setChecked(false);
             rbMes.setChecked(true);

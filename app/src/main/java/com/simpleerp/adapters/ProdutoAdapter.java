@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
@@ -16,6 +15,7 @@ import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Produto;
 
 import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by CharlleNot on 19/10/2015.
@@ -29,6 +29,8 @@ public class ProdutoAdapter extends BaseAdapter {
     private ImageView imgCusto;
     private ImageView imgInsumos;
     private TextView tvCust;
+    private TextView tvPreco;
+    private ImageView imgPreco;
 
     public ProdutoAdapter(Context context, List<Produto> lProduto){
         this.context = context;
@@ -60,13 +62,13 @@ public class ProdutoAdapter extends BaseAdapter {
 
         TextView tvNome = (TextView) layout.findViewById(R.id.textViewNomeProduto);
         tvNome.setText(produto.getNome());
-
-        TextView tvPreco = (TextView) layout.findViewById(R.id.textViewPreco);
-        tvPreco.setText(" R$ "+ produto.getPreco());
-
         ImageView addMarca = (ImageView)layout.findViewById(R.id.addMarca);
+
+        tvPreco = (TextView) layout.findViewById(R.id.textViewPreco);
         imgCusto = (ImageView)layout.findViewById(R.id.imageView14);
         imgInsumos = (ImageView)layout.findViewById(R.id.imageView15);
+        imgPreco = (ImageView)layout.findViewById(R.id.ivPreco);
+
 
 
         tvQtd = (TextView) layout.findViewById(R.id.textViewQtdInsumo);
@@ -75,16 +77,31 @@ public class ProdutoAdapter extends BaseAdapter {
         if(context.getClass().getSimpleName().equalsIgnoreCase("MenuPrincipal")){
             alterVisibility(View.VISIBLE);
             addMarca.setVisibility(View.GONE);
+            tvPreco.setText(" R$ " + produto.getPreco());
             try {
                 List<Insumo> list=sistema.getInsumosProduto(produto);
-
+                HashMap<Long,List<String>>relacaoTemp=sistema.getRelacaoTemp(produto);
                 if(list.size()>0){
                     tvQtd.setText(""+list.size());
                     float custo=0;
+                    String  text="";
                     for(Insumo i : list){
-                        custo=custo+i.getCustoUnidade();
+                        float x=Float.parseFloat(relacaoTemp.get(i.getId()).get(1));
+                        if(i.getTipo().equalsIgnoreCase(relacaoTemp.get(i.getId()).get(0))){
+                            if(x>i.getQuantidade()){
+                                custo=custo+((x/i.getQuantidade())*i.getCustoUnidade());
+                            }else if(x==i.getCustoUnidade()) {
+                                custo=custo+i.getCustoUnidade();
+                            }else{
+                                float temp = (i.getCustoUnidade()/i.getQuantidade());
+                                custo=custo+(temp*x);
+                            }
+                        }else{
+                           text=i.getTipo();
+
+                        }
                     }
-                    tvCust.setText(""+custo);
+                    tvCust.setText(""+custo+" "+text);
 
                 }else{
                     tvCust.setText("0");
@@ -109,10 +126,12 @@ public class ProdutoAdapter extends BaseAdapter {
         return layout;
     }
     private void alterVisibility(int visibility){
+        tvPreco.setVisibility(visibility);
         tvCust.setVisibility(visibility);
         tvQtd.setVisibility(visibility);
         imgCusto.setVisibility(visibility);
         imgInsumos.setVisibility(visibility);
+        imgPreco.setVisibility(visibility);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.simpleerp.classesSecundarias;
 
+
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +24,13 @@ import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.InsumoAdapter;
 import com.simpleerp.entidades.Insumo;
-
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
+import com.simpleerp.fragments.FragProduto;
+import com.simpleerp.entidades.Produto;
 /**
  * Created by CharlleNot on 24/10/2015.
  */
@@ -37,14 +42,20 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
     private SimpleControl sistema;
     private List<Insumo>listTemp;
     private List<Insumo>listRemove;
+    private Map<Long,List<String>> relacao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_insumo_produto);
         acessViews();
+        Produto p = FragProduto.produto;
         sistema = MenuPrincipal.sistema;
         listTemp=new LinkedList<>();
         listRemove=new LinkedList<>();
+        relacao= new HashMap <>();
+        if(p!=null){
+            relacao=sistema.getRelacaoTemp(p);
+        }
 
         bar.setTitle("Adicionar Insumos");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
@@ -57,9 +68,9 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
     }
 
-    private void acessViews(){
-        bar= (Toolbar)findViewById(R.id.bar);
+    private void acessViews() {
 
+        bar = (Toolbar) findViewById(R.id.bar);
     }
 
     public void buildListInsumos() {
@@ -83,6 +94,7 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
 
         if(id == R.id.salvar){
             showMessage("Alterado.");
+            sistema.addRelacaoTemp(relacao);
             sistema.addInsumoProdutoTemp(listTemp);
             sistema.removeInsumoProdutoTemp(listRemove);
             finish();
@@ -136,24 +148,49 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
             final Dialog d = new Dialog(this);
             d.setContentView(R.layout.dialog_add_text);
 
-            d.setTitle(insumo.getNome());
+            d.setTitle("Adicionar " + insumo.getNome());
             d.setCancelable(false);
-
+            String check="";
+            final RelativeLayout rl = (RelativeLayout)d.findViewById(R.id.rlMedida);
+            final EditText qtdProduzida = (EditText) d.findViewById(R.id.qtdProduzida);
             final TextView tvQtdProduzida= (TextView)d.findViewById(R.id.tvQtdProduzida);
-            String check= "";
-            if(insumo.getTipo().equalsIgnoreCase("Quilos")){
-                check="Quilos";
-                tvQtdProduzida.setText("Quantos Quilos Deseja Adicionar ?" );
-            }else if(insumo.getTipo().equalsIgnoreCase("Unidade")) {
-                check="Unidades";
-                tvQtdProduzida.setText("Quantas Unidades Deseja Adicionar ?" );
+            final  RadioButton rbGrama= (RadioButton)d.findViewById(R.id.radioButton);
+            final RadioButton rbQuilo= (RadioButton)d.findViewById(R.id.radioButton2);
+            rbGrama.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rbGrama.setChecked(true);
+                    rbQuilo.setChecked(false);
+                    tvQtdProduzida.setText("Quantas Gramas Deseja Adicionar ?");
+                    qtdProduzida.setHint("Quantidade de gramas");
+                }
+            });
+            rbQuilo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rbGrama.setChecked(false);
+                    rbQuilo.setChecked(true);
+                    tvQtdProduzida.setText("Quantos Quilos Deseja Adicionar ?" );
+                    qtdProduzida.setHint("Quantidade de Quilos");
+                }
+            });
+            if(!insumo.getTipo().equalsIgnoreCase("Unidade")){
+                rl.setVisibility(View.VISIBLE);
+                if(insumo.getTipo().equalsIgnoreCase("Quilos")){
+                    tvQtdProduzida.setText("Quantos Quilos Deseja Adicionar ?" );
+                    rbQuilo.setChecked(true);
+                    qtdProduzida.setHint("Quantidade de Quilos");
+                }else{
+                    tvQtdProduzida.setText("Quantas Gramas Deseja Adicionar ?");
+                    rbGrama.setChecked(true);
+                    qtdProduzida.setHint("Quantidade de gramas");
+                }
+
             }else{
-                check="Gramas";
-                tvQtdProduzida.setText("Quantas Gramas Deseja Adicionar ?" );
+                qtdProduzida.setHint("Quantas unidades");
+                tvQtdProduzida.setText("Quantas Unidades Deseja Adicionar ?" );
             }
 
-            final EditText qtdProduzida = (EditText) d.findViewById(R.id.qtdProduzida);
-            qtdProduzida.setHint("Quantidade de "+check);
 
             Button buttonClosed= (Button)d.findViewById(R.id.btCancelar);
             buttonClosed.setOnClickListener(new View.OnClickListener() {
@@ -169,12 +206,23 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
                 public void onClick(View v) {
                     if (qtdProduzida.getText().toString().trim().equals("")) {
                         showMessage("Não é permitido campo em branco.");
-                    } else if (Double.parseDouble(qtdProduzida.getText().toString()) <= 0) {
+                    } else if (Double.parseDouble(qtdProduzida.getText().toString()) < 1) {
                         showMessage("Não é permitido valor nulo ou zero.");
                     } else {
                         insumo.setIsAddList(true);
                         listTemp.add(insumo);
                         listRemove.remove(insumo);
+                        List<String> list= new LinkedList<>();
+                        if(rbGrama.isChecked()){
+                            list.add("Gramas");
+                        }else if (rbQuilo.isChecked()) {
+                            list.add("Quilos");
+                        }else{
+                            list.add("Unidade");
+                        }
+
+                        list.add(qtdProduzida.getText().toString());
+                        relacao.put(insumo.getId(),list);
                         showMessage("Adicionou " + insumo.getNome().trim() + " ao produto.");
                         d.dismiss();
                         buildListInsumos();
@@ -187,7 +235,8 @@ public class AddInsumoProduto extends AppCompatActivity implements AdapterView.O
             insumo.setIsAddList(false);
             listRemove.add(insumo);
             listTemp.remove(insumo);
-            showMessage("Removeu "+insumo.getNome().trim()+" do produto.");
+            relacao.remove(insumo.getId());
+            showMessage("Removeu " + insumo.getNome().trim() + " do produto.");
 
         }
         buildListInsumos();
