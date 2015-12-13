@@ -238,9 +238,6 @@ public class SimpleControl {
 
     public Map<Long, List<String>> getRelacaoTemp(Produto p){
         Map list =bd.buscarRelacaoInsumoProduto(p);
-        if(list!=null){
-            list= new HashMap<Long,List<String>>();
-        }
         return list;
     }
 

@@ -84,7 +84,6 @@ public class ProdutoAdapter extends BaseAdapter {
                 if(list.size()>0){
                     tvQtd.setText(""+list.size());
                     float custo=0;
-                    String  text="";
                     for(Insumo i : list){
                         float x=Float.parseFloat(relacaoTemp.get(i.getId()).get(1));
                         if(i.getTipo().equalsIgnoreCase(relacaoTemp.get(i.getId()).get(0))){
@@ -108,7 +107,7 @@ public class ProdutoAdapter extends BaseAdapter {
 
                         }
                     }
-                    tvCust.setText(""+custo+" "+text);
+                    tvCust.setText(""+custo);
 
                 }else{
                     tvCust.setText("0");
