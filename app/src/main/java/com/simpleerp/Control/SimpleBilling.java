@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Charlle Daniel on 30/11/2015.
@@ -57,16 +58,41 @@ public class SimpleBilling {
 
     }
 
-    public float calculaCusto() throws Exception {
-        float custoTotal = 0;
+    public float calculaCusto() {
+        float custoTotal= 0;
 
         for(Produto p : this.produtos){
             List<Insumo> insumos = this.sistema.getInsumosProduto(p);
+            Map<Long,List<String>> relacao=sistema.getRelacaoTemp(p);
+            float custo=0;
             for(Insumo i : insumos){
-                //O custo de cada insumo corresponde a: (preço unitário * quantidade)
-                float custo = i.getCustoUnidade() * i.getQuantidade();
-                custoTotal += custo;
+
+                float x=Float.parseFloat(relacao.get(i.getId()).get(1));
+                if(i.getTipo().equalsIgnoreCase(relacao.get(i.getId()).get(0))){
+                    if(x>i.getQuantidade()){
+                        custo=custo+((x/i.getQuantidade())*i.getCustoUnidade());
+                    }else if(x==i.getCustoUnidade()) {
+                        custo=custo+i.getCustoUnidade();
+                    }else{
+                        float temp = (i.getCustoUnidade()/i.getQuantidade());
+                        custo=custo+(temp*x);
+                    }
+                }else{
+                    if(i.getTipo().equalsIgnoreCase("Quilos")){
+                        float tempQuant=i.getQuantidade()*1000;
+                        float temp = (i.getCustoUnidade()/tempQuant);
+                        custo=custo+(temp*x);
+                    }else{
+                        float tempQuant=i.getQuantidade()/1000;
+                        custo=custo+((x/tempQuant)*i.getCustoUnidade());
+                    }
+
+                }
             }
+            Map<Long,Float> relacaoP=sistema.getRelacaoTemp(producao);
+            float xP = relacaoP.get(p.getId());
+            custo=(custo*xP);
+            custoTotal=custoTotal+custo;
         }
 
         return custoTotal;
@@ -74,11 +100,11 @@ public class SimpleBilling {
 
     public float calculaFaturamento(){
         float receita = 0;
-
+        Map<Long,Float> relacao=sistema.getRelacaoTemp(producao);
         for(Produto p : this.produtos){
-            receita += p.getPreco();
+            float x = relacao.get(p.getId());
+            receita += (x*p.getPreco());
         }
-
         return receita;
     }
 

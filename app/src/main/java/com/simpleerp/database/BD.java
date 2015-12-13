@@ -289,7 +289,6 @@ public class BD {
     public void inserirProducao(Producao producao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", producao.getNome());
-        valores.put("PERIODO", producao.getPeriodo());
 
         bd.insert("PRODUCAO", null, valores);
     }
@@ -297,7 +296,7 @@ public class BD {
     public void atualizarProducao(Producao producao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", producao.getNome());
-        valores.put("PERIODO", producao.getPeriodo());
+
         bd.update("PRODUCAO", valores, "_id = ?", new String[]{"" + producao.getId()});
     }
 
@@ -309,7 +308,7 @@ public class BD {
 
     public List<Producao> buscarProducoes() {
         List<Producao> list = new ArrayList<Producao>();
-        String[] colunas = new String[]{"_id", "Nome", "PERIODO"};
+        String[] colunas = new String[]{"_id", "Nome"};
 
         Cursor cursor = bd.query("PRODUCAO", colunas, null, null, null, null, "Nome ASC");
 
@@ -321,7 +320,6 @@ public class BD {
                 Producao p = new Producao();
                 p.setId(cursor.getInt(0));
                 p.setNome(cursor.getString(1));
-                p.setPeriodo(cursor.getString(2));
                 list.add(p);
 
             } while (cursor.moveToNext());

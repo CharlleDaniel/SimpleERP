@@ -31,16 +31,13 @@ import java.util.List;
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class CadProducao extends AppCompatActivity implements View.OnClickListener {
+public class CadProducao extends AppCompatActivity{
     private Toolbar bar;
     private ListView lvProdutos;
     private static Produto produto;
     private ProdutoAdapter adapter;
     private SimpleControl sistema;
     private TextView nomeProducao;
-    private RadioButton rbDia;
-    private RadioButton rbSemana;
-    private RadioButton rbMes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +60,6 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
     private void acessViews(){
         bar= (Toolbar)findViewById(R.id.bar);
         nomeProducao=(TextView)findViewById(R.id.editTextNome);
-        rbDia= (RadioButton)findViewById(R.id.rbDiaCad);
-        rbSemana= (RadioButton)findViewById(R.id.rbSemanaCad);
-        rbMes= (RadioButton)findViewById(R.id.rbMesCad);
-
-        rbDia.setOnClickListener(this);
-        rbSemana.setOnClickListener(this);
-        rbMes.setOnClickListener(this);
     }
     public void buildListProdutos() {
         lvProdutos = (ListView) findViewById(R.id.listProdutos);
@@ -96,21 +86,10 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
             if(nomeProducao.getText().toString().trim().length()<4){
                 showMessage("O nome deve possuir no minimo quatro caracteres.");
             }else{
-                String check="";
-                if(rbDia.isChecked()){
-                    check="Dia";
-                }
-                else if(rbSemana.isChecked()){
-                    check="Semana";
-                }
-                else{
-                    check="Més";
-                }
 
                 try{
                     Producao p = new Producao();
                     p.setNome(nomeProducao.getText().toString());
-                    p.setPeriodo(check);
                     sistema.addProducao(p);
                     showMessage("Salvo");
                     sistema.setAllProdutos(false);
@@ -173,20 +152,7 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
     }
 
     public void addProdutoProducao(View view){
-        Bundle b = new Bundle();
-        if(rbDia.isChecked()){
-            b.putString("check","Dia" );
-        }
-        else if(rbSemana.isChecked()){
-            b.putString("check","Semana" );
-        }
-        else{
-            b.putString("check","Més" );
-        }
-
-
         Intent intent= new Intent(this,AddProdutoProducao.class);
-        intent.putExtras(b);
         startActivity(intent);
     }
     public void clearAllProdutos(View view){
@@ -222,24 +188,6 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
         super.onBackPressed();
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId()==rbDia.getId()){
-            rbDia.setChecked(true);
-            rbSemana.setChecked(false);
-            rbMes.setChecked(false);
-        }
-        else if (v.getId()==rbSemana.getId()){
-            rbDia.setChecked(false);
-            rbSemana.setChecked(true);
-            rbMes.setChecked(false);
-        }
-        else{
-            rbDia.setChecked(false);
-            rbSemana.setChecked(false);
-            rbMes.setChecked(true);
-        }
-    }
 }
 
 

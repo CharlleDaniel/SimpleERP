@@ -26,8 +26,7 @@ public class ScriptSQL {
 
         sqlBuilder.append("CREATE TABLE IF NOT EXISTS PRODUCAO(");
         sqlBuilder.append("_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,");
-        sqlBuilder.append("NOME VARCHAR(60),");
-        sqlBuilder.append("PERIODO VARCHAR(10)");
+        sqlBuilder.append("NOME VARCHAR(60)");
         sqlBuilder.append(");");
 
         return sqlBuilder.toString();

@@ -97,49 +97,6 @@
                 android:layout_marginTop="10dp"
                 android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Período da Produção:"
-                android:id="@+id/tvPerProd"
-                android:layout_below="@+id/editTextNome"
-                android:layout_alignLeft="@+id/editTextNome"
-                android:layout_alignStart="@+id/editTextNome"
-                android:textColor="@color/colorPrimary" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dia"
-                android:id="@+id/rbDiaCad"
-                android:layout_below="@+id/tvPerProd"
-                android:layout_alignLeft="@+id/tvPerProd"
-                android:layout_alignStart="@+id/tvPerProd"
-                android:checked="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Semana"
-                android:id="@+id/rbSemanaCad"
-                android:layout_alignTop="@+id/rbDiaCad"
-                android:layout_toRightOf="@+id/rbDiaCad"
-                android:layout_toEndOf="@+id/rbDiaCad"
-                android:checked="false"
-                android:layout_marginRight="10dp" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mês"
-                android:id="@+id/rbMesCad"
-                android:layout_alignTop="@+id/rbSemanaCad"
-                android:layout_toRightOf="@+id/rbSemanaCad"
-                android:layout_toEndOf="@+id/rbSemanaCad"
-                android:checked="false" />
-
 
         </RelativeLayout>
 

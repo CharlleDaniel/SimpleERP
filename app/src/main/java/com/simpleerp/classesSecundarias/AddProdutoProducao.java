@@ -40,18 +40,16 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     private SimpleControl sistema;
     private List<Produto>listTemp;
     private List<Produto>listRemove;
-    private String tipoProducao;
     private Map<Long, Float> relacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        tipoProducao=getIntent().getExtras().getString("check");
-
         setContentView(R.layout.add_produto_producao);
+
         acessViews();
+
         sistema = MenuPrincipal.sistema;
         Producao p = FragProducao.producao;
         listTemp=new LinkedList<>();
@@ -156,9 +154,9 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
             d.setCancelable(false);
 
             final TextView tvQtdProduzida= (TextView)d.findViewById(R.id.tvQtdProduzida);
-            tvQtdProduzida.setText("Quantidade Produzida Por "+tipoProducao + ": " );
+            tvQtdProduzida.setText("Quantidade Produzida: " );
             final EditText qtdProduzida = (EditText) d.findViewById(R.id.qtdProduzida);
-            qtdProduzida.setHint("Quantidade produzida por "+tipoProducao.toLowerCase()+ ": " );
+            qtdProduzida.setHint("Quantidade produzida" );
 
             Button buttonClosed= (Button)d.findViewById(R.id.btCancelar);
             buttonClosed.setOnClickListener(new View.OnClickListener() {
