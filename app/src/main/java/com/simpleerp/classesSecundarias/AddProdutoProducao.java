@@ -11,25 +11,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.MenuPrincipal;
 import com.simpleerp.R;
 import com.simpleerp.adapters.ProdutoAdapter;
+import com.simpleerp.entidades.Producao;
 import com.simpleerp.entidades.Produto;
+import com.simpleerp.fragments.FragProducao;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by CharlleNot on 24/10/2015.
  */
+
 public class AddProdutoProducao extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private Toolbar bar;
     private ListView listProduto;
@@ -39,6 +41,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
     private List<Produto>listTemp;
     private List<Produto>listRemove;
     private String tipoProducao;
+    private Map<Long, Float> relacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,13 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         setContentView(R.layout.add_produto_producao);
         acessViews();
         sistema = MenuPrincipal.sistema;
+        Producao p = FragProducao.producao;
         listTemp=new LinkedList<>();
         listRemove=new LinkedList<>();
+        relacao= new HashMap<>();
+        if(p!=null){
+            relacao=sistema.getRelacaoTemp(p);
+        }
 
         bar.setTitle("Adicionar Produtos");
         bar.setTitleTextAppearance(this, R.style.AppThemeBarTitleCad);
@@ -90,6 +98,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
         if(id == R.id.salvar){
             showMessage("Alterado.");
             sistema.addProdutoProducaoTemp(listTemp);
+            sistema.addRelacaoProdutoTemp(relacao);
             sistema.removeProdutoProducaoTemp(listRemove);
             finish();
         }
@@ -172,6 +181,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
                     }
                     else {
                         produto.setIsAddList(true);
+                        relacao.put(produto.getId(),Float.parseFloat(qtdProduzida.getText().toString()));
                         listTemp.add(produto);
                         listRemove.remove(produto);
                         showMessage("Adicionou " + produto.getNome().trim() + " a produção.");
@@ -184,6 +194,7 @@ public class AddProdutoProducao extends AppCompatActivity implements AdapterView
 
         }else{
             produto.setIsAddList(false);
+            relacao.remove(produto.getId());
             listRemove.add(produto);
             listTemp.remove(produto);
             showMessage("Removeu " + produto.getNome().trim() + " da produção.");

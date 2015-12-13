@@ -115,6 +115,7 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
                     showMessage("Salvo");
                     sistema.setAllProdutos(false);
                     sistema.removeAllProdutosProducaoTemp();
+                    sistema.removeAllRelacaoProdutoTemp();
                     finish();
                 }catch (Exception e){
                     showMessage(e.getMessage());
@@ -207,6 +208,7 @@ public class CadProducao extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 sistema.setAllProdutos(false);
+                sistema.removeAllRelacaoProdutoTemp();
                 sistema.removeAllProdutosProducaoTemp();
                 buildListProdutos();
                 d.dismiss();

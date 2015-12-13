@@ -29,12 +29,13 @@ import com.simpleerp.fragments.FragProducao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class EditaProducao extends AppCompatActivity implements View.OnClickListener {
+public class EditaProducao extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private Toolbar bar;
     private ListView lvProdutos;
     private static Produto produto;
@@ -96,6 +97,7 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
     public void buildListProdutos() {
         lvProdutos = (ListView) findViewById(R.id.listProdutos);
         registerForContextMenu(lvProdutos);
+        lvProdutos.setOnItemClickListener(this);
         adapter = new ProdutoAdapter(this, MenuPrincipal.sistema.getProdutoProducaoTemp());
         lvProdutos.setAdapter(adapter);
 
@@ -137,6 +139,7 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
                     showMessage("Salvo");
                     sistema.setAllProdutos(false);
                     sistema.removeAllProdutosProducaoTemp();
+                    sistema.removeAllRelacaoProdutoTemp();
                     finish();
                 } catch (Exception e) {
                     showMessage(e.getMessage());
@@ -228,6 +231,7 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 sistema.setAllProdutos(false);
+                sistema.removeAllRelacaoProdutoTemp();
                 sistema.removeAllProdutosProducaoTemp();
                 buildListProdutos();
                 d.dismiss();
@@ -240,6 +244,7 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
         sistema.setAllProdutos(false);
+        sistema.removeAllRelacaoProdutoTemp();
         sistema.removeAllProdutosProducaoTemp();
         super.onBackPressed();
     }
@@ -260,5 +265,14 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
             rbSemana.setChecked(false);
             rbMes.setChecked(true);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        produto=adapter.getItem(position);
+
+        Map<Long,Float> list= sistema.getRelacaoTemp(FragProducao.producao);
+
+        showMessage(""+list.get(produto.getId()));
     }
 }

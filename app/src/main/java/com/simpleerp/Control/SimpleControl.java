@@ -29,6 +29,7 @@ public class SimpleControl {
     private BD bd ;
     private List <Produto> tempProdutos;
     private Map<Long, List<String>> tempRelacao;
+    private Map<Long, Float> tempRelacaoP;
 
     public SimpleControl(Context context) {
 
@@ -181,7 +182,8 @@ public class SimpleControl {
                 if (p.getNome().equalsIgnoreCase(producao.getNome())) {
                     this.producaoList.add(p);
                     for(Produto t: tempProdutos){
-                        bd.inserirProdutoProducao(p, t);
+                        float qtd=tempRelacaoP.get(t.getId());
+                        bd.inserirProdutoProducao(p, t,qtd);
                     }
                 }
             }
@@ -226,7 +228,7 @@ public class SimpleControl {
     }
 
 
-    //Relação
+    //Relação_InsumoProduto
     public void addRelacaoTemp(Map<Long,List<String>> list){
         tempRelacao=list;
     }
@@ -319,6 +321,20 @@ public class SimpleControl {
         }
     }
 
+    //Relação_ProdutoProducao
+    public void addRelacaoProdutoTemp(Map<Long,Float> list){
+        tempRelacaoP=list;
+    }
+    public void removeAllRelacaoProdutoTemp(){
+        if(tempRelacaoP!=null){
+            tempRelacaoP.clear();
+        }
+    }
+
+    public Map<Long,Float> getRelacaoTemp(Producao p){
+        Map list =bd.buscarRelacaoProdutoProducao(p);
+        return list;
+    }
     //Produto_Produção Temp
 
     public void addProdutoProducaoTemp(List<Produto> list) {
@@ -534,12 +550,20 @@ public class SimpleControl {
                         }
                     }
                     if(teste==false){
-                        bd.inserirProdutoProducao(producao, p);
+                        float qtd=tempRelacaoP.get(p);
+                        bd.inserirProdutoProducao(producao, p,qtd);
+                    }
+                    if(teste==true){
+                        if(tempRelacaoP!=null){
+                            float qtd=tempRelacaoP.get(p);
+                            bd.atualizarRelacaoProdutoProducao(producao,p,qtd);
+                        }
                     }
                 }
             }else{
                 for(Produto p :tempProdutos){
-                    bd.inserirProdutoProducao(producao, p);
+                    float qtd=tempRelacaoP.get(p);
+                    bd.inserirProdutoProducao(producao, p,qtd);
                 }
             }
             bd.atualizarProducao(producao);

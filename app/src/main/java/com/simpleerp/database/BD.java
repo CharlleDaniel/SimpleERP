@@ -252,7 +252,7 @@ public class BD {
                 l.add(cursor.getString(1));
                 l.add(cursor.getString(2));
 
-                list.put(id,l);
+                list.put(id, l);
             } while (cursor.moveToNext());
         }
 
@@ -330,11 +330,11 @@ public class BD {
         return (list);
     }
 
-    public void inserirProdutoProducao(Producao producao, Produto produto){
+    public void inserirProdutoProducao(Producao producao, Produto produto, float qtdP){
         ContentValues valores = new ContentValues();
         valores.put("idProducao", producao.getId());
         valores.put("idProduto", produto.getId());
-
+        valores.put("qtdProduto", qtdP);
 
         bd.insert("PRODUCAO_PRODUTO", null, valores);
     }
@@ -342,7 +342,12 @@ public class BD {
     public void deletarProdutoProducao(Producao producao, Produto produto) {
         bd.delete("PRODUCAO_PRODUTO", "idProducao =" + producao.getId() + " and idProduto =" + produto.getId(), null);
     }
+    public void atualizarRelacaoProdutoProducao(Producao producao, Produto produto, float qtd) {
+        ContentValues valores = new ContentValues();
+        valores.put("qtdProduto", qtd);
 
+        bd.update("PRODUCAO_PRODUTO", valores,"idProducao =" + producao.getId() + " and idProduto =" + produto.getId(), null);
+    }
     public List<Produto> buscarProdutosProducao(Producao producao) {
         List<Produto> list = new ArrayList<Produto>();
         String[] colunas = new String[]{"idProduto"};
@@ -371,6 +376,26 @@ public class BD {
 
         return (list);
     }
+    public Map<Long,Float> buscarRelacaoProdutoProducao(Producao producao) {
+        Map<Long,Float> list = new HashMap<>();
+        String[] colunas = new String[]{"idProduto","qtdProduto"};
+        Cursor cursor = bd.query("PRODUCAO_PRODUTO",colunas, "idProducao ="+producao.getId(), null, null, null,null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+
+                long id=cursor.getLong(0);
+                float qtd=cursor.getFloat(1);
+
+                list.put(id, qtd);
+            } while (cursor.moveToNext());
+        }
+
+        return (list);
+    }
+
 
     /* Retorna a lista de Producao_Produto armazenados no Banco de Dados
 

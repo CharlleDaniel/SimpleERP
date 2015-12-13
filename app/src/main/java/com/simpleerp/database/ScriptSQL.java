@@ -41,6 +41,7 @@ public class ScriptSQL {
         sqlBuilder.append("_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,");
         sqlBuilder.append("idProducao INTEGER NOT NULL,");
         sqlBuilder.append("idProduto  INTEGER NOT NULL,");
+        sqlBuilder.append("qtdProduto  Float NOT NULL,");
         sqlBuilder.append("FOREIGN KEY (idProducao) REFERENCES PRODUCAO (_id),");
         sqlBuilder.append("FOREIGN KEY (idProduto) REFERENCES PRODUTO (_id)");
         sqlBuilder.append(");");
