@@ -137,9 +137,10 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
                     producao.setPeriodo(check);
                     sistema.alteraProducao(producao);
                     showMessage("Salvo");
+                    sistema.removeAllRelacaoProdutoTemp();
                     sistema.setAllProdutos(false);
                     sistema.removeAllProdutosProducaoTemp();
-                    sistema.removeAllRelacaoProdutoTemp();
+
                     finish();
                 } catch (Exception e) {
                     showMessage(e.getMessage());
@@ -230,9 +231,10 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sistema.setAllProdutos(false);
                 sistema.removeAllRelacaoProdutoTemp();
                 sistema.removeAllProdutosProducaoTemp();
+                sistema.setAllProdutos(false);
+
                 buildListProdutos();
                 d.dismiss();
             }
@@ -243,9 +245,9 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        sistema.setAllProdutos(false);
         sistema.removeAllRelacaoProdutoTemp();
         sistema.removeAllProdutosProducaoTemp();
+        sistema.setAllProdutos(false);
         super.onBackPressed();
     }
     @Override
@@ -272,7 +274,10 @@ public class EditaProducao extends AppCompatActivity implements View.OnClickList
         produto=adapter.getItem(position);
 
         Map<Long,Float> list= sistema.getRelacaoTemp(FragProducao.producao);
+        Float f=list.get(produto.getId());
+        if(f!=null){
+            showMessage(""+f);
+        }
 
-        showMessage(""+list.get(produto.getId()));
     }
 }

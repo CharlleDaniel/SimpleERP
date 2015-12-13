@@ -23,15 +23,17 @@ import com.simpleerp.R;
 import com.simpleerp.adapters.InsumoAdapter;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Produto;
+import com.simpleerp.fragments.FragProducao;
 import com.simpleerp.fragments.FragProduto;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * Created by CharlleNot on 14/10/2015.
  */
-public class EditaProduto extends AppCompatActivity implements View.OnClickListener {
+public class EditaProduto extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private Toolbar bar;
     private ListView lvInsumo;
     private InsumoAdapter adapter;
@@ -104,6 +106,7 @@ public class EditaProduto extends AppCompatActivity implements View.OnClickListe
     public void buildListInsumos() {
         lvInsumo = (ListView) findViewById(R.id.lvInsumo);
         registerForContextMenu(lvInsumo);
+        lvInsumo.setOnItemClickListener(this);
         adapter = new InsumoAdapter(this,sistema.getInsumoProdutoTemp());
         lvInsumo.setAdapter(adapter);
 
@@ -258,6 +261,17 @@ public class EditaProduto extends AppCompatActivity implements View.OnClickListe
             rbMes.setChecked(true);
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        insumo=adapter.getItem(position);
+
+        Map<Long,List<String>> list= sistema.getRelacaoTemp(FragProduto.produto);
+        String f=list.get(insumo.getId()).get(1)+ " "+list.get(insumo.getId()).get(0);
+        if(f!=null){
+            showMessage(""+f);
+        }
     }
 }
 

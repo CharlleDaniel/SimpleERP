@@ -504,7 +504,7 @@ public class SimpleControl {
                         bd.inserirInsumoProduto(p,i,list);
                     }
                     if(teste==true){
-                       if(tempRelacao!=null){
+                       if(tempRelacao!=null && tempRelacao.size()>0){
                            List<String>list=tempRelacao.get(i.getId());
                            bd.atualizarRelacaoInsumoProduto(p,i,list);
                        }
@@ -550,19 +550,19 @@ public class SimpleControl {
                         }
                     }
                     if(teste==false){
-                        float qtd=tempRelacaoP.get(p);
+                        float qtd=tempRelacaoP.get(p.getId());
                         bd.inserirProdutoProducao(producao, p,qtd);
                     }
                     if(teste==true){
-                        if(tempRelacaoP!=null){
-                            float qtd=tempRelacaoP.get(p);
+                        if(tempRelacaoP!=null && tempRelacaoP.size()>0){
+                            float qtd=tempRelacaoP.get(p.getId());
                             bd.atualizarRelacaoProdutoProducao(producao,p,qtd);
                         }
                     }
                 }
             }else{
                 for(Produto p :tempProdutos){
-                    float qtd=tempRelacaoP.get(p);
+                    float qtd=tempRelacaoP.get(p.getId());
                     bd.inserirProdutoProducao(producao, p,qtd);
                 }
             }
