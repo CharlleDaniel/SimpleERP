@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ import com.simpleerp.entidades.Producao;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 
 /**
@@ -53,6 +57,13 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     private TextView tvFatu;
     public static boolean isAbaMax;
     private FloatingActionButton fab;
+    private RadioButton rbMes;
+    private RadioButton rb6Mes;
+    private RadioButton rbAno;
+
+    private TextView tvVE;
+    private TextView tvVS;
+    private TextView tvVL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,8 +78,10 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
         view = inflater.inflate(R.layout.frag_layout_producao, container, false);
         isAbaMax= false;
         acessViews(view);
+        accessFaturamento(view);
         buildListProducoes();
         buildListPlanilhas();
+        buildFaturamento();
         return view;
 
     }
@@ -122,6 +135,81 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
 
 
     }
+
+    public void accessFaturamento(View view){
+        rbMes=(RadioButton)view.findViewById(R.id.rbMesF);
+        rb6Mes=(RadioButton)view.findViewById(R.id.rb6MF);
+        rbAno=(RadioButton)view.findViewById(R.id.rbAnoF);
+
+        rbMes.setOnClickListener(rbControlFaturamento());
+        rb6Mes.setOnClickListener(rbControlFaturamento());
+        rbAno.setOnClickListener(rbControlFaturamento());
+
+        tvVE=(TextView)view.findViewById(R.id.tvVauleE);
+        tvVS=(TextView)view.findViewById(R.id.tvValueS);
+        tvVL=(TextView)view.findViewById(R.id.tvValueL);
+
+    }
+    public View.OnClickListener rbControlFaturamento (){
+        View.OnClickListener on = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getId()==rbMes.getId()){
+                    rbMes.setChecked(true);
+                    rb6Mes.setChecked(false);
+                    rbAno.setChecked(false);
+                }
+                else if(v.getId()==rb6Mes.getId()){
+                    rbMes.setChecked(false);
+                    rb6Mes.setChecked(true);
+                    rbAno.setChecked(false);
+                }else{
+                    rbMes.setChecked(false);
+                    rb6Mes.setChecked(false);
+                    rbAno.setChecked(true);
+                }
+                buildFaturamento();
+            }
+        };
+        return  on;
+    }
+    public void buildFaturamento(){
+        List<Producao> list = sistema.getProducaoList();
+        if(list.size()>0){
+            float custoTotal=0;
+            float lucroTotal=0;
+            float fatuTotal=0;
+            for(Producao p :list){
+                sistemaFaturamento = new SimpleBilling(p);
+
+                fatuTotal=fatuTotal+sistemaFaturamento.calculaFaturamento();
+                custoTotal=custoTotal+sistemaFaturamento.calculaCusto();
+                lucroTotal=lucroTotal+sistemaFaturamento.calculaLucro();
+            }
+            DecimalFormat dc= new DecimalFormat("#.00");
+
+            if(rbMes.isChecked()){
+                tvVE.setText(dc.format((fatuTotal*30)));
+                tvVS.setText(dc.format((custoTotal*30)));
+                tvVL.setText(dc.format((lucroTotal*30)));
+            }else if(rb6Mes.isChecked()){
+                tvVE.setText(dc.format((fatuTotal*180)));
+                tvVS.setText(dc.format((custoTotal*180)));
+                tvVL.setText(dc.format((lucroTotal*180)));
+            }else{
+                tvVE.setText(dc.format((fatuTotal*360)));
+                tvVS.setText(dc.format((custoTotal*360)));
+                tvVL.setText(dc.format((lucroTotal*360)));
+            }
+
+        }else{
+            tvVE.setText("0.0");
+            tvVS.setText("0.0");
+            tvVL.setText("0.0");
+        }
+
+
+    }
     public void buildListPlanilhas() {
 
         if(isAbaMax){
@@ -153,6 +241,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
     public void onResume(){
         buildListPlanilhas();
         buildListProducoes();
+        buildFaturamento();
         super.onResume();
     }
 
@@ -235,6 +324,7 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
                     sistema.removeProducao(producao);
                     showMessage("Excluido.");
                     buildListProducoes();
+                    buildFaturamento();
                 }catch (Exception e){
                     showMessage("Não Excluido.");
                 }

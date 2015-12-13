@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +108,58 @@ public class SimpleBilling {
         }
         return receita;
     }
+    public float calculaLucro(){
+        float lucro=0;
+        lucro=calculaFaturamento()-calculaCusto();
+        return lucro;
+    }
+    public List <String> verificaProducao() {
+        List <String> list= new LinkedList<>();
+        String txt="";
+        String txtDimi="";
+        for (Produto p : this.produtos) {
+
+            Map<Long,Float> relacaoP=sistema.getRelacaoTemp(producao);
+            float x = relacaoP.get(p.getId());
+
+            if(p.getPeriodo().equalsIgnoreCase("Dia")){
+                if(p.getQtdVendas()>x){
+                    float v = p.getQtdVendas() - x;
+                    txt="Aumentar "+p.getNome()+" "+v+";";
+                    list.add(txt);
+                }else{
+                    float v = x-p.getQtdVendas();
+                    txtDimi="Diminuir"+p.getNome()+" "+v+";";
+                    list.add(txtDimi);
+                }
+            }else if(p.getPeriodo().equalsIgnoreCase("Semana")){
+                float qtd=(p.getQtdVendas()/7);
+                if(qtd>x){
+                    float v = qtd - x;
+                    txt="Aumentar "+p.getNome()+" "+v+";";
+                    list.add(txt);
+                }else{
+                    float v = x-qtd;
+                    txtDimi="Diminuir "+p.getNome()+" "+v+";";
+                    list.add(txtDimi);
+                }
+
+            }else{
+                float qtd=(p.getQtdVendas()/30);
+                if(qtd>x){
+                    float v = qtd - x;
+                    txt="Aumentar "+p.getNome()+" "+v+";";
+                    list.add(txt);
+                }else{
+                    float v = x-qtd;
+                    txtDimi="Dimininuir "+p.getNome()+" "+v+";";
+                    list.add(txtDimi);
+                }
+            }
+        }
+        return  list;
+    }
+
 
 
 }

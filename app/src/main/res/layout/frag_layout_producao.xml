@@ -156,7 +156,132 @@
                     android:layout_below="@+id/tvFaturamento"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
-                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrada"
+                    android:id="@+id/tvE"
+                    android:layout_below="@+id/rbMesF"
+                    android:layout_alignLeft="@+id/rbMesF"
+                    android:layout_alignStart="@+id/rbMesF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#1cff03"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saida"
+                    android:id="@+id/tvS"
+                    android:layout_alignTop="@+id/tvE"
+                    android:layout_toRightOf="@+id/tvE"
+                    android:layout_toEndOf="@+id/tvE"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="40dp"
+                    android:textColor="#ff5e00"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lucro"
+                    android:id="@+id/tvL"
+                    android:textColor="#0b9514"
+                    android:textSize="15dp"
+                    android:layout_above="@+id/tvValueS"
+                    android:layout_toRightOf="@+id/tvS"
+                    android:layout_toEndOf="@+id/tvS"
+                    android:layout_marginLeft="50dp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mês"
+                    android:id="@+id/rbMesF"
+                    android:checked="true"
+                    android:layout_below="@+id/textView20"
+                    android:layout_alignLeft="@+id/tvFaturamento"
+                    android:layout_alignStart="@+id/tvFaturamento"
+                    android:layout_marginRight="10dp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ano"
+                    android:id="@+id/rbAnoF"
+                    android:checked="false"
+                    android:layout_below="@+id/textView20"
+                    android:layout_toRightOf="@+id/rb6MF"
+                    android:layout_toEndOf="@+id/rb6MF" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6 Meses"
+                    android:id="@+id/rb6MF"
+                    android:checked="false"
+                    android:layout_alignBottom="@+id/rbMesF"
+                    android:layout_toRightOf="@+id/rbMesF"
+                    android:layout_toEndOf="@+id/rbMesF"
+                    android:layout_marginRight="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="569999999"
+                    android:id="@+id/tvVauleE"
+                    android:textSize="15dp"
+                    android:maxWidth="80dp"
+                    android:singleLine="true"
+                    android:layout_below="@+id/tvE"
+                    android:layout_alignLeft="@+id/tvE"
+                    android:layout_alignStart="@+id/tvE"
+                    android:textColor="#1cff03"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="569999999"
+                    android:id="@+id/tvValueS"
+                    android:textSize="15dp"
+                    android:layout_below="@+id/tvS"
+                    android:layout_alignLeft="@+id/tvS"
+                    android:layout_alignStart="@+id/tvS"
+                    android:maxWidth="80dp"
+                    android:singleLine="true"
+                    android:textColor="#ff5e00"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="56999999"
+                    android:id="@+id/tvValueL"
+                    android:textSize="15dp"
+                    android:layout_below="@+id/tvL"
+                    android:layout_alignLeft="@+id/tvL"
+                    android:layout_alignStart="@+id/tvL"
+                    android:singleLine="true"
+                    android:maxWidth="80dp"
+                    android:textColor="#0b9514"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Periodo :"
+                    android:id="@+id/textView20"
+                    android:layout_alignTop="@+id/view3"
+                    android:layout_alignLeft="@+id/rbMesF"
+                    android:layout_alignStart="@+id/rbMesF"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="10dp" />
+
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
