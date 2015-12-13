@@ -15,7 +15,7 @@ import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Produto;
 
 import java.util.List;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by CharlleNot on 19/10/2015.
@@ -80,7 +80,7 @@ public class ProdutoAdapter extends BaseAdapter {
             tvPreco.setText(" R$ " + produto.getPreco());
             try {
                 List<Insumo> list=sistema.getInsumosProduto(produto);
-                HashMap<Long,List<String>>relacaoTemp=sistema.getRelacaoTemp(produto);
+                Map<Long,List<String>>relacaoTemp=sistema.getRelacaoTemp(produto);
                 if(list.size()>0){
                     tvQtd.setText(""+list.size());
                     float custo=0;
@@ -97,7 +97,14 @@ public class ProdutoAdapter extends BaseAdapter {
                                 custo=custo+(temp*x);
                             }
                         }else{
-                           text=i.getTipo();
+                            if(i.getTipo().equalsIgnoreCase("Quilos")){
+                                float tempQuant=i.getQuantidade()*1000;
+                                float temp = (i.getCustoUnidade()/tempQuant);
+                                custo=custo+(temp*x);
+                            }else{
+                                float tempQuant=i.getQuantidade()/1000;
+                                custo=custo+((x/tempQuant)*i.getCustoUnidade());
+                            }
 
                         }
                     }

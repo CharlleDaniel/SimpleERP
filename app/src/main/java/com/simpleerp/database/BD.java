@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.HashMap;
+import java.util.Map;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -236,8 +237,8 @@ public class BD {
 
         return (list);
     }
-    public HashMap<Long,List<String>> buscarRelacaoInsumoProduto(Produto produto) {
-        HashMap<Long,List<String>> list = new HashMap<>();
+    public Map<Long,List<String>> buscarRelacaoInsumoProduto(Produto produto) {
+        Map<Long,List<String>> list = new HashMap<>();
         String[] colunas = new String[]{"idInsumo","tipoMedida", "qtdInsumo"};
         Cursor cursor = bd.query("PRODUTO_INSUMO",colunas, "idProduto ="+produto.getId(), null, null, null,null);
 

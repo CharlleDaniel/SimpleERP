@@ -222,24 +222,29 @@ public class SimpleControl {
             temp=temp+(parte.substring(0,1).toUpperCase())+(parte.substring(1, parte.length()))+" ";
             test = m.find();
         }
-
-
         return temp;
     }
+
+
     //Relação
     public void addRelacaoTemp(Map<Long,List<String>> list){
-
         tempRelacao=list;
-
     }
     public void removeAllRelacaoTemp(){
-        tempRelacao.clear();
+        if(tempRelacao!=null){
+            tempRelacao.clear();
+        }
     }
 
-    public HashMap<Long, List<String>> getRelacaoTemp(Produto p){
-        HashMap list =bd.buscarRelacaoInsumoProduto(p);
+    public Map<Long, List<String>> getRelacaoTemp(Produto p){
+        Map list =bd.buscarRelacaoInsumoProduto(p);
+        if(list!=null){
+            list= new HashMap<Long,List<String>>();
+        }
         return list;
     }
+
+
     // Insumo_Produto temp
     public void addInsumoProdutoTemp(List<Insumo> list) {
         if(tempInsumo!=null) {
@@ -270,16 +275,16 @@ public class SimpleControl {
                 }
             }
         }
-
     }
+
     public List<Insumo> getInsumoProdutoTemp(){
         if(tempInsumo==null){
             tempInsumo= new LinkedList<Insumo>();
         }
         return tempInsumo;
     }
-    public void removeAllInsumosProdutoTemp(){
 
+    public void removeAllInsumosProdutoTemp(){
         tempInsumo.clear();
     }
 
@@ -296,13 +301,11 @@ public class SimpleControl {
                 }
                 break;
             }
-
         }
-
     }
+
     public void removeInsumoProdutoTemp(List <Insumo> insumos){
         for(Insumo i : insumos){
-
             for(Insumo in :tempInsumo){
                 if(i.getId()==in.getId()){
                     in.setIsAddList(false);
@@ -488,9 +491,10 @@ public class SimpleControl {
                         bd.inserirInsumoProduto(p,i,list);
                     }
                     if(teste==true){
-                       List<String>list=tempRelacao.get(i.getId());
-                       bd.atualizarRelacaoInsumoProduto(p,i,list);
-
+                       if(tempRelacao!=null){
+                           List<String>list=tempRelacao.get(i.getId());
+                           bd.atualizarRelacaoInsumoProduto(p,i,list);
+                       }
                     }
 
                 }

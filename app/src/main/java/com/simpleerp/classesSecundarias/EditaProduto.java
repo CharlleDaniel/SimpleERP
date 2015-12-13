@@ -141,6 +141,7 @@ public class EditaProduto extends AppCompatActivity implements View.OnClickListe
                 try{
                     produto.setQtdVendas(Float.parseFloat(etQtdVenda.getText().toString()));
                     sistema.alteraProduto(produto);
+                    sistema.removeAllRelacaoTemp();
                     showMessage("Salvo.");
                     sistema.setAllInsumos(false);
                     sistema.removeAllInsumosProdutoTemp();
@@ -220,6 +221,7 @@ public class EditaProduto extends AppCompatActivity implements View.OnClickListe
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sistema.removeAllRelacaoTemp();
                 sistema.setAllInsumos(false);
                 sistema.removeAllInsumosProdutoTemp();
                 buildListInsumos();
@@ -231,6 +233,7 @@ public class EditaProduto extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onBackPressed() {
+        sistema.removeAllRelacaoTemp();
         sistema.setAllInsumos(false);
         sistema.removeAllInsumosProdutoTemp();
         super.onBackPressed();

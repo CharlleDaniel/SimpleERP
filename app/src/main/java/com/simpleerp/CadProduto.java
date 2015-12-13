@@ -132,12 +132,11 @@ public class CadProduto extends AppCompatActivity implements View.OnClickListene
             return  true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    } 
 
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
 
     public void addInsumoProduto(View v) {
         Intent intent= new Intent(this, AddInsumoProduto.class);
