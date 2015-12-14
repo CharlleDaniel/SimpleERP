@@ -93,6 +93,8 @@ public class FragInsumo extends Fragment implements AdapterView.OnItemClickListe
                     sistema.removeInsumo(insumo);
                     showMessage("Excluido.");
                     buildListInsumos();
+                    getFragmentManager().getFragments().get(1).onResume();
+
                 }catch (Exception e){
                     showMessage("Não Excluido.");
                 }

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -33,7 +32,7 @@ import com.simpleerp.entidades.Producao;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 
@@ -186,26 +185,26 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
                 custoTotal=custoTotal+sistemaFaturamento.calculaCusto();
                 lucroTotal=lucroTotal+sistemaFaturamento.calculaLucro();
             }
-            DecimalFormat dc= new DecimalFormat("#.00");
+            NumberFormat dc= new DecimalFormat("#.##");
 
             if(rbMes.isChecked()){
-                tvVE.setText(dc.format((fatuTotal*30)));
-                tvVS.setText(dc.format((custoTotal*30)));
-                tvVL.setText(dc.format((lucroTotal*30)));
+                tvVE.setText("R$ "+dc.format((fatuTotal*30)));
+                tvVS.setText("R$ "+dc.format((custoTotal*30)));
+                tvVL.setText("R$ "+dc.format((lucroTotal*30)));
             }else if(rb6Mes.isChecked()){
-                tvVE.setText(dc.format((fatuTotal*180)));
-                tvVS.setText(dc.format((custoTotal*180)));
-                tvVL.setText(dc.format((lucroTotal*180)));
+                tvVE.setText("R$ "+dc.format((fatuTotal*180)));
+                tvVS.setText("R$ "+dc.format((custoTotal*180)));
+                tvVL.setText("R$ "+dc.format((lucroTotal*180)));
             }else{
-                tvVE.setText(dc.format((fatuTotal*360)));
-                tvVS.setText(dc.format((custoTotal*360)));
-                tvVL.setText(dc.format((lucroTotal*360)));
+                tvVE.setText("R$ "+dc.format((fatuTotal*360)));
+                tvVS.setText("R$ "+dc.format((custoTotal*360)));
+                tvVL.setText("R$ "+dc.format((lucroTotal*360)));
             }
 
         }else{
-            tvVE.setText("0.0");
-            tvVS.setText("0.0");
-            tvVL.setText("0.0");
+            tvVE.setText("R$ 0.0");
+            tvVS.setText("R$ 0.0");
+            tvVL.setText("R$ 0.0");
         }
 
 

@@ -92,6 +92,7 @@ public class FragProduto extends Fragment implements AdapterView.OnItemClickList
                     sistema.removeProduto(produto);
                     showMessage("Excluido.");
                     buildListProdutos();
+                    getFragmentManager().getFragments().get(0).onResume();
                 }catch (Exception e){
                     showMessage("Não Excluido.");
                 }
