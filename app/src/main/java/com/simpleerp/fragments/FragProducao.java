@@ -334,8 +334,8 @@ public class FragProducao extends Fragment implements AdapterView.OnItemClickLis
                     showMessage("Planilha criada com sucesso.");
                     buildListPlanilhas();
 
-                } catch (FileNotFoundException e) {
-                    showMessage("Planilha não criada.");
+                } catch (Exception e) {
+                    showMessage(e.getMessage());
                 }
                 break;
             case 8 :

@@ -27,9 +27,9 @@
             android:layout_height="145dp"
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/simple"
             android:layout_marginTop="50dp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:src="@drawable/simple" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,8 +47,9 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="60dp" />
+            android:visibility="visible"
+            android:layout_marginTop="60dp"
+            android:indeterminate="false" />
 
     </LinearLayout>
 

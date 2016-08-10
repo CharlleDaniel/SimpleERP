@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -21,6 +22,11 @@ import com.simpleerp.Control.SimpleControl;
 import com.simpleerp.adapters.TabAdapters;
 import com.simpleerp.extras.SlidingTabLayout;
 import com.simpleerp.fragments.FragProducao;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class MenuPrincipal extends AppCompatActivity implements View.OnClickListener, SearchView.OnCloseListener {
@@ -228,6 +234,7 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
 
 
     }
+
 
     @Override
     public void onClick(View v) {

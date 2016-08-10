@@ -1,7 +1,8 @@
 package com.simpleerp.Control;
 
+import android.os.Environment;
+
 import com.simpleerp.MenuPrincipal;
-import com.simpleerp.database.BD;
 import com.simpleerp.entidades.Insumo;
 import com.simpleerp.entidades.Producao;
 import com.simpleerp.entidades.Produto;
@@ -9,6 +10,7 @@ import com.simpleerp.entidades.Produto;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,7 @@ public class SimpleBilling {
     private Producao producao;
     private List<Produto> produtos;
 
-    private final String dir= "/sdcard/SimpleERP/Planilhas/";
+    private String dir= Environment.getExternalStorageDirectory().toString()+"/SimpleERP/Planilhas/";
 
     public SimpleBilling(Producao p){
         this.sistema = MenuPrincipal.sistema;
@@ -33,11 +35,11 @@ public class SimpleBilling {
 
     }
 
-    public  void gerarPlanilhas() throws FileNotFoundException {
+    public  void gerarPlanilhas() throws Exception {
         if(new File(dir).exists()){
             buildPlanilha();
-        }else{
-            new File(dir).mkdirs();
+        } else{
+            (new File(dir)).mkdirs();
             buildPlanilha();
         }
 
@@ -55,7 +57,12 @@ public class SimpleBilling {
 
         File f = new File(dir+"Produção de "+producao.getNome().trim()+" "+dd+"."+mm+"."+yy+".xlsx");
         FileOutputStream outFile =new FileOutputStream(f);
-
+        String teste="teste";
+        try {
+            outFile.write(teste.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

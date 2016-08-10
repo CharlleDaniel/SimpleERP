@@ -1,8 +1,16 @@
 package com.simpleerp;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,13 +57,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         sistema = new SimpleControl(getBaseContext());
 
         accessViews();
+        criaDiretorios();
 
-
-        if(sistema.getUsuarioLogado()!=null){
-            Intent it = new Intent(this,MenuPrincipal.class);
-            startActivity(it);
-            super.finish();
-        }
 
         googleApiClient = new GoogleApiClient.Builder(MainActivity.this)
                 .addConnectionCallbacks(MainActivity.this)
@@ -65,15 +68,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 .addScope(com.google.android.gms.drive.Drive.SCOPE_FILE)
                 .build();
 
+        if(sistema.getUsuarioLogado()!=null){
+            Intent it = new Intent(this,MenuPrincipal.class);
+            startActivity(it);
+            super.finish();
+        }
+
         showUi(false,true);
 
     }
 
     public void criaDiretorios(){
         try {
-            if (!new java.io.File("/sdcard/SimpleERP").exists()) { // Verifica se o diretório existe.
-                (new java.io.File("/sdcard/SimpleERP")).mkdir();// Cria o diretório
-                (new java.io.File("/sdcard/SimpleERP/Planilhas")).mkdir();// Cria o diretório
+            final String dir= Environment.getExternalStorageDirectory().toString()+"/SimpleERP/Planilhas/";
+            if (!new java.io.File(dir).exists()) { // Verifica se o diretório existe.
+                (new java.io.File(dir)).mkdirs();// Cria o diretório
             }
         } catch (Exception ex) {
             showMessage("Erro");
@@ -170,6 +179,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             if(!googleApiClient.isConnecting()){
                 googleApiClient.connect();
             }
+            if(resultCode==2030){
+                googleApiClient.connect();
+            }
         }
     }
 
@@ -187,9 +199,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onConnected(Bundle connectionHint) {
         if(googleApiClient.isConnected()){
-            showUi(true, false);
-            mAccountName = Plus.AccountApi.getAccountName(googleApiClient);
-            showMessage("Conectado "+ mAccountName + " No Drive");
+            try{
+                mAccountName = Plus.AccountApi.getAccountName(googleApiClient);
+                showUi(true, false);
+                showMessage("Conectado " + mAccountName + " No Drive");
+            }catch (Exception e ){
+                requestPermission(this);
+            }
+
 
         }else{
             resolveSignIn();
@@ -213,5 +230,48 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
     public GoogleApiClient getGoogleApiClient() {
         return googleApiClient;
+    }
+
+
+    private static void requestPermission(final Context context){
+        if(ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example if the user has previously denied the permission.
+
+            new AlertDialog.Builder(context)
+                    .setMessage("Você precisa ativar as permissões do SimpleERP.")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions((Activity) context,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.GET_ACCOUNTS, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    1);
+                        }
+                    }).show();
+
+        }else {
+            // permission has not been granted yet. Request it directly.
+            ActivityCompat.requestPermissions((Activity)context,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.GET_ACCOUNTS,Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+
+                if (grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                   showMessage("Permissão concedida.");
+                    onConnected(null);
+
+                } else {
+                    showMessage("Permissão Negada.");
+                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+                return;
+            }
+        }
     }
 }
